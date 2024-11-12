@@ -1,0 +1,30 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
+      "@containers/*": ["src/containers/*"],
+      "@containers": ["src/containers"],
+      "@features/*": ["src/features/*"],
+      "@features": ["src/features"],
+      "@graphql/*": ["src/graphql/*"],
+      "@graphql": ["src/graphql"],
+      "@hooks/*": ["src/hooks/*"],
+      "@hooks": ["src/hooks"],
+      "@navigators/*": ["src/navigators/*"],
+      "@navigators": ["src/navigators"],
+      "@types/*": ["src/types/*"],
+      "@types": ["src/types"],
+      "@utils/*": ["src/utils/*"],
+      "@utils": ["src/utils"],
+      "@assets/*": ["assets/*"],
+      "@assets": ["assets"],
+      "@client": ["src/Client"],
+      "@store": ["src/Store"],
+      "@redux/*": ["src/redux/*"],
+      "@redux": ["src/redux"],
+    }
+  }
+}

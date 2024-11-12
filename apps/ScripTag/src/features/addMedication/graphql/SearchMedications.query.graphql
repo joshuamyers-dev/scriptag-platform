@@ -1,0 +1,17 @@
+query SearchMedications($query: String!) {
+  searchMedications(query: $query) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    edges {
+      node {
+        id
+        activeIngredient
+        brandName
+        dosageForms
+        strengthsAvailable
+      }
+    }
+  }
+}

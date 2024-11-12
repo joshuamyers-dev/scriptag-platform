@@ -1,0 +1,89 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+scalar Time
+
+type PageInfo {
+  startCursor: ID!
+  endCursor: ID!
+  hasNextPage: Boolean
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+"""
+Represents a medication.
+"""
+type Medication {
+  id: ID!
+  """
+  The brand name of the medication. E.g. Tylenol.
+  """
+  brandName: String!
+  """
+  The generic name of the medication. E.g. Acetaminophen.
+  """
+  activeIngredient: String!
+  """
+  The forms of the medication. E.g. Capsule.
+  """
+  dosageForms: [String]!
+  strengthsAvailable: [String!]
+}
+
+type MedicationEdge {
+  cursor: String!
+  node: Medication!
+}
+
+type MedicationsConnection {
+  edges: [MedicationEdge!]!
+  pageInfo: PageInfo!
+}
+
+"""
+Represents a medication that a user is taking.
+"""
+type MyMedication {
+  id: ID!
+  medication: Medication!
+  user: User!
+  dosageStrength: String!
+  consumptionTime: Time!
+}
+
+input AddMyMedicationInput {
+  medicationId: String!
+  dosageStrength: String!
+  consumptionTime: Time!
+}
+
+type MyMedicationsConnection {
+  edges: [MyMedicationEdge!]!
+  pageInfo: PageInfo!
+}
+
+type MyMedicationEdge {
+  cursor: String!
+  node: MyMedication!
+}
+
+type Query {
+  """
+  Search for medications in the global library by name.
+  """
+  searchMedications(query: String!): MedicationsConnection!
+  """
+  Get all medications that a user is taking.
+  """
+  myMedications: [MyMedicationEdge!]!
+}
+
+type Mutation {
+  addMyMedication(input: AddMyMedicationInput!): MyMedication!
+}

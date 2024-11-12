@@ -1,0 +1,84 @@
+package config
+
+import (
+	"fmt"
+	"go-api/adapters"
+	"io"
+	"log"
+	"os"
+	"time"
+
+	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+)
+
+var (
+	db *gorm.DB
+)
+
+func GetDB() *gorm.DB {
+	return db
+}
+
+func InitDB() (*gorm.DB, error) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	dbHost := os.Getenv("DB_HOST")
+	dbUser := os.Getenv("DB_USERNAME")
+	// dbPassword := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
+
+	dsn := fmt.Sprintf("host=%s user=%s dbname=%s port=5432 sslmode=disable", dbHost, dbUser, dbName)
+	db, err := gorm.Open(postgres.Open(dsn), initConfig())
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.AutoMigrate(&adapters.GormUser{}, &adapters.GormMedication{}, &adapters.GormUserMedication{})
+
+	if err != nil {
+		log.Panicf("failed to migrate database: %v", err)
+	}
+
+	createSearchIndex(db)
+
+	return db, nil
+}
+
+func initConfig() *gorm.Config {
+	return &gorm.Config{
+		Logger:      initLog(),
+		PrepareStmt: true,
+	}
+}
+
+func initLog() logger.Interface {
+	f, _ := os.Create("gorm.log")
+	newLogger := logger.New(log.New(io.MultiWriter(f, os.Stdout), "\r\n", log.LstdFlags), logger.Config{
+		Colorful:             true,
+		LogLevel:             logger.Info,
+		SlowThreshold:        time.Second,
+		ParameterizedQueries: true,
+	})
+	return newLogger
+}
+
+func createSearchIndex(db *gorm.DB) {
+	indexSQL := `
+        CREATE INDEX IF NOT EXISTS idx_gin_brand_active
+        ON medications
+        USING gin (
+            to_tsvector('english', "brand_name"),
+            to_tsvector('english', "active_ingredient_name")
+        );
+    `
+	if err := db.Exec(indexSQL).Error; err != nil {
+		log.Fatalf("Error creating GIN index: %v", err)
+	}
+}
