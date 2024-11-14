@@ -1,0 +1,142 @@
+import CustomButton, {ButtonType} from '@components/CustomButton';
+import TagExplainerModal from '@components/TagExplainerModal';
+import {SCREEN_HEIGHT} from '@utils/Constants';
+import {
+  ColourNeutral100,
+  ColourNeutral80,
+  ColourPurple10,
+  ColourPurple50,
+  fontBodyM,
+  fontBodyS,
+  Spacing16,
+  Spacing32,
+} from '@utils/tokens';
+import {useCallback, useState} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Swiper from 'react-native-swiper';
+
+const OnboardingContainer = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const onPressOpenExplainerModal = useCallback(() => {
+    setIsModalVisible(true);
+  }, []);
+
+  return (
+    <SafeAreaView style={{flex: 1, alignItems: 'center', marginHorizontal: 16}}>
+      <TagExplainerModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+      />
+      <Image
+        source={require('@assets/images/logo.png')}
+        style={{marginTop: 39}}
+      />
+
+      <Swiper
+        autoplay
+        loop
+        autoplayTimeout={5}
+        style={styles.sliderContainer}
+        containerStyle={{marginBottom: Spacing32.original}}
+        showsButtons={false}
+        index={0}
+        dotStyle={{
+          backgroundColor: ColourPurple10,
+          height: 12,
+          width: 12,
+          borderRadius: 12 / 2,
+        }}
+        activeDotStyle={{
+          backgroundColor: ColourPurple50,
+          height: 12,
+          width: 12,
+          borderRadius: 12 / 2,
+        }}>
+        <View style={styles.slideContainer}>
+          <Image source={require('@assets/images/onboarding-1.png')} />
+          <Text style={styles.textHeader}>Stick, tap and go!</Text>
+          <Text style={styles.textBody}>
+            Grab your NFC tag from the app, stick it on your medication, and tap
+            to confirm your dose. Once set-up, there’s no need to open the app.
+            Easy.
+          </Text>
+          <CustomButton
+            type={ButtonType.Link}
+            title="What's an NFC tag?"
+            onPress={onPressOpenExplainerModal}
+          />
+        </View>
+        <View style={styles.slideContainer}>
+          <Image source={require('@assets/images/onboarding-2.png')} />
+          <Text style={styles.textHeader}>Share for peace of mind</Text>
+          <Text style={styles.textBody}>
+            Share access with family and healthcare providers for real-time
+            updates on your medication progress.
+          </Text>
+        </View>
+        <View style={styles.slideContainer}>
+          <Image source={require('@assets/images/onboarding-3.png')} />
+          <Text style={styles.textHeader}>Nudges when you need it</Text>
+          <Text style={styles.textBody}>
+            Get restock reminders so you can refill just in time or set a
+            reminder to get into a habit. There’s no overload, just the right
+            nudge when you need it.
+          </Text>
+        </View>
+        <View style={styles.slideContainer}>
+          <Image source={require('@assets/images/onboarding-4.png')} />
+          <Text style={styles.textHeader}>Tap into healthier habits</Text>
+          <Text style={styles.textBody}>
+            Staying on track becomes effortless with scriptag. Build a
+            consistent routine without the stress and focus on what matters
+            most!
+          </Text>
+        </View>
+      </Swiper>
+
+      <View style={styles.actionButtonsContainer}>
+        <CustomButton title="Log in" onPress={() => {}} />
+        <CustomButton
+          title="Sign up"
+          type={ButtonType.Secondary}
+          onPress={() => {}}
+        />
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  sliderContainer: {
+    marginTop: Spacing32.original,
+  },
+  slideContainer: {
+    alignItems: 'center',
+    marginHorizontal: Spacing16.original,
+  },
+  textHeader: {
+    color: ColourNeutral100,
+    fontSize: fontBodyM.fontSize,
+    fontFamily: fontBodyM.fontFamily,
+    fontWeight: 700,
+    textAlign: 'center',
+    paddingTop: Spacing32.original,
+  },
+  textBody: {
+    fontFamily: fontBodyS.fontFamily,
+    fontSize: fontBodyS.fontSize,
+    color: ColourNeutral80,
+    lineHeight: fontBodyS.lineHeight,
+    textAlign: 'center',
+    paddingTop: Spacing16.original,
+  },
+  actionButtonsContainer: {
+    gap: Spacing16.original,
+    width: '100%',
+    paddingBottom: Spacing32.original,
+  },
+});
+
+export default OnboardingContainer;

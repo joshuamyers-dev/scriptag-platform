@@ -20,7 +20,7 @@ func CreateMedicationPaginator(
 ) *paginator.Paginator {
 	p := paginator.New(
 		&paginator.Config{
-			Keys:  []string{"ID", "CreatedAt"},
+			Keys:  []string{"CreatedAt"},
 			Limit: 10,
 			Order: paginator.ASC,
 		},

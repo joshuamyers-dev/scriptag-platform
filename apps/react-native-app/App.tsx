@@ -11,6 +11,7 @@ import {
   FullWindowOverlay,
 } from 'react-native-screens';
 import {Linking} from 'react-native';
+import {PortalProvider} from '@gorhom/portal';
 
 enableScreens(true);
 enableFreeze(true);
@@ -46,10 +47,12 @@ function App() {
     <ApolloProvider client={client}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <MainStack />
-          <FullWindowOverlay>
-            <Toast />
-          </FullWindowOverlay>
+          <PortalProvider>
+            <MainStack />
+            <FullWindowOverlay>
+              <Toast />
+            </FullWindowOverlay>
+          </PortalProvider>
         </NavigationContainer>
       </SafeAreaProvider>
     </ApolloProvider>
