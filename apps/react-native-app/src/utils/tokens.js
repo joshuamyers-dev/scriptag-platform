@@ -1,6 +1,18 @@
 export const fontLabelXl = {"fontSize":56,"textDecoration":"none","fontFamily":"Lexend","fontWeight":700,"fontStyle":"normal","fontStretch":"normal","letterSpacing":0,"lineHeight":56,"paragraphIndent":0,"paragraphSpacing":0,"textCase":"none"};
 export const fontLabelL = {"fontSize":32,"textDecoration":"none","fontFamily":"Lexend","fontWeight":700,"fontStyle":"normal","fontStretch":"normal","letterSpacing":0,"lineHeight":40,"paragraphIndent":0,"paragraphSpacing":0,"textCase":"none"};
-export const fontLabelM = {"fontSize":24,"textDecoration":"none","fontFamily":"Lexend","fontWeight":700,"fontStyle":"normal","fontStretch":"normal","letterSpacing":0,"lineHeight":28,"paragraphIndent":0,"paragraphSpacing":0,"textCase":"none"};
+export const fontLabelM = {
+  fontSize: 24,
+  textDecoration: 'none',
+  fontFamily: 'Lexend',
+  fontWeight: '700',
+  fontStyle: 'normal',
+  fontStretch: 'normal',
+  letterSpacing: 0,
+  lineHeight: 28,
+  paragraphIndent: 0,
+  paragraphSpacing: 0,
+  textCase: 'none',
+};
 export const fontLabelS = {"fontSize":16,"textDecoration":"none","fontFamily":"Lexend","fontWeight":700,"fontStyle":"normal","fontStretch":"normal","letterSpacing":0,"lineHeight":20,"paragraphIndent":0,"paragraphSpacing":0,"textCase":"none"};
 export const fontBodyM = {"fontSize":24,"textDecoration":"none","fontFamily":"Lexend","fontWeight":400,"fontStyle":"normal","fontStretch":"normal","letterSpacing":0,"lineHeight":28,"paragraphIndent":0,"paragraphSpacing":0,"textCase":"none"};
 export const fontBodyS = {"fontSize":16,"textDecoration":"none","fontFamily":"Lexend","fontWeight":400,"fontStyle":"normal","fontStretch":"normal","letterSpacing":0,"lineHeight":20,"paragraphIndent":0,"paragraphSpacing":0,"textCase":"none"};

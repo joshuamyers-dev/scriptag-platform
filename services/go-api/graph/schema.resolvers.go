@@ -24,6 +24,14 @@ func (r *mutationResolver) AddMyMedication(ctx context.Context, input model.AddM
 	})
 }
 
+// CreateAccount is the resolver for the createAccount field.
+func (r *mutationResolver) CreateAccount(ctx context.Context, input model.CreateAccountInput) (*model.Session, error) {
+	return r.UserService.CreateUser(ctx, &core.User{
+		Email:    input.Email,
+		Password: input.Password,
+	})
+}
+
 // SearchMedications is the resolver for the searchMedications field.
 func (r *queryResolver) SearchMedications(ctx context.Context, query string) (*model.MedicationsConnection, error) {
 	return r.MedicationService.SearchMedications(query)

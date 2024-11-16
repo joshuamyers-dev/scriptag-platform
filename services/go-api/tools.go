@@ -12,6 +12,7 @@ import (
 	_ "github.com/riverqueue/river"
 	_ "github.com/riverqueue/river/riverdriver/riverpgxv5"
 	_ "github.com/vikstrous/dataloadgen"
+	_ "golang.org/x/crypto/bcrypt"
 	_ "gorm.io/driver/postgres"
 	_ "gorm.io/gorm"
 )

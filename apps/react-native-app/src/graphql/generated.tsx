@@ -23,6 +23,11 @@ export type AddMyMedicationInput = {
   medicationId: Scalars['String'];
 };
 
+export type CreateAccountInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 /** Represents a medication. */
 export type Medication = {
   __typename?: 'Medication';
@@ -51,11 +56,17 @@ export type MedicationsConnection = {
 export type Mutation = {
   __typename?: 'Mutation';
   addMyMedication: MyMedication;
+  createAccount: Session;
 };
 
 
 export type MutationAddMyMedicationArgs = {
   input: AddMyMedicationInput;
+};
+
+
+export type MutationCreateAccountArgs = {
+  input: CreateAccountInput;
 };
 
 /** Represents a medication that a user is taking. */
@@ -100,11 +111,16 @@ export type QuerySearchMedicationsArgs = {
   query: Scalars['String'];
 };
 
+export type Session = {
+  __typename?: 'Session';
+  token?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
 export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   id: Scalars['ID'];
-  name: Scalars['String'];
 };
 
 export type AddMyMedicationMutationVariables = Exact<{
@@ -120,6 +136,13 @@ export type SearchMedicationsQueryVariables = Exact<{
 
 
 export type SearchMedicationsQuery = { __typename?: 'Query', searchMedications: { __typename?: 'MedicationsConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage?: boolean | null, endCursor: string }, edges: Array<{ __typename?: 'MedicationEdge', node: { __typename?: 'Medication', id: string, activeIngredient: string, brandName: string, dosageForms: Array<string | null>, strengthsAvailable?: Array<string> | null } }> } };
+
+export type CreateAccountMutationVariables = Exact<{
+  input: CreateAccountInput;
+}>;
+
+
+export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: { __typename?: 'Session', token?: string | null, user?: { __typename?: 'User', id: string, email: string } | null } };
 
 
 export const AddMyMedicationDocument = gql`
@@ -204,3 +227,40 @@ export function useSearchMedicationsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type SearchMedicationsQueryHookResult = ReturnType<typeof useSearchMedicationsQuery>;
 export type SearchMedicationsLazyQueryHookResult = ReturnType<typeof useSearchMedicationsLazyQuery>;
 export type SearchMedicationsQueryResult = ApolloReactCommon.QueryResult<SearchMedicationsQuery, SearchMedicationsQueryVariables>;
+export const CreateAccountDocument = gql`
+    mutation createAccount($input: CreateAccountInput!) {
+  createAccount(input: $input) {
+    user {
+      id
+      email
+    }
+    token
+  }
+}
+    `;
+export type CreateAccountMutationFn = ApolloReactCommon.MutationFunction<CreateAccountMutation, CreateAccountMutationVariables>;
+
+/**
+ * __useCreateAccountMutation__
+ *
+ * To run a mutation, you first call `useCreateAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAccountMutation, { data, loading, error }] = useCreateAccountMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateAccountMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateAccountMutation, CreateAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateAccountMutation, CreateAccountMutationVariables>(CreateAccountDocument, options);
+      }
+export type CreateAccountMutationHookResult = ReturnType<typeof useCreateAccountMutation>;
+export type CreateAccountMutationResult = ApolloReactCommon.MutationResult<CreateAccountMutation>;
+export type CreateAccountMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateAccountMutation, CreateAccountMutationVariables>;

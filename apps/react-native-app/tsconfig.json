@@ -22,9 +22,7 @@
       "@assets/*": ["assets/*"],
       "@assets": ["assets"],
       "@client": ["src/Client"],
-      "@store": ["src/Store"],
-      "@redux/*": ["src/redux/*"],
-      "@redux": ["src/redux"],
+      "@store": ["./Store"],
     }
   }
 }

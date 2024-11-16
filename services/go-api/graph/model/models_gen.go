@@ -12,6 +12,11 @@ type AddMyMedicationInput struct {
 	ConsumptionTime time.Time `json:"consumptionTime"`
 }
 
+type CreateAccountInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 // Represents a medication.
 type Medication struct {
 	ID string `json:"id"`
@@ -65,8 +70,12 @@ type PageInfo struct {
 type Query struct {
 }
 
+type Session struct {
+	Token *string `json:"token,omitempty"`
+	User  *User   `json:"user,omitempty"`
+}
+
 type User struct {
 	ID    string `json:"id"`
-	Name  string `json:"name"`
 	Email string `json:"email"`
 }

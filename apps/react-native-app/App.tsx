@@ -2,7 +2,7 @@ import {ApolloProvider} from '@apollo/client';
 import MainStack from '@navigators/MainStack';
 import {NavigationContainer} from '@react-navigation/native';
 import client from './ApolloClient';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import {
@@ -12,6 +12,9 @@ import {
 } from 'react-native-screens';
 import {Linking} from 'react-native';
 import {PortalProvider} from '@gorhom/portal';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import ToastMessage from '@components/Toast';
+import {firebase} from '@react-native-firebase/messaging';
 
 enableScreens(true);
 enableFreeze(true);
@@ -47,12 +50,14 @@ function App() {
     <ApolloProvider client={client}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <PortalProvider>
-            <MainStack />
-            <FullWindowOverlay>
-              <Toast />
-            </FullWindowOverlay>
-          </PortalProvider>
+          <GestureHandlerRootView>
+            <PortalProvider>
+              <MainStack />
+              <FullWindowOverlay>
+                <ToastMessage />
+              </FullWindowOverlay>
+            </PortalProvider>
+          </GestureHandlerRootView>
         </NavigationContainer>
       </SafeAreaProvider>
     </ApolloProvider>

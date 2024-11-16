@@ -1,5 +1,6 @@
 import CustomButton, {ButtonType} from '@components/CustomButton';
 import TagExplainerModal from '@components/TagExplainerModal';
+import {SIGN_UP_SCREEN, SIGN_UP_STACK} from '@navigators/ScreenConstants';
 import {SCREEN_HEIGHT} from '@utils/Constants';
 import {
   ColourNeutral100,
@@ -8,19 +9,31 @@ import {
   ColourPurple50,
   fontBodyM,
   fontBodyS,
+  fontBodyXs,
   Spacing16,
   Spacing32,
 } from '@utils/tokens';
 import {useCallback, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Swiper from 'react-native-swiper';
 
-const OnboardingContainer = () => {
+const OnboardingContainer = ({navigation}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const onPressOpenExplainerModal = useCallback(() => {
     setIsModalVisible(true);
+  }, []);
+
+  const onPressSignup = useCallback(() => {
+    navigation.navigate(SIGN_UP_STACK);
   }, []);
 
   return (
@@ -97,12 +110,23 @@ const OnboardingContainer = () => {
       </Swiper>
 
       <View style={styles.actionButtonsContainer}>
-        <CustomButton title="Log in" onPress={() => {}} />
+        <CustomButton title="Log in" />
         <CustomButton
           title="Sign up"
           type={ButtonType.Secondary}
-          onPress={() => {}}
+          onPress={onPressSignup}
         />
+
+        <View style={styles.legalDocsContainer}>
+          <Text style={styles.legalText}>View our </Text>
+          <TouchableOpacity>
+            <Text style={styles.highlightedText}>Privacy policy</Text>
+          </TouchableOpacity>
+          <Text style={styles.legalText}> and </Text>
+          <TouchableOpacity>
+            <Text style={styles.highlightedText}>Terms & conditions</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -120,7 +144,7 @@ const styles = StyleSheet.create({
     color: ColourNeutral100,
     fontSize: fontBodyM.fontSize,
     fontFamily: fontBodyM.fontFamily,
-    fontWeight: 700,
+    fontWeight: fontBodyM.fontWeight as TextStyle['fontWeight'],
     textAlign: 'center',
     paddingTop: Spacing32.original,
   },
@@ -135,7 +159,22 @@ const styles = StyleSheet.create({
   actionButtonsContainer: {
     gap: Spacing16.original,
     width: '100%',
-    paddingBottom: Spacing32.original,
+    paddingBottom: Spacing16.original,
+  },
+  legalDocsContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  legalText: {
+    fontFamily: fontBodyXs.fontFamily,
+    fontSize: fontBodyXs.fontSize,
+    color: ColourNeutral80,
+  },
+  highlightedText: {
+    fontFamily: fontBodyXs.fontFamily,
+    fontSize: fontBodyXs.fontSize,
+    color: ColourPurple50,
+    fontWeight: fontBodyXs.fontWeight as TextStyle['fontWeight'],
   },
 });
 

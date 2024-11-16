@@ -20,6 +20,11 @@ const zustandStorage: StateStorage = {
 interface GlobalState {
   authToken: string | null;
   setAuthToken: (token: string) => void;
+  toastVisible: boolean;
+  toastTitle: string | null;
+  toastMessage: string | null;
+  showToast(title: string, message: string): void;
+  hideToast(): void;
 }
 
 export const useGlobalStore = create<GlobalState>()(
@@ -27,6 +32,22 @@ export const useGlobalStore = create<GlobalState>()(
     (set, get) => ({
       authToken: null,
       setAuthToken: token => set({authToken: token}),
+      toastVisible: false,
+      toastTitle: null,
+      toastMessage: null,
+      showToast(title, message) {
+        set({
+          toastVisible: true,
+          toastTitle: title,
+          toastMessage: message,
+        });
+      },
+      hideToast: () =>
+        set({
+          toastVisible: false,
+          toastTitle: null,
+          toastMessage: null,
+        }),
     }),
     {
       name: 'scriptag-storage',

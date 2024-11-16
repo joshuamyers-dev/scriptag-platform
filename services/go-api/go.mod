@@ -6,6 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.17.55
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-chi/chi v1.5.5
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
 	github.com/pilagod/gorm-cursor-paginator/v2 v2.6.1
@@ -13,6 +14,7 @@ require (
 	github.com/riverqueue/river/riverdriver/riverpgxv5 v0.14.1
 	github.com/vektah/gqlparser/v2 v2.5.17
 	github.com/vikstrous/dataloadgen v0.0.6
+	golang.org/x/crypto v0.27.0
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/gorm v1.25.12
 )
@@ -48,7 +50,6 @@ require (
 	go.opentelemetry.io/otel v1.11.1 // indirect
 	go.opentelemetry.io/otel/trace v1.11.1 // indirect
 	go.uber.org/goleak v1.3.0 // indirect
-	golang.org/x/crypto v0.27.0 // indirect
 	golang.org/x/mod v0.20.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/text v0.19.0 // indirect

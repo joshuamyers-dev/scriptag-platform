@@ -42,6 +42,7 @@ func main() {
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		MedicationService: medService,
+		UserService: userService,
 	}}))
 
 	router.Handle("/", playground.Handler("GraphQL playground", "/query"))

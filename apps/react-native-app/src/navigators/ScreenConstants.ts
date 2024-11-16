@@ -2,3 +2,7 @@ export const HOME_SCREEN = 'Home';
 export const SELECT_TIME_SCREEN = 'Select Time';
 export const SCAN_TAG_SCREEN = 'Scan Tag';
 export const ONBOARDING_SCREEN = 'Onboarding';
+export const SIGN_UP_STACK = 'Sign Up Stack';
+export const SIGN_UP_SCREEN = 'Sign Up';
+export const PROFILE_ONBOARDING_STACK = 'Profile Onboarding Stack';
+export const PROFILE_ONBOARDING_SCREEN = 'Profile Onboarding';

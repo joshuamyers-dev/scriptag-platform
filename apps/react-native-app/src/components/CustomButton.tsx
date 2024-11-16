@@ -1,16 +1,21 @@
 import {
   Colour0,
+  Colour10,
+  ColourPurple10,
   ColourPurple50,
   fontBodyS,
   Radius4,
   Spacing16,
 } from '@utils/tokens';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, ViewStyle} from 'react-native';
+import {Flow} from 'react-native-animated-spinkit';
+import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 
 export enum ButtonType {
   Primary = 'primary',
   Secondary = 'secondary',
+  Tertiary = 'tertiary',
   Link = 'link',
 }
 
@@ -18,15 +23,24 @@ interface CustomButtonProps {
   title: string;
   onPress: () => void;
   type?: ButtonType;
+  icon?: React.ReactNode;
+  containerStyle?: ViewStyle;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
   onPress,
   title,
   type = ButtonType.Primary,
+  icon = null,
+  containerStyle = {},
+  disabled = false,
+  loading = false,
 }) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[
         styles.button,
         type === ButtonType.Secondary && {backgroundColor: Colour0},
@@ -35,18 +49,36 @@ const CustomButton: React.FC<CustomButtonProps> = ({
           borderWidth: 1,
         },
         type === ButtonType.Link && {backgroundColor: 'transparent'},
+        type === ButtonType.Tertiary && {
+          backgroundColor: 'transparent',
+          borderColor: Colour10,
+          borderWidth: 2,
+          borderRadius: Radius4.original,
+        },
+        containerStyle,
+        disabled && {backgroundColor: ColourPurple10},
       ]}
       onPress={onPress}>
-      <Text
-        style={[
-          styles.buttonText,
-          type === ButtonType.Secondary && {color: ColourPurple50},
-          type === ButtonType.Link && {
-            color: ColourPurple50,
-          },
-        ]}>
-        {title}
-      </Text>
+      {loading && (
+        <Animated.View entering={FadeIn} exiting={FadeOut}>
+          <Flow color={Colour0} />
+        </Animated.View>
+      )}
+      {icon && !loading && icon}
+      {title && !loading && (
+        <Animated.View entering={FadeIn} exiting={FadeOut}>
+          <Text
+            style={[
+              styles.buttonText,
+              type === ButtonType.Secondary && {color: ColourPurple50},
+              type === ButtonType.Link && {
+                color: ColourPurple50,
+              },
+            ]}>
+            {title}
+          </Text>
+        </Animated.View>
+      )}
     </TouchableOpacity>
   );
 };
@@ -58,6 +90,8 @@ const styles = StyleSheet.create({
     padding: Spacing16.original,
     borderRadius: Radius4.original,
     alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 56,
   },
   buttonText: {
     color: Colour0,

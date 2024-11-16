@@ -40,7 +40,7 @@ func InitDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	err = db.AutoMigrate(&adapters.GormUser{}, &adapters.GormMedication{}, &adapters.GormUserMedication{})
+	err = db.AutoMigrate(&adapters.GormUser{}, &adapters.GormMedication{}, &adapters.GormUserMedication{}, &adapters.GormUserFCMToken{})
 
 	if err != nil {
 		log.Panicf("failed to migrate database: %v", err)

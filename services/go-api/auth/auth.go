@@ -22,15 +22,6 @@ func Middleware(userService *service.UserServiceImpl) func(http.Handler) http.Ha
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			authHeader := r.Header.Get("Authorization")
 
-			// tokenClaims := &jwt.MapClaims{
-			// 	"user_id": "91643380-2e4e-4867-bfa7-12adb8364f49",
-			// }
-
-			// testToken := jwt.NewWithClaims(jwt.SigningMethodHS256, tokenClaims)
-			// tokenString, err := testToken.SignedString([]byte(os.Getenv("SECRET_KEY")))
-
-			// log.Printf("TokenString: %v", tokenString)
-
 			if authHeader == "" {
 				next.ServeHTTP(w, r)
 				return

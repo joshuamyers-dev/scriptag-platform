@@ -1,5 +1,5 @@
 import {Portal} from '@gorhom/portal';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TextStyle, View} from 'react-native';
 import {FullWindowOverlay} from 'react-native-screens';
 import CustomButton, {ButtonType} from './CustomButton';
 import Animated, {
@@ -93,14 +93,14 @@ const styles = StyleSheet.create({
   modalHeader: {
     fontSize: fontLabelM.fontSize,
     fontFamily: fontLabelM.fontFamily,
-    fontWeight: 700,
+    fontWeight: fontLabelM.fontWeight as TextStyle['fontWeight'],
     marginBottom: 16,
   },
   modalBody: {
     fontSize: fontBodyS.fontSize,
     fontFamily: fontBodyS.fontFamily,
     lineHeight: fontBodyS.lineHeight,
-    fontWeight: 400,
+    fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
     color: Colour80,
     marginBottom: 16,
     textAlign: 'center',
