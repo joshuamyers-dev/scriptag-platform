@@ -10,6 +10,7 @@ import {
   fontBodyM,
   fontBodyS,
   fontBodyXs,
+  fontLabelM,
   Spacing16,
   Spacing32,
 } from '@utils/tokens';
@@ -142,9 +143,9 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     color: ColourNeutral100,
-    fontSize: fontBodyM.fontSize,
-    fontFamily: fontBodyM.fontFamily,
-    fontWeight: fontBodyM.fontWeight as TextStyle['fontWeight'],
+    fontSize: fontLabelM.fontSize,
+    fontFamily: fontLabelM.fontFamily,
+    fontWeight: fontLabelM.fontWeight as TextStyle['fontWeight'],
     textAlign: 'center',
     paddingTop: Spacing32.original,
   },

@@ -6,3 +6,4 @@ export const SIGN_UP_STACK = 'Sign Up Stack';
 export const SIGN_UP_SCREEN = 'Sign Up';
 export const PROFILE_ONBOARDING_STACK = 'Profile Onboarding Stack';
 export const PROFILE_ONBOARDING_SCREEN = 'Profile Onboarding';
+export const PROFILE_ONBOARDING_SUCCESS_SCREEN = 'Profile Onboarding Success';

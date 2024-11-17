@@ -55,8 +55,14 @@ export type MedicationsConnection = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addFcmToken: Scalars['Boolean'];
   addMyMedication: MyMedication;
   createAccount: Session;
+};
+
+
+export type MutationAddFcmTokenArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -136,6 +142,13 @@ export type SearchMedicationsQueryVariables = Exact<{
 
 
 export type SearchMedicationsQuery = { __typename?: 'Query', searchMedications: { __typename?: 'MedicationsConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage?: boolean | null, endCursor: string }, edges: Array<{ __typename?: 'MedicationEdge', node: { __typename?: 'Medication', id: string, activeIngredient: string, brandName: string, dosageForms: Array<string | null>, strengthsAvailable?: Array<string> | null } }> } };
+
+export type AddFcmTokenMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type AddFcmTokenMutation = { __typename?: 'Mutation', addFcmToken: boolean };
 
 export type CreateAccountMutationVariables = Exact<{
   input: CreateAccountInput;
@@ -227,6 +240,37 @@ export function useSearchMedicationsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type SearchMedicationsQueryHookResult = ReturnType<typeof useSearchMedicationsQuery>;
 export type SearchMedicationsLazyQueryHookResult = ReturnType<typeof useSearchMedicationsLazyQuery>;
 export type SearchMedicationsQueryResult = ApolloReactCommon.QueryResult<SearchMedicationsQuery, SearchMedicationsQueryVariables>;
+export const AddFcmTokenDocument = gql`
+    mutation addFcmToken($token: String!) {
+  addFcmToken(token: $token)
+}
+    `;
+export type AddFcmTokenMutationFn = ApolloReactCommon.MutationFunction<AddFcmTokenMutation, AddFcmTokenMutationVariables>;
+
+/**
+ * __useAddFcmTokenMutation__
+ *
+ * To run a mutation, you first call `useAddFcmTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddFcmTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addFcmTokenMutation, { data, loading, error }] = useAddFcmTokenMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useAddFcmTokenMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddFcmTokenMutation, AddFcmTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<AddFcmTokenMutation, AddFcmTokenMutationVariables>(AddFcmTokenDocument, options);
+      }
+export type AddFcmTokenMutationHookResult = ReturnType<typeof useAddFcmTokenMutation>;
+export type AddFcmTokenMutationResult = ApolloReactCommon.MutationResult<AddFcmTokenMutation>;
+export type AddFcmTokenMutationOptions = ApolloReactCommon.BaseMutationOptions<AddFcmTokenMutation, AddFcmTokenMutationVariables>;
 export const CreateAccountDocument = gql`
     mutation createAccount($input: CreateAccountInput!) {
   createAccount(input: $input) {

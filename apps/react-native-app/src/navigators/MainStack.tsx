@@ -4,6 +4,7 @@ import {
   ONBOARDING_SCREEN,
   PROFILE_ONBOARDING_SCREEN,
   PROFILE_ONBOARDING_STACK,
+  PROFILE_ONBOARDING_SUCCESS_SCREEN,
   SCAN_TAG_SCREEN,
   SELECT_TIME_SCREEN,
   SIGN_UP_SCREEN,
@@ -24,6 +25,8 @@ import SignUpContainer from '@features/accountCreation/containers/SignUpContaine
 import BackButton from './components/BackButton';
 import ProfileOnboardingContainer from '@features/onboarding/containers/ProfileOnboardingContainer';
 import {TextStyle} from 'react-native';
+import ProfileOnboardingSuccessContainer from '@features/onboarding/containers/ProfileOnboardingSuccessContainer';
+import CloseButton from './components/CloseButton';
 
 const NativeStack = createNativeStackNavigator();
 
@@ -109,6 +112,27 @@ const ProfileOnboardingStack = () => {
           headerLeft: () => (
             <BackButton onPress={() => navigation.goBack()} isColoured />
           ),
+        })}
+      />
+      <NativeStack.Screen
+        name={PROFILE_ONBOARDING_SUCCESS_SCREEN}
+        component={ProfileOnboardingSuccessContainer}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: 'Sign up',
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+          headerTitleStyle: {
+            fontFamily: fontBodyS.fontFamily,
+            fontSize: fontBodyS.fontSize,
+            fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
+            color: ColourNeutral100,
+          },
+          // headerRight: () => (
+          //   <CloseButton onPress={() => navigation.pop()} isColoured />
+          // ),
+          presentation: 'fullScreenModal',
         })}
       />
     </NativeStack.Navigator>

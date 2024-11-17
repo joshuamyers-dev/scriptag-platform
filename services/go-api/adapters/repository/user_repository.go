@@ -23,6 +23,7 @@ func (r *UserRepository) FindByID(id string) (*core.User, error) {
 	return &core.User{
 		ID:    user.ID,
 		Email: user.Email,
+		Password: user.Password,
 	}, nil
 }
 
@@ -56,4 +57,17 @@ func (r *UserRepository) Create(user *core.User) (*core.User, error) {
 		Email: gormUser.Email,
 		Password: gormUser.Password,
 	}, nil
+}
+
+func (r *UserRepository) AddFCMToken(user *core.User, token string) error {
+	gormFcmToken := adapters.GormUserFCMToken{
+		UserID: user.ID,
+		Token:  token,
+	}
+
+	if err := r.DB.Create(&gormFcmToken).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

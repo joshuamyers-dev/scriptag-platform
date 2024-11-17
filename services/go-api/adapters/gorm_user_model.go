@@ -15,8 +15,8 @@ type Base struct {
 
 type GormUser struct {
 	Base
-	Email    string `gorm:"uniqueIndex"`
-	Password string
+	Email    string `gorm:"unique;type:varchar(255)"`
+	Password string `gorm:"type:varchar(255)"`
 }
 
 func (GormUser) TableName() string {

@@ -1,0 +1,3 @@
+mutation addFcmToken($token: String!) {
+  addFcmToken(token: $token)
+}

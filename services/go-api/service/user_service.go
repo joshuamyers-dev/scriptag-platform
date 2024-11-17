@@ -73,5 +73,16 @@ func (s *UserServiceImpl) GetUserByID(id string) (*core.User, error) {
 	return &core.User{
 		ID:    user.ID,
 		Email: user.Email,
+		Password: user.Password,
 	}, nil
+}
+
+func (s *UserServiceImpl) AddFCMToken(context context.Context, user *core.User, token string) error {
+	err := s.repo.AddFCMToken(user, token)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

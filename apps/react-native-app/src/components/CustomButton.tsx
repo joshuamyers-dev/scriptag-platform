@@ -43,6 +43,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       disabled={disabled}
       style={[
         styles.button,
+        type === ButtonType.Primary && {minHeight: 56},
         type === ButtonType.Secondary && {backgroundColor: Colour0},
         type === ButtonType.Secondary && {
           borderColor: ColourPurple50,
@@ -91,7 +92,6 @@ const styles = StyleSheet.create({
     borderRadius: Radius4.original,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 56,
   },
   buttonText: {
     color: Colour0,

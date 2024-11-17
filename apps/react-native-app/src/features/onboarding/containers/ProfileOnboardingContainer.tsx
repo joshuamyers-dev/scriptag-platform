@@ -11,7 +11,10 @@ import {StyleSheet, Text, TextStyle, View} from 'react-native';
 import SetPassword from '../components/SetPassword';
 
 import CustomButton from '@components/CustomButton';
-import {useCreateAccountMutation} from '@graphql/generated';
+import {
+  useAddFcmTokenMutation,
+  useCreateAccountMutation,
+} from '@graphql/generated';
 import BackButton from '@navigators/components/BackButton';
 import {useGlobalStore} from '@store';
 import {
@@ -27,6 +30,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import EnablePushNotifications from '../components/EnablePushNotifications';
+import {updateClientHeaders} from '../../../../ApolloClient';
+import {PROFILE_ONBOARDING_SUCCESS_SCREEN} from '@navigators/ScreenConstants';
 
 const ONBOARDING_STEPS = [
   {
@@ -64,6 +69,8 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
     createAccountMutation,
     {loading: isCreatingAccount, error: createAccountError},
   ] = useCreateAccountMutation();
+  const [addFcmTokenMutation, {loading: isAddingToken}] =
+    useAddFcmTokenMutation();
 
   const {
     params: {email},
@@ -110,7 +117,7 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
         );
         return;
       } else if (password && isPasswordStrong(password)) {
-        await createAccountMutation({
+        const sessionResult = await createAccountMutation({
           variables: {
             input: {
               email,
@@ -118,16 +125,30 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
             },
           },
         });
+
+        if (
+          sessionResult.data?.createAccount &&
+          sessionResult.data.createAccount.token
+        ) {
+          updateClientHeaders(sessionResult.data.createAccount.token);
+        }
       }
     } else if (stepIndex === 1) {
       await requestPushNotificationPermissions();
-
       const fcmToken = await messaging().getToken();
 
-      console.log(fcmToken);
+      await addFcmTokenMutation({
+        variables: {
+          token: fcmToken,
+        },
+      });
     }
 
-    handleStepChange(stepIndex + 1, 1);
+    if (stepIndex === ONBOARDING_STEPS.length - 1) {
+      navigation.navigate(PROFILE_ONBOARDING_SUCCESS_SCREEN);
+    } else {
+      handleStepChange(stepIndex + 1, 1);
+    }
   }, [stepIndex, password]);
 
   useEffect(() => {
@@ -184,7 +205,7 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
             title="Continue"
             disabled={!isContinueEnabled}
             onPress={onPressContinue}
-            loading={isCreatingAccount}
+            loading={isCreatingAccount || isAddingToken}
           />
         </View>
       </View>

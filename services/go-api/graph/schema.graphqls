@@ -96,4 +96,5 @@ type Query {
 type Mutation {
   addMyMedication(input: AddMyMedicationInput!): MyMedication!
   createAccount(input: CreateAccountInput!): Session!
+  addFcmToken(token: String!): Boolean!
 }
