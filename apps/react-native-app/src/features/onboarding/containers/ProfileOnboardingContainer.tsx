@@ -63,7 +63,7 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
   const opacity = useSharedValue(1);
   const translateX = useSharedValue(0);
 
-  const {showToast} = useGlobalStore(state => state);
+  const {showToast, setAuthToken} = useGlobalStore(state => state);
 
   const [
     createAccountMutation,
@@ -131,6 +131,7 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
           sessionResult.data.createAccount.token
         ) {
           updateClientHeaders(sessionResult.data.createAccount.token);
+          setAuthToken(sessionResult.data.createAccount.token);
         }
       }
     } else if (stepIndex === 1) {

@@ -1,6 +1,7 @@
 import CustomButton, {ButtonType} from '@components/CustomButton';
 import TagExplainerModal from '@components/TagExplainerModal';
 import {SIGN_UP_SCREEN, SIGN_UP_STACK} from '@navigators/ScreenConstants';
+import {useGlobalStore} from '@store';
 import {SCREEN_HEIGHT} from '@utils/Constants';
 import {
   ColourNeutral100,

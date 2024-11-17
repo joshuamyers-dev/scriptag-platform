@@ -7,3 +7,7 @@ export const SIGN_UP_SCREEN = 'Sign Up';
 export const PROFILE_ONBOARDING_STACK = 'Profile Onboarding Stack';
 export const PROFILE_ONBOARDING_SCREEN = 'Profile Onboarding';
 export const PROFILE_ONBOARDING_SUCCESS_SCREEN = 'Profile Onboarding Success';
+export const TAB_NAVIGATOR = 'Tab Navigator';
+export const SPLASH_SCREEN = 'Splash';
+export const STOCK_STACK = 'Stock Stack';
+export const STOCK_SCREEN = 'Stock';

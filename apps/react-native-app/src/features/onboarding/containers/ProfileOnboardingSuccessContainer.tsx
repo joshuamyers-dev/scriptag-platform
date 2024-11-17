@@ -1,5 +1,6 @@
 import CustomButton, {ButtonType} from '@components/CustomButton';
 import TagExplainerModal from '@components/TagExplainerModal';
+import {TAB_NAVIGATOR} from '@navigators/ScreenConstants';
 import {
   Colour10,
   Colour100,
@@ -11,11 +12,15 @@ import {
   Spacing32,
   Spacing8,
 } from '@utils/tokens';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {Image, StyleSheet, Text, TextStyle, View} from 'react-native';
 
-const ProfileOnboardingSuccessContainer = () => {
+const ProfileOnboardingSuccessContainer = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const onPressSkip = useCallback(() => {
+    navigation.replace(TAB_NAVIGATOR);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -36,7 +41,11 @@ const ProfileOnboardingSuccessContainer = () => {
       />
       <View style={styles.footerContainer}>
         <CustomButton title="Get tags" />
-        <CustomButton type={ButtonType.Secondary} title="Skip for now" />
+        <CustomButton
+          type={ButtonType.Secondary}
+          title="Skip for now"
+          onPress={onPressSkip}
+        />
       </View>
     </View>
   );

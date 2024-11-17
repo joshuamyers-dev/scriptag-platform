@@ -288,3 +288,30 @@
 
 2024/11/17 16:47:52 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:68
 [0m[33m[5.888ms] [34;1m[rows:1][0m INSERT INTO "user_fcm_tokens" ("created_at","updated_at","deleted_at","token","user_id") VALUES ($1$,$2$,$3$,$4$,$5$) RETURNING "id"
+
+2024/11/17 20:42:51 [31;1m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:32 [35;1mrecord not found
+[0m[33m[1.393ms] [34;1m[rows:0][0m SELECT * FROM "users" WHERE email = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/11/17 20:42:52 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:51
+[0m[33m[1.953ms] [34;1m[rows:1][0m INSERT INTO "users" ("created_at","updated_at","deleted_at","email","password") VALUES ($1$,$2$,$3$,$4$,$5$) RETURNING "id"
+
+2024/11/17 20:42:57 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.390ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/11/17 20:42:57 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:68
+[0m[33m[2.570ms] [34;1m[rows:1][0m INSERT INTO "user_fcm_tokens" ("created_at","updated_at","deleted_at","token","user_id") VALUES ($1$,$2$,$3$,$4$,$5$) RETURNING "id"
+
+2024/11/17 20:48:34 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.116ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/11/17 20:48:34 [31;1m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:32 [35;1mrecord not found
+[0m[33m[0.486ms] [34;1m[rows:0][0m SELECT * FROM "users" WHERE email = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/11/17 20:48:35 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:51
+[0m[33m[3.401ms] [34;1m[rows:1][0m INSERT INTO "users" ("created_at","updated_at","deleted_at","email","password") VALUES ($1$,$2$,$3$,$4$,$5$) RETURNING "id"
+
+2024/11/17 20:48:38 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.551ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/11/17 20:48:38 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:68
+[0m[33m[3.652ms] [34;1m[rows:1][0m INSERT INTO "user_fcm_tokens" ("created_at","updated_at","deleted_at","token","user_id") VALUES ($1$,$2$,$3$,$4$,$5$) RETURNING "id"

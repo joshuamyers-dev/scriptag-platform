@@ -1,4 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   HOME_SCREEN,
   ONBOARDING_SCREEN,
@@ -9,6 +10,8 @@ import {
   SELECT_TIME_SCREEN,
   SIGN_UP_SCREEN,
   SIGN_UP_STACK,
+  SPLASH_SCREEN,
+  TAB_NAVIGATOR,
 } from './ScreenConstants';
 import ScanTagContainer from '@features/addMedication/containers/ScanTagContainer';
 import AddMedicationNameContainer from '@features/addMedication/containers/AddMedicationNameContainer';
@@ -16,19 +19,27 @@ import SelectTimeContainer from '@features/addMedication/containers/SelectTimeCo
 import OnboardingContainer from '@features/onboarding/containers/OnboardingContainer';
 import {
   Colour0,
+  Colour10,
+  Colour100,
   ColourNeutral100,
   ColourNeutral80,
   ColourPurple50,
   fontBodyS,
+  fontBodyXs,
+  fontLabelL,
+  Spacing16,
 } from '@utils/tokens';
 import SignUpContainer from '@features/accountCreation/containers/SignUpContainer';
 import BackButton from './components/BackButton';
 import ProfileOnboardingContainer from '@features/onboarding/containers/ProfileOnboardingContainer';
-import {TextStyle} from 'react-native';
+import {Image, TextStyle, View} from 'react-native';
 import ProfileOnboardingSuccessContainer from '@features/onboarding/containers/ProfileOnboardingSuccessContainer';
 import CloseButton from './components/CloseButton';
+import StockContainer from '@features/stock/containers/StockContainer';
+import SplashScreen from '../Splash';
 
 const NativeStack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const AddMedicationStack = () => {
   return (
@@ -139,6 +150,114 @@ const ProfileOnboardingStack = () => {
   );
 };
 
+const TabNavigatorStack = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          height: 100,
+          paddingTop: 8,
+          borderTopWidth: 2,
+          borderTopColor: Colour10,
+        },
+        tabBarLabelStyle: {
+          fontFamily: fontBodyXs.fontFamily,
+          fontSize: fontBodyXs.fontSize,
+          fontWeight: fontBodyXs.fontWeight as TextStyle['fontWeight'],
+          paddingTop: 4,
+        },
+        sceneStyle: {
+          backgroundColor: Colour0,
+        },
+        headerTitleStyle: {
+          fontFamily: fontLabelL.fontFamily,
+          fontSize: fontLabelL.fontSize,
+          fontWeight: fontLabelL.fontWeight as TextStyle['fontWeight'],
+          color: Colour100,
+          paddingBottom: Spacing16.original,
+        },
+        headerStyle: {
+          height: 130,
+          borderBottomWidth: 2,
+          borderBottomColor: Colour10,
+        },
+      }}>
+      <Tab.Screen
+        name="Stock"
+        component={StockContainer}
+        options={{
+          tabBarLabel: 'Stock',
+          tabBarActiveTintColor: ColourPurple50,
+          tabBarInactiveTintColor: ColourNeutral80,
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={
+                focused
+                  ? require('@assets/icons/stock-tab-active.png')
+                  : require('@assets/icons/stock-tab-inactive.png')
+              }
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Log"
+        component={StockContainer}
+        options={{
+          tabBarLabel: 'Log',
+          tabBarActiveTintColor: ColourPurple50,
+          tabBarInactiveTintColor: ColourNeutral80,
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={
+                focused
+                  ? require('@assets/icons/log-tab-active.png')
+                  : require('@assets/icons/log-tab-inactive.png')
+              }
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Help"
+        component={StockContainer}
+        options={{
+          tabBarLabel: 'Help',
+          tabBarActiveTintColor: ColourPurple50,
+          tabBarInactiveTintColor: ColourNeutral80,
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={
+                focused
+                  ? require('@assets/icons/help-tab-active.png')
+                  : require('@assets/icons/help-tab-inactive.png')
+              }
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Account"
+        component={StockContainer}
+        options={{
+          tabBarLabel: 'Account',
+          tabBarActiveTintColor: ColourPurple50,
+          tabBarInactiveTintColor: ColourNeutral80,
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={
+                focused
+                  ? require('@assets/icons/account-tab-active.png')
+                  : require('@assets/icons/account-tab-inactive.png')
+              }
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
 const MainStack = () => {
   return (
     <NativeStack.Navigator
@@ -147,6 +266,16 @@ const MainStack = () => {
         presentation: 'card',
       }}>
       <NativeStack.Screen
+        name={SPLASH_SCREEN}
+        component={SplashScreen}
+        options={({navigation}) => ({
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+        })}
+      />
+      <NativeStack.Screen
         name={ONBOARDING_SCREEN}
         component={OnboardingContainer}
         options={({navigation}) => ({
@@ -154,6 +283,7 @@ const MainStack = () => {
           contentStyle: {
             backgroundColor: Colour0,
           },
+          animation: 'fade',
         })}
       />
       <NativeStack.Screen
@@ -179,6 +309,17 @@ const MainStack = () => {
           contentStyle: {
             backgroundColor: Colour0,
           },
+        })}
+      />
+      <NativeStack.Screen
+        name={TAB_NAVIGATOR}
+        component={TabNavigatorStack}
+        options={({navigation}) => ({
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+          animation: 'fade',
         })}
       />
     </NativeStack.Navigator>
