@@ -15,6 +15,7 @@ import {PortalProvider} from '@gorhom/portal';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import ToastMessage from '@components/Toast';
 import {firebase} from '@react-native-firebase/messaging';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 enableScreens(true);
 enableFreeze(true);
@@ -52,10 +53,12 @@ function App() {
         <NavigationContainer>
           <GestureHandlerRootView>
             <PortalProvider>
-              <MainStack />
-              <FullWindowOverlay>
-                <ToastMessage />
-              </FullWindowOverlay>
+              <BottomSheetModalProvider>
+                <MainStack />
+                <FullWindowOverlay>
+                  <ToastMessage />
+                </FullWindowOverlay>
+              </BottomSheetModalProvider>
             </PortalProvider>
           </GestureHandlerRootView>
         </NavigationContainer>

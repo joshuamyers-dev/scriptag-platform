@@ -58,6 +58,7 @@ export const OnboardingContext = createContext<
 const ProfileOnboardingContainer = ({navigation, route}) => {
   const [stepIndex, setStepIndex] = useState(0);
   const [password, setPassword] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState(false);
   const [isContinueEnabled, setContinueEnabled] = useState(false);
 
   const opacity = useSharedValue(1);
@@ -135,6 +136,7 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
         }
       }
     } else if (stepIndex === 1) {
+      setLoading(true);
       await requestPushNotificationPermissions();
       const fcmToken = await messaging().getToken();
 
@@ -143,6 +145,8 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
           token: fcmToken,
         },
       });
+
+      setLoading(false);
     }
 
     if (stepIndex === ONBOARDING_STEPS.length - 1) {
@@ -161,7 +165,7 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       opacity: opacity.value,
-      transform: [{translateX: translateX.value}],
+      transform: [{translateY: translateX.value}],
     };
   });
 
@@ -206,7 +210,7 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
             title="Continue"
             disabled={!isContinueEnabled}
             onPress={onPressContinue}
-            loading={isCreatingAccount || isAddingToken}
+            loading={isCreatingAccount || isAddingToken || isLoading}
           />
         </View>
       </View>

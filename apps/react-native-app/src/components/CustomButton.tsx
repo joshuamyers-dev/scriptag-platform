@@ -9,7 +9,8 @@ import {
 } from '@utils/tokens';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, ViewStyle} from 'react-native';
-import {Flow} from 'react-native-animated-spinkit';
+import {MaterialIndicator} from 'react-native-indicators';
+
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 
 export enum ButtonType {
@@ -62,7 +63,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       onPress={onPress}>
       {loading && (
         <Animated.View entering={FadeIn} exiting={FadeOut}>
-          <Flow color={Colour0} />
+          <MaterialIndicator color={Colour0} />
         </Animated.View>
       )}
       {icon && !loading && icon}
@@ -92,6 +93,8 @@ const styles = StyleSheet.create({
     borderRadius: Radius4.original,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 10,
   },
   buttonText: {
     color: Colour0,

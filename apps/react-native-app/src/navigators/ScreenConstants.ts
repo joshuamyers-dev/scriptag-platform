@@ -11,3 +11,5 @@ export const TAB_NAVIGATOR = 'Tab Navigator';
 export const SPLASH_SCREEN = 'Splash';
 export const STOCK_STACK = 'Stock Stack';
 export const STOCK_SCREEN = 'Stock';
+export const ADD_MEDICATION_STACK = 'Add Medication Stack';
+export const ADD_MEDICATION_SCREEN = 'Add Medication';

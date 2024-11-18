@@ -3,19 +3,32 @@ import {
   useSearchMedicationsQuery,
 } from '@graphql/generated';
 import {SELECT_TIME_SCREEN} from '@navigators/ScreenConstants';
-import {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Button,
   LayoutAnimation,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
+  TextStyle,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {useGlobalStore} from '../../../../Store';
+import {
+  Colour100,
+  ColourPurple10,
+  ColourPurple50,
+  fontLabelL,
+} from '@utils/tokens';
+import ProgressBar from 'react-native-animated-progress';
+import SearchInput from '@components/SearchInput';
+import {useDebounce} from '@hooks/useDebounce';
 
 const AddMedicationNameContainer = ({navigation}) => {
+  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const debouncedSearchValue = useDebounce(searchValue);
   const [medicationName, setMedicationName] = useState<string | null>(null);
   const [amountRemaining, setAmountRemaining] = useState<string | null>(null);
   const [selectedMedicationId, setSelectedMedicationId] = useState<
@@ -34,20 +47,42 @@ const AddMedicationNameContainer = ({navigation}) => {
   }, [medicationName, amountRemaining, selectedMedicationId]);
 
   useEffect(() => {
-    if (medicationName && medicationName.length >= 3) {
-      searchMedicationsMutation({variables: {query: medicationName}});
+    if (debouncedSearchValue && debouncedSearchValue.length >= 3) {
+      searchMedicationsMutation({variables: {query: debouncedSearchValue}});
     }
-  }, [medicationName]);
+  }, [debouncedSearchValue]);
 
   const onPressMedication = useCallback((medicationId: string) => {
     setSelectedMedicationId(medicationId);
   }, []);
 
-  return (
-    <View style={{flex: 1, alignItems: 'center', paddingTop: 50}}>
-      <Text style={{fontSize: 20, marginBottom: 20}}>Name your pill</Text>
+  const searchResults = useMemo(() => {
+    return data?.searchMedications?.edges?.map(edge => edge.node);
+  }, [data]);
 
-      <TextInput
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        paddingTop: 16,
+        paddingHorizontal: 16,
+      }}>
+      <Text style={styles.headerTitle}>Search</Text>
+
+      <View style={{paddingVertical: 16, width: '100%'}}>
+        <ProgressBar
+          progress={30}
+          height={16}
+          animated
+          trackColor={ColourPurple10}
+          backgroundColor={ColourPurple50}
+        />
+      </View>
+
+      <SearchInput onSearch={setSearchValue} results={searchResults} />
+
+      {/* <TextInput
         placeholder="Enter medication name"
         placeholderTextColor="grey"
         onChangeText={text => setMedicationName(text)}
@@ -57,9 +92,9 @@ const AddMedicationNameContainer = ({navigation}) => {
           padding: 10,
           marginBottom: 20,
         }}
-      />
+      /> */}
 
-      {!selectedMedicationId && (
+      {/* {!selectedMedicationId && (
         <ScrollView
           style={{maxHeight: 100, width: '100%', paddingHorizontal: 32}}>
           {data?.searchMedications.edges.map(edge => (
@@ -71,9 +106,9 @@ const AddMedicationNameContainer = ({navigation}) => {
             </TouchableOpacity>
           ))}
         </ScrollView>
-      )}
+      )} */}
 
-      <TextInput
+      {/* <TextInput
         placeholder="Amount remaining"
         placeholderTextColor="grey"
         onChangeText={text => setAmountRemaining(text)}
@@ -85,9 +120,18 @@ const AddMedicationNameContainer = ({navigation}) => {
         }}
       />
 
-      <Button title="Continue" onPress={onPressContinue} />
+      <Button title="Continue" onPress={onPressContinue} /> */}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  headerTitle: {
+    fontFamily: fontLabelL.fontFamily,
+    fontSize: fontLabelL.fontSize,
+    fontWeight: fontLabelL.fontWeight as TextStyle['fontWeight'],
+    color: Colour100,
+  },
+});
 
 export default AddMedicationNameContainer;

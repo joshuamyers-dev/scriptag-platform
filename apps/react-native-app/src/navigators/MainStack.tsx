@@ -1,6 +1,29 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SignUpContainer from '@features/accountCreation/containers/SignUpContainer';
+import AddMedicationNameContainer from '@features/addMedication/containers/AddMedicationNameContainer';
+import ScanTagContainer from '@features/addMedication/containers/ScanTagContainer';
+import SelectTimeContainer from '@features/addMedication/containers/SelectTimeContainer';
+import OnboardingContainer from '@features/onboarding/containers/OnboardingContainer';
+import ProfileOnboardingContainer from '@features/onboarding/containers/ProfileOnboardingContainer';
+import ProfileOnboardingSuccessContainer from '@features/onboarding/containers/ProfileOnboardingSuccessContainer';
+import StockContainer from '@features/stock/containers/StockContainer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
+  Colour0,
+  Colour10,
+  ColourNeutral80,
+  ColourPurple50,
+  fontBodyXs,
+} from '@utils/tokens';
+import {Image, TextStyle} from 'react-native';
+import SplashScreen from '../Splash';
+import BackButton from './components/BackButton';
+import {
+  defaultHeaderTitleStyle,
+  largeHeaderTitleStyle,
+} from './NavigationStyles';
+import {
+  ADD_MEDICATION_STACK,
   HOME_SCREEN,
   ONBOARDING_SCREEN,
   PROFILE_ONBOARDING_SCREEN,
@@ -13,30 +36,6 @@ import {
   SPLASH_SCREEN,
   TAB_NAVIGATOR,
 } from './ScreenConstants';
-import ScanTagContainer from '@features/addMedication/containers/ScanTagContainer';
-import AddMedicationNameContainer from '@features/addMedication/containers/AddMedicationNameContainer';
-import SelectTimeContainer from '@features/addMedication/containers/SelectTimeContainer';
-import OnboardingContainer from '@features/onboarding/containers/OnboardingContainer';
-import {
-  Colour0,
-  Colour10,
-  Colour100,
-  ColourNeutral100,
-  ColourNeutral80,
-  ColourPurple50,
-  fontBodyS,
-  fontBodyXs,
-  fontLabelL,
-  Spacing16,
-} from '@utils/tokens';
-import SignUpContainer from '@features/accountCreation/containers/SignUpContainer';
-import BackButton from './components/BackButton';
-import ProfileOnboardingContainer from '@features/onboarding/containers/ProfileOnboardingContainer';
-import {Image, TextStyle, View} from 'react-native';
-import ProfileOnboardingSuccessContainer from '@features/onboarding/containers/ProfileOnboardingSuccessContainer';
-import CloseButton from './components/CloseButton';
-import StockContainer from '@features/stock/containers/StockContainer';
-import SplashScreen from '../Splash';
 
 const NativeStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,7 +52,14 @@ const AddMedicationStack = () => {
         component={AddMedicationNameContainer}
         options={({navigation}) => ({
           headerShown: true,
-          headerTitle: 'Add Medication',
+          headerTitle: 'Add New Medication',
+          headerTitleStyle: defaultHeaderTitleStyle,
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+          headerLeft: () => (
+            <BackButton isColoured onPress={() => navigation.goBack()} />
+          ),
         })}
       />
       <NativeStack.Screen
@@ -114,12 +120,7 @@ const ProfileOnboardingStack = () => {
           contentStyle: {
             backgroundColor: Colour0,
           },
-          headerTitleStyle: {
-            fontFamily: fontBodyS.fontFamily,
-            fontSize: fontBodyS.fontSize,
-            fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
-            color: ColourNeutral100,
-          },
+          headerTitleStyle: defaultHeaderTitleStyle,
           headerLeft: () => (
             <BackButton onPress={() => navigation.goBack()} isColoured />
           ),
@@ -134,12 +135,7 @@ const ProfileOnboardingStack = () => {
           contentStyle: {
             backgroundColor: Colour0,
           },
-          headerTitleStyle: {
-            fontFamily: fontBodyS.fontFamily,
-            fontSize: fontBodyS.fontSize,
-            fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
-            color: ColourNeutral100,
-          },
+          headerTitleStyle: defaultHeaderTitleStyle,
           // headerRight: () => (
           //   <CloseButton onPress={() => navigation.pop()} isColoured />
           // ),
@@ -169,13 +165,7 @@ const TabNavigatorStack = () => {
         sceneStyle: {
           backgroundColor: Colour0,
         },
-        headerTitleStyle: {
-          fontFamily: fontLabelL.fontFamily,
-          fontSize: fontLabelL.fontSize,
-          fontWeight: fontLabelL.fontWeight as TextStyle['fontWeight'],
-          color: Colour100,
-          paddingBottom: Spacing16.original,
-        },
+        headerTitleStyle: largeHeaderTitleStyle,
         headerStyle: {
           height: 130,
           borderBottomWidth: 2,
@@ -320,6 +310,16 @@ const MainStack = () => {
             backgroundColor: Colour0,
           },
           animation: 'fade',
+        })}
+      />
+      <NativeStack.Screen
+        name={ADD_MEDICATION_STACK}
+        component={AddMedicationStack}
+        options={({navigation}) => ({
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
         })}
       />
     </NativeStack.Navigator>
