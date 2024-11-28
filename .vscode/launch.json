@@ -20,6 +20,19 @@
             "env": {},
             "args": [],
             "showLog": true
-        }
+        },
+        {
+            "name": "Python: main.py",
+            "type": "python",
+            "request": "launch",
+            "program": "./tools/comprehend/evaluate.py",
+            "console": "integratedTerminal",
+            "args": [
+              // Add any arguments you want to pass to the script here
+            ],
+            "env": {
+              // Add any environment variables you need here
+            }
+          }
     ]
 }

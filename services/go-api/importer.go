@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	file, err := os.Open("./medications.csv")
+	file, err := os.Open("./processed_medications.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -32,34 +32,19 @@ func main() {
 			continue
 		}
 
-		brandName := toTitleCase(row[3])
-		genericName := toTitleCase(row[5])
-		dosageType := toTitleCase(row[6])
-		strength := toTitleCase(row[14] + row[15])
+		brandName := row[0]
+		genericName := row[1]
+		strength := row[2]
 
 		key := brandName + "|" + genericName
 
-		if med, exists := medications[key]; exists {
-			dosageExits := false
-
-			for _, existingDosage := range med.DosageForms {
-				if existingDosage == dosageType {
-					dosageExits = true
-					break
-				}
-			}
-
-			if !dosageExits {
-				med.DosageForms = append(med.DosageForms, dosageType)
-			}
-
-			med.Strengths = append(med.Strengths, strength)
+		if _, exists := medications[key]; exists {
+			continue
 		} else {
 			medications[key] = &core.Medication{
 				BrandName:        brandName,
 				ActiveIngredient: genericName,
-				DosageForms:      []string{dosageType},
-				Strengths:        []string{strength},
+				Strength:        strength,
 			}
 		}
 	}
@@ -68,10 +53,9 @@ func main() {
 
 	for _, med := range medications {
 		medicationInsertBatch = append(medicationInsertBatch, &adapters.GormMedication{
-			BrandName:            med.BrandName,
-			ActiveIngredientName: med.ActiveIngredient,
-			DosageForms:          med.DosageForms,
-			Strengths:            med.Strengths,
+			BrandName:        med.BrandName,
+			ActiveIngredient: med.ActiveIngredient,
+			Strength:         med.Strength,
 		})
 	}
 

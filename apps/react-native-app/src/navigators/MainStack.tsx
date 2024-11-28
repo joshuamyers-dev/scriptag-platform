@@ -12,6 +12,7 @@ import {
   Colour0,
   Colour10,
   ColourNeutral80,
+  ColourPurple10,
   ColourPurple50,
   fontBodyXs,
 } from '@utils/tokens';
@@ -25,6 +26,8 @@ import {
 import {
   ADD_MEDICATION_STACK,
   HOME_SCREEN,
+  LOGIN_SCREEN,
+  LOGIN_STACK,
   ONBOARDING_SCREEN,
   PROFILE_ONBOARDING_SCREEN,
   PROFILE_ONBOARDING_STACK,
@@ -36,6 +39,7 @@ import {
   SPLASH_SCREEN,
   TAB_NAVIGATOR,
 } from './ScreenConstants';
+import LoginContainer from '@features/login/containers/LoginContainer';
 
 const NativeStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -92,6 +96,28 @@ const SignUpStack = () => {
       <NativeStack.Screen
         name={SIGN_UP_SCREEN}
         component={SignUpContainer}
+        options={({navigation}) => ({
+          headerShown: false,
+          headerTitle: '',
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+        })}
+      />
+    </NativeStack.Navigator>
+  );
+};
+
+const LoginStack = () => {
+  return (
+    <NativeStack.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        presentation: 'card',
+      }}>
+      <NativeStack.Screen
+        name={LOGIN_SCREEN}
+        component={LoginContainer}
         options={({navigation}) => ({
           headerShown: false,
           headerTitle: '',
@@ -289,6 +315,23 @@ const MainStack = () => {
           },
           headerTitle: '',
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}
+      />
+      <NativeStack.Screen
+        name={LOGIN_STACK}
+        component={LoginStack}
+        options={({navigation}) => ({
+          headerShown: true,
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+          headerStyle: {
+            backgroundColor: ColourPurple10,
+          },
+          headerTitle: '',
+          headerLeft: () => (
+            <BackButton isColoured onPress={() => navigation.goBack()} />
+          ),
         })}
       />
       <NativeStack.Screen

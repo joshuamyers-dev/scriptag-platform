@@ -19,6 +19,7 @@ type Session struct {
 type UserService interface {
 	CreateUser(context context.Context, user *User) (*model.Session, error)
 	AddFCMToken(context context.Context, user *User, token string) error
+	LoginUser(context context.Context, email string, password string) (*model.Session, error)
 }
 
 type UserRepository interface {

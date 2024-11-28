@@ -4,10 +4,9 @@ import "go-api/graph/model"
 
 type Medication struct {
 	ID               string
-	BrandName        string
 	ActiveIngredient string
-	DosageForms      []string
-	Strengths        []string
+	BrandName        string
+	Strength         string
 }
 
 type PageInfo struct {
@@ -28,7 +27,7 @@ type MedicationConnection struct {
 
 type MedicationService interface {
 	CreateMedication(medication Medication) (Medication, error)
-	SearchMedications(query string) (*model.MedicationsConnection, error)
+	SearchMedications(query string, afterCursor *string) (*model.MedicationsConnection, error)
 	CreateUserMedication(userMedication *UserMedication) (*model.MyMedication, error)
 }
 
@@ -36,5 +35,5 @@ type MedicationRepository interface {
 	FindByID(id string) (Medication, error)
 	Create(medication *Medication) error
 	CreateUserMedication(userMedication *UserMedication) (*UserMedication, error)
-	Search(query string) (*MedicationConnection, error)
+	Search(query string, afterCursor *string) (*MedicationConnection, error)
 }

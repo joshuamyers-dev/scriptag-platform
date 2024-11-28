@@ -16,9 +16,11 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import ToastMessage from '@components/Toast';
 import {firebase} from '@react-native-firebase/messaging';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {enableLayoutAnimations} from 'react-native-reanimated';
 
 enableScreens(true);
 enableFreeze(true);
+enableLayoutAnimations(true);
 
 function App() {
   useEffect(() => {

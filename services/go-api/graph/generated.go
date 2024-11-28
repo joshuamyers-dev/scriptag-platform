@@ -49,11 +49,10 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Medication struct {
-		ActiveIngredient   func(childComplexity int) int
-		BrandName          func(childComplexity int) int
-		DosageForms        func(childComplexity int) int
-		ID                 func(childComplexity int) int
-		StrengthsAvailable func(childComplexity int) int
+		ActiveIngredient func(childComplexity int) int
+		BrandName        func(childComplexity int) int
+		ID               func(childComplexity int) int
+		Strength         func(childComplexity int) int
 	}
 
 	MedicationEdge struct {
@@ -70,6 +69,7 @@ type ComplexityRoot struct {
 		AddFcmToken     func(childComplexity int, token string) int
 		AddMyMedication func(childComplexity int, input model.AddMyMedicationInput) int
 		CreateAccount   func(childComplexity int, input model.CreateAccountInput) int
+		Login           func(childComplexity int, input model.LoginInput) int
 	}
 
 	MyMedication struct {
@@ -98,7 +98,7 @@ type ComplexityRoot struct {
 
 	Query struct {
 		MyMedications     func(childComplexity int) int
-		SearchMedications func(childComplexity int, query string) int
+		SearchMedications func(childComplexity int, query string, after *string) int
 	}
 
 	Session struct {
@@ -115,10 +115,11 @@ type ComplexityRoot struct {
 type MutationResolver interface {
 	AddMyMedication(ctx context.Context, input model.AddMyMedicationInput) (*model.MyMedication, error)
 	CreateAccount(ctx context.Context, input model.CreateAccountInput) (*model.Session, error)
+	Login(ctx context.Context, input model.LoginInput) (*model.Session, error)
 	AddFcmToken(ctx context.Context, token string) (bool, error)
 }
 type QueryResolver interface {
-	SearchMedications(ctx context.Context, query string) (*model.MedicationsConnection, error)
+	SearchMedications(ctx context.Context, query string, after *string) (*model.MedicationsConnection, error)
 	MyMedications(ctx context.Context) ([]*model.MyMedicationEdge, error)
 }
 
@@ -155,13 +156,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Medication.BrandName(childComplexity), true
 
-	case "Medication.dosageForms":
-		if e.complexity.Medication.DosageForms == nil {
-			break
-		}
-
-		return e.complexity.Medication.DosageForms(childComplexity), true
-
 	case "Medication.id":
 		if e.complexity.Medication.ID == nil {
 			break
@@ -169,12 +163,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Medication.ID(childComplexity), true
 
-	case "Medication.strengthsAvailable":
-		if e.complexity.Medication.StrengthsAvailable == nil {
+	case "Medication.strength":
+		if e.complexity.Medication.Strength == nil {
 			break
 		}
 
-		return e.complexity.Medication.StrengthsAvailable(childComplexity), true
+		return e.complexity.Medication.Strength(childComplexity), true
 
 	case "MedicationEdge.cursor":
 		if e.complexity.MedicationEdge.Cursor == nil {
@@ -239,6 +233,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateAccount(childComplexity, args["input"].(model.CreateAccountInput)), true
+
+	case "Mutation.login":
+		if e.complexity.Mutation.Login == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_login_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.Login(childComplexity, args["input"].(model.LoginInput)), true
 
 	case "MyMedication.consumptionTime":
 		if e.complexity.MyMedication.ConsumptionTime == nil {
@@ -341,7 +347,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.SearchMedications(childComplexity, args["query"].(string)), true
+		return e.complexity.Query.SearchMedications(childComplexity, args["query"].(string), args["after"].(*string)), true
 
 	case "Session.token":
 		if e.complexity.Session.Token == nil {
@@ -381,6 +387,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputAddMyMedicationInput,
 		ec.unmarshalInputCreateAccountInput,
+		ec.unmarshalInputLoginInput,
 	)
 	first := true
 
@@ -566,6 +573,29 @@ func (ec *executionContext) field_Mutation_createAccount_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	arg0, err := ec.field_Mutation_login_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_login_argsInput(
+	ctx context.Context,
+	rawArgs map[string]interface{},
+) (model.LoginInput, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNLoginInput2goᚑapiᚋgraphᚋmodelᚐLoginInput(ctx, tmp)
+	}
+
+	var zeroVal model.LoginInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -597,6 +627,11 @@ func (ec *executionContext) field_Query_searchMedications_args(ctx context.Conte
 		return nil, err
 	}
 	args["query"] = arg0
+	arg1, err := ec.field_Query_searchMedications_argsAfter(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["after"] = arg1
 	return args, nil
 }
 func (ec *executionContext) field_Query_searchMedications_argsQuery(
@@ -609,6 +644,19 @@ func (ec *executionContext) field_Query_searchMedications_argsQuery(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_searchMedications_argsAfter(
+	ctx context.Context,
+	rawArgs map[string]interface{},
+) (*string, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+	if tmp, ok := rawArgs["after"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
 	return zeroVal, nil
 }
 
@@ -798,8 +846,8 @@ func (ec *executionContext) fieldContext_Medication_activeIngredient(_ context.C
 	return fc, nil
 }
 
-func (ec *executionContext) _Medication_dosageForms(ctx context.Context, field graphql.CollectedField, obj *model.Medication) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Medication_dosageForms(ctx, field)
+func (ec *executionContext) _Medication_strength(ctx context.Context, field graphql.CollectedField, obj *model.Medication) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Medication_strength(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -812,51 +860,7 @@ func (ec *executionContext) _Medication_dosageForms(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.DosageForms, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*string)
-	fc.Result = res
-	return ec.marshalNString2ᚕᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Medication_dosageForms(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Medication",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Medication_strengthsAvailable(ctx context.Context, field graphql.CollectedField, obj *model.Medication) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Medication_strengthsAvailable(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.StrengthsAvailable, nil
+		return obj.Strength, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -865,12 +869,12 @@ func (ec *executionContext) _Medication_strengthsAvailable(ctx context.Context, 
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.([]string)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Medication_strengthsAvailable(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Medication_strength(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Medication",
 		Field:      field,
@@ -972,10 +976,8 @@ func (ec *executionContext) fieldContext_MedicationEdge_node(_ context.Context, 
 				return ec.fieldContext_Medication_brandName(ctx, field)
 			case "activeIngredient":
 				return ec.fieldContext_Medication_activeIngredient(ctx, field)
-			case "dosageForms":
-				return ec.fieldContext_Medication_dosageForms(ctx, field)
-			case "strengthsAvailable":
-				return ec.fieldContext_Medication_strengthsAvailable(ctx, field)
+			case "strength":
+				return ec.fieldContext_Medication_strength(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Medication", field.Name)
 		},
@@ -1213,6 +1215,67 @@ func (ec *executionContext) fieldContext_Mutation_createAccount(ctx context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_login(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().Login(rctx, fc.Args["input"].(model.LoginInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Session)
+	fc.Result = res
+	return ec.marshalNSession2ᚖgoᚑapiᚋgraphᚋmodelᚐSession(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "token":
+				return ec.fieldContext_Session_token(ctx, field)
+			case "user":
+				return ec.fieldContext_Session_user(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Session", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_login_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_addFcmToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_addFcmToken(ctx, field)
 	if err != nil {
@@ -1357,10 +1420,8 @@ func (ec *executionContext) fieldContext_MyMedication_medication(_ context.Conte
 				return ec.fieldContext_Medication_brandName(ctx, field)
 			case "activeIngredient":
 				return ec.fieldContext_Medication_activeIngredient(ctx, field)
-			case "dosageForms":
-				return ec.fieldContext_Medication_dosageForms(ctx, field)
-			case "strengthsAvailable":
-				return ec.fieldContext_Medication_strengthsAvailable(ctx, field)
+			case "strength":
+				return ec.fieldContext_Medication_strength(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Medication", field.Name)
 		},
@@ -1851,7 +1912,7 @@ func (ec *executionContext) _Query_searchMedications(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().SearchMedications(rctx, fc.Args["query"].(string))
+		return ec.resolvers.Query().SearchMedications(rctx, fc.Args["query"].(string), fc.Args["after"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4101,6 +4162,40 @@ func (ec *executionContext) unmarshalInputCreateAccountInput(ctx context.Context
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputLoginInput(ctx context.Context, obj interface{}) (model.LoginInput, error) {
+	var it model.LoginInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"email", "password"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "email":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Email = data
+		case "password":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Password = data
+		}
+	}
+
+	return it, nil
+}
+
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
@@ -4135,13 +4230,8 @@ func (ec *executionContext) _Medication(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "dosageForms":
-			out.Values[i] = ec._Medication_dosageForms(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "strengthsAvailable":
-			out.Values[i] = ec._Medication_strengthsAvailable(ctx, field, obj)
+		case "strength":
+			out.Values[i] = ec._Medication_strength(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -4282,6 +4372,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "createAccount":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createAccount(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "login":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_login(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -5051,6 +5148,11 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
+func (ec *executionContext) unmarshalNLoginInput2goᚑapiᚋgraphᚋmodelᚐLoginInput(ctx context.Context, v interface{}) (model.LoginInput, error) {
+	res, err := ec.unmarshalInputLoginInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalNMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMedication(ctx context.Context, sel ast.SelectionSet, v *model.Medication) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -5234,32 +5336,6 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 		}
 	}
 	return res
-}
-
-func (ec *executionContext) unmarshalNString2ᚕᚖstring(ctx context.Context, v interface{}) ([]*string, error) {
-	var vSlice []interface{}
-	if v != nil {
-		vSlice = graphql.CoerceList(v)
-	}
-	var err error
-	res := make([]*string, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalOString2ᚖstring(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) marshalNString2ᚕᚖstring(ctx context.Context, sel ast.SelectionSet, v []*string) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	for i := range v {
-		ret[i] = ec.marshalOString2ᚖstring(ctx, sel, v[i])
-	}
-
-	return ret
 }
 
 func (ec *executionContext) unmarshalNTime2timeᚐTime(ctx context.Context, v interface{}) (time.Time, error) {
@@ -5564,44 +5640,6 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	}
 	res := graphql.MarshalBoolean(*v)
 	return res
-}
-
-func (ec *executionContext) unmarshalOString2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
-	if v == nil {
-		return nil, nil
-	}
-	var vSlice []interface{}
-	if v != nil {
-		vSlice = graphql.CoerceList(v)
-	}
-	var err error
-	res := make([]string, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNString2string(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) marshalOString2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	for i := range v {
-		ret[i] = ec.marshalNString2string(ctx, sel, v[i])
-	}
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
 }
 
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {

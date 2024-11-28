@@ -63,7 +63,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       onPress={onPress}>
       {loading && (
         <Animated.View entering={FadeIn} exiting={FadeOut}>
-          <MaterialIndicator color={Colour0} />
+          <MaterialIndicator color={Colour0} size={20} />
         </Animated.View>
       )}
       {icon && !loading && icon}

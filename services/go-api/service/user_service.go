@@ -63,6 +63,41 @@ func (s *UserServiceImpl) CreateUser(context context.Context, user *core.User) (
 	}, nil
 }
 
+func (s *UserServiceImpl) LoginUser(context context.Context, email string, password string) (*model.Session, error) {
+	user, err := s.repo.FindByEmail(email)
+
+	if err != nil {
+		graphql.AddErrorf(context, "Invalid email or password.")
+		return &model.Session{}, nil
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+
+	if err != nil {
+		graphql.AddErrorf(context, "Invalid email or password.")
+		return &model.Session{}, nil
+	}
+
+	tokenClaims := &jwt.MapClaims{
+		"user_id": user.ID,
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tokenClaims)
+	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET_KEY")))
+
+	if err != nil {
+		return &model.Session{}, err
+	}
+
+	return &model.Session{
+		Token: &tokenString,
+		User: &model.User{
+			ID:    user.ID,
+			Email: user.Email,
+		},
+	}, nil
+}
+
 func (s *UserServiceImpl) GetUserByID(id string) (*core.User, error) {
 	user, err := s.repo.FindByID(id)
 
@@ -71,8 +106,8 @@ func (s *UserServiceImpl) GetUserByID(id string) (*core.User, error) {
 	}
 
 	return &core.User{
-		ID:    user.ID,
-		Email: user.Email,
+		ID:       user.ID,
+		Email:    user.Email,
 		Password: user.Password,
 	}, nil
 }

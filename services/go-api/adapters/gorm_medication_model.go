@@ -1,16 +1,14 @@
 package adapters
 
 import (
-	"github.com/lib/pq"
 	"github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 )
 
 type GormMedication struct {
 	Base
-	BrandName            string         `gorm:"type:text"`
-	ActiveIngredientName string         `gorm:"type:text"`
-	DosageForms          pq.StringArray `gorm:"type:text[]"`
-	Strengths            pq.StringArray `gorm:"type:text[]"`
+	BrandName        string `gorm:"type:text"`
+	ActiveIngredient string `gorm:"type:text"`
+	Strength         string `gorm:"type:varchar(255)"`
 }
 
 func CreateMedicationPaginator(
@@ -20,9 +18,9 @@ func CreateMedicationPaginator(
 ) *paginator.Paginator {
 	p := paginator.New(
 		&paginator.Config{
-			Keys:  []string{"CreatedAt"},
-			Limit: 10,
-			Order: paginator.ASC,
+			Keys:          []string{"CreatedAt", "ID"},
+			Order:         paginator.ASC,
+			AllowTupleCmp: paginator.TRUE,
 		},
 	)
 	if order != nil {

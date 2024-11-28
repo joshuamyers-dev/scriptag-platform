@@ -60,7 +60,7 @@ const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        // myDiaries: relayStylePagination(),
+        searchMedications: relayStylePagination(),
       },
     },
   },

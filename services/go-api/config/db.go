@@ -71,11 +71,11 @@ func initLog() logger.Interface {
 
 func createSearchIndex(db *gorm.DB) {
 	indexSQL := `
-        CREATE INDEX IF NOT EXISTS idx_gin_brand_active
+        CREATE INDEX IF NOT EXISTS idx_gin_brand_name_active_ingredient
         ON medications
         USING gin (
             to_tsvector('english', "brand_name"),
-            to_tsvector('english', "active_ingredient_name")
+            to_tsvector('english', "active_ingredient")
         );
     `
 	if err := db.Exec(indexSQL).Error; err != nil {

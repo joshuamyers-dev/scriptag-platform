@@ -17,16 +17,19 @@ type CreateAccountInput struct {
 	Password string `json:"password"`
 }
 
+type LoginInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 // Represents a medication.
 type Medication struct {
 	ID string `json:"id"`
 	// The brand name of the medication. E.g. Tylenol.
 	BrandName string `json:"brandName"`
 	// The generic name of the medication. E.g. Acetaminophen.
-	ActiveIngredient string `json:"activeIngredient"`
-	// The forms of the medication. E.g. Capsule.
-	DosageForms        []*string `json:"dosageForms"`
-	StrengthsAvailable []string  `json:"strengthsAvailable,omitempty"`
+	ActiveIngredient string  `json:"activeIngredient"`
+	Strength         *string `json:"strength,omitempty"`
 }
 
 type MedicationEdge struct {

@@ -1,0 +1,37 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Go GraphQL - Codegen",
+        "type": "shell",
+        "command": "cd services/go-api && go run github.com/99designs/gqlgen generate",
+        "group": "build",
+        "problemMatcher": [],
+        "detail": "Run codegen for Go GraphQL"
+      },
+      {
+        "label": "React Native App - Codegen",
+        "type": "shell",
+        "command": "cd apps/react-native-app && npm run generate",
+        "group": "build",
+        "problemMatcher": [],
+        "detail": "Run codegen for React Native App"
+      },
+      {
+        "label": "React Native App - Start Metro",
+        "type": "shell",
+        "command": "cd apps/react-native-app && npm run start",
+        "group": "build",
+        "problemMatcher": [],
+        "detail": "Run codegen for React Native App"
+      },
+      {
+        "label": "Go API - Start Server",
+        "type": "shell",
+        "command": "cd services/go-api && go run server.go",
+        "group": "build",
+        "problemMatcher": [],
+        "detail": "Run the Go GraphQL/API server"
+      }
+    ]
+  }

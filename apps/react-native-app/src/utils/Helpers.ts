@@ -26,3 +26,10 @@ export const requestPushNotificationPermissions = async () => {
     );
   }
 };
+
+export const roundNumbersDown = (str: string): string => {
+  return str.replace(/(\d+(\.\d+)?)(\s*mg)/g, (match, p1, p2, p3) => {
+    const roundedNumber = Math.floor(parseFloat(p1));
+    return `${roundedNumber}${p3}`;
+  });
+};

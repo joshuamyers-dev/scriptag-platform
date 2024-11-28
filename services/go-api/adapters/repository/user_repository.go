@@ -21,8 +21,8 @@ func (r *UserRepository) FindByID(id string) (*core.User, error) {
 		return &core.User{}, err
 	}
 	return &core.User{
-		ID:    user.ID,
-		Email: user.Email,
+		ID:       user.ID,
+		Email:    user.Email,
 		Password: user.Password,
 	}, nil
 }
@@ -33,18 +33,18 @@ func (r *UserRepository) FindByEmail(email string) (*core.User, error) {
 		return &core.User{}, err
 	}
 	return &core.User{
-		ID:    user.ID,
-		Email: user.Email,
+		ID:       user.ID,
+		Email:    user.Email,
+		Password: user.Password,
 	}, nil
 }
-
 
 func (r *UserRepository) Create(user *core.User) (*core.User, error) {
 	gormUser := adapters.GormUser{
 		Base: adapters.Base{
 			ID: user.ID,
 		},
-		Email: user.Email,
+		Email:    user.Email,
 		Password: user.Password,
 	}
 
@@ -53,8 +53,8 @@ func (r *UserRepository) Create(user *core.User) (*core.User, error) {
 	}
 
 	return &core.User{
-		ID:    gormUser.ID,
-		Email: gormUser.Email,
+		ID:       gormUser.ID,
+		Email:    gormUser.Email,
 		Password: gormUser.Password,
 	}, nil
 }

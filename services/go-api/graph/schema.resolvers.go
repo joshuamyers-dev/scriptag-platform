@@ -32,6 +32,11 @@ func (r *mutationResolver) CreateAccount(ctx context.Context, input model.Create
 	})
 }
 
+// Login is the resolver for the login field.
+func (r *mutationResolver) Login(ctx context.Context, input model.LoginInput) (*model.Session, error) {
+	return r.UserService.LoginUser(ctx, input.Email, input.Password)
+}
+
 // AddFcmToken is the resolver for the addFcmToken field.
 func (r *mutationResolver) AddFcmToken(ctx context.Context, token string) (bool, error) {
 	user := auth.ForContext(ctx)
@@ -45,8 +50,8 @@ func (r *mutationResolver) AddFcmToken(ctx context.Context, token string) (bool,
 }
 
 // SearchMedications is the resolver for the searchMedications field.
-func (r *queryResolver) SearchMedications(ctx context.Context, query string) (*model.MedicationsConnection, error) {
-	return r.MedicationService.SearchMedications(query)
+func (r *queryResolver) SearchMedications(ctx context.Context, query string, after *string) (*model.MedicationsConnection, error) {
+	return r.MedicationService.SearchMedications(query, after)
 }
 
 // MyMedications is the resolver for the myMedications field.

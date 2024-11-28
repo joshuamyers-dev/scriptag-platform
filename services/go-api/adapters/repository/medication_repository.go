@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"go-api/adapters"
 	"go-api/core"
 	"go-api/utils"
@@ -59,10 +60,8 @@ func (r *MedicationRepository) CreateUserMedication(userMedication *core.UserMed
 		},
 		Medication: core.Medication{
 			ID:               gormUserMed.Medication.ID,
-			BrandName:        gormUserMed.Medication.BrandName,
-			ActiveIngredient: gormUserMed.Medication.ActiveIngredientName,
-			DosageForms:      gormUserMed.Medication.DosageForms,
-			Strengths:        gormUserMed.Medication.Strengths,
+			ActiveIngredient: gormUserMed.Medication.ActiveIngredient,
+			Strength:         gormUserMed.Medication.Strength,
 		},
 		Strength:         gormUserMed.Strength,
 		ReminderDateTime: gormUserMed.ReminderDateTime,
@@ -71,16 +70,20 @@ func (r *MedicationRepository) CreateUserMedication(userMedication *core.UserMed
 	return &coreUserMed, nil
 }
 
-func (r *MedicationRepository) Search(query string) (*core.MedicationConnection, error) {
+func (r *MedicationRepository) Search(query string, afterCursor *string) (*core.MedicationConnection, error) {
 	tsQuery := utils.ConvertToTSQuery(query)
+
+	fmt.Println(afterCursor)
 
 	var medications []*adapters.GormMedication
 	statement := r.DB.Model(&adapters.GormMedication{}).
 		Where("to_tsvector('english', brand_name) @@ to_tsquery('english', ?)", tsQuery).
-		Or("to_tsvector('english', active_ingredient_name) @@ to_tsquery('english', ?)", tsQuery)
+		Or("to_tsvector('english', active_ingredient) @@ to_tsquery('english', ?)", tsQuery)
 
 	limit := 10
-	paginator := adapters.CreateMedicationPaginator(paginator.Cursor{}, nil, &limit)
+	paginator := adapters.CreateMedicationPaginator(paginator.Cursor{
+		After: afterCursor,
+	}, nil, &limit)
 
 	_, cursor, err := paginator.Paginate(statement, &medications)
 
@@ -95,10 +98,9 @@ func (r *MedicationRepository) Search(query string) (*core.MedicationConnection,
 			Cursor: gormMed.ID,
 			Node: &core.Medication{
 				ID:               gormMed.ID,
+				ActiveIngredient: gormMed.ActiveIngredient,
 				BrandName:        gormMed.BrandName,
-				ActiveIngredient: gormMed.ActiveIngredientName,
-				DosageForms:      gormMed.DosageForms,
-				Strengths:        gormMed.Strengths,
+				Strength:         gormMed.Strength,
 			},
 		})
 	}

@@ -1,5 +1,5 @@
-query SearchMedications($query: String!) {
-  searchMedications(query: $query) {
+query SearchMedications($query: String!, $after: String) {
+  searchMedications(query: $query, after: $after) {
     pageInfo {
       hasNextPage
       endCursor
@@ -9,8 +9,7 @@ query SearchMedications($query: String!) {
         id
         activeIngredient
         brandName
-        dosageForms
-        strengthsAvailable
+        strength
       }
     }
   }

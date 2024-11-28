@@ -1,6 +1,7 @@
 import CustomButton, {ButtonType} from '@components/CustomButton';
 import InputLabel from '@components/InputLabel';
 import {
+  LOGIN_STACK,
   PROFILE_ONBOARDING_SCREEN,
   PROFILE_ONBOARDING_STACK,
 } from '@navigators/ScreenConstants';
@@ -23,6 +24,7 @@ import {
   StyleSheet,
   Text,
   TextStyle,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -43,8 +45,15 @@ const SignUpContainer: React.FC<SignUpContainerProps> = ({navigation}) => {
     });
   }, [email]);
 
+  const onPressLogin = useCallback(() => {
+    navigation.navigate(LOGIN_STACK);
+  }, []);
+
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior="position">
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      contentContainerStyle={{flex: 1}}
+      behavior="position">
       <View style={styles.container}>
         <Image source={require('@assets/images/account-setup.png')} />
 
@@ -93,13 +102,18 @@ const SignUpContainer: React.FC<SignUpContainerProps> = ({navigation}) => {
               />
             </View>
           </View>
+        </View>
 
-          <View style={{paddingTop: Spacing16.original}}>
-            <Text style={styles.signupText}>
-              Already have an account?{' '}
-              <Text style={styles.highlightedText}>Log-in here</Text>
-            </Text>
-          </View>
+        <View
+          style={{
+            paddingVertical: Spacing16.original,
+            flexDirection: 'row',
+            alignSelf: 'center',
+          }}>
+          <Text style={styles.signupText}>Already have an account? </Text>
+          <TouchableOpacity onPress={onPressLogin}>
+            <Text style={styles.highlightedText}>Log-in here</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -128,6 +142,7 @@ const styles = StyleSheet.create({
     paddingBottom: 70,
   },
   cardContainer: {
+    flex: 1,
     backgroundColor: Colour0,
     borderTopLeftRadius: Radius24.original,
     borderTopRightRadius: Radius24.original,
@@ -136,6 +151,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing16.original,
   },
   socialLoginsContainer: {
+    flex: 1,
     marginTop: Spacing32.original,
   },
   socialLoginsText: {
@@ -157,6 +173,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   highlightedText: {
+    fontFamily: fontBodyS.fontFamily,
+    fontSize: fontBodyS.fontSize,
     color: ColourPurple50,
     fontWeight: 400,
   },

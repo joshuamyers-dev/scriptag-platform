@@ -28,11 +28,7 @@ type Medication {
   The generic name of the medication. E.g. Acetaminophen.
   """
   activeIngredient: String!
-  """
-  The forms of the medication. E.g. Capsule.
-  """
-  dosageForms: [String]!
-  strengthsAvailable: [String!]
+  strength: String
 }
 
 type MedicationEdge {
@@ -77,6 +73,11 @@ input CreateAccountInput {
   password: String!
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
 type Session {
   token: String
   user: User
@@ -86,7 +87,7 @@ type Query {
   """
   Search for medications in the global library by name.
   """
-  searchMedications(query: String!): MedicationsConnection!
+  searchMedications(query: String!, after: String): MedicationsConnection!
   """
   Get all medications that a user is taking.
   """
@@ -96,5 +97,6 @@ type Query {
 type Mutation {
   addMyMedication(input: AddMyMedicationInput!): MyMedication!
   createAccount(input: CreateAccountInput!): Session!
+  login(input: LoginInput!): Session!
   addFcmToken(token: String!): Boolean!
 }

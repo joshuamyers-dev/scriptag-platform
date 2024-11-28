@@ -1,41 +1,27 @@
-import {
-  useSearchMedicationsLazyQuery,
-  useSearchMedicationsQuery,
-} from '@graphql/generated';
+import SearchMedicationsInput from '@features/addMedication/components/SearchMedicationsInput';
+import {useSearchMedicationsLazyQuery} from '@graphql/generated';
+import {useDebounce} from '@hooks/useDebounce';
 import {SELECT_TIME_SCREEN} from '@navigators/ScreenConstants';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {
-  Button,
-  LayoutAnimation,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TextStyle,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {useGlobalStore} from '../../../../Store';
 import {
   Colour100,
   ColourPurple10,
   ColourPurple50,
   fontLabelL,
 } from '@utils/tokens';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {StyleSheet, Text, TextStyle, View} from 'react-native';
 import ProgressBar from 'react-native-animated-progress';
-import SearchInput from '@components/SearchInput';
-import {useDebounce} from '@hooks/useDebounce';
 
 const AddMedicationNameContainer = ({navigation}) => {
   const [searchValue, setSearchValue] = useState<string | null>(null);
-  const debouncedSearchValue = useDebounce(searchValue);
+  const debouncedSearchValue = useDebounce(searchValue, 250);
   const [medicationName, setMedicationName] = useState<string | null>(null);
   const [amountRemaining, setAmountRemaining] = useState<string | null>(null);
   const [selectedMedicationId, setSelectedMedicationId] = useState<
     string | null
   >(null);
 
-  const [searchMedicationsMutation, {data, loading, error}] =
+  const [searchMedicationsMutation, {data, loading, error, fetchMore}] =
     useSearchMedicationsLazyQuery();
 
   const onPressContinue = useCallback(() => {
@@ -48,7 +34,10 @@ const AddMedicationNameContainer = ({navigation}) => {
 
   useEffect(() => {
     if (debouncedSearchValue && debouncedSearchValue.length >= 3) {
-      searchMedicationsMutation({variables: {query: debouncedSearchValue}});
+      searchMedicationsMutation({
+        variables: {query: debouncedSearchValue},
+        fetchPolicy: 'network-only',
+      });
     }
   }, [debouncedSearchValue]);
 
@@ -59,6 +48,18 @@ const AddMedicationNameContainer = ({navigation}) => {
   const searchResults = useMemo(() => {
     return data?.searchMedications?.edges?.map(edge => edge.node);
   }, [data]);
+
+  const onEndReached = useCallback(async () => {
+    if (data?.searchMedications?.pageInfo?.hasNextPage) {
+      await fetchMore({
+        variables: {
+          after: data?.searchMedications?.pageInfo?.endCursor,
+        },
+      });
+    }
+  }, [data?.searchMedications?.pageInfo?.hasNextPage, debouncedSearchValue]);
+
+  console.log(data);
 
   return (
     <View
@@ -80,7 +81,16 @@ const AddMedicationNameContainer = ({navigation}) => {
         />
       </View>
 
-      <SearchInput onSearch={setSearchValue} results={searchResults} />
+      <SearchMedicationsInput
+        results={searchResults}
+        isFetching={loading}
+        searchValue={searchValue}
+        onSearch={setSearchValue}
+        onSelectMedication={medication => console.log(medication)}
+        onSelectOther={() => console.log('other')}
+        onClearSearch={() => setSearchValue(null)}
+        onEndReached={onEndReached}
+      />
 
       {/* <TextInput
         placeholder="Enter medication name"

@@ -28,6 +28,11 @@ export type CreateAccountInput = {
   password: Scalars['String'];
 };
 
+export type LoginInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 /** Represents a medication. */
 export type Medication = {
   __typename?: 'Medication';
@@ -35,10 +40,8 @@ export type Medication = {
   activeIngredient: Scalars['String'];
   /** The brand name of the medication. E.g. Tylenol. */
   brandName: Scalars['String'];
-  /** The forms of the medication. E.g. Capsule. */
-  dosageForms: Array<Maybe<Scalars['String']>>;
   id: Scalars['ID'];
-  strengthsAvailable?: Maybe<Array<Scalars['String']>>;
+  strength?: Maybe<Scalars['String']>;
 };
 
 export type MedicationEdge = {
@@ -58,6 +61,7 @@ export type Mutation = {
   addFcmToken: Scalars['Boolean'];
   addMyMedication: MyMedication;
   createAccount: Session;
+  login: Session;
 };
 
 
@@ -73,6 +77,11 @@ export type MutationAddMyMedicationArgs = {
 
 export type MutationCreateAccountArgs = {
   input: CreateAccountInput;
+};
+
+
+export type MutationLoginArgs = {
+  input: LoginInput;
 };
 
 /** Represents a medication that a user is taking. */
@@ -114,6 +123,7 @@ export type Query = {
 
 
 export type QuerySearchMedicationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
   query: Scalars['String'];
 };
 
@@ -138,10 +148,18 @@ export type AddMyMedicationMutation = { __typename?: 'Mutation', addMyMedication
 
 export type SearchMedicationsQueryVariables = Exact<{
   query: Scalars['String'];
+  after?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type SearchMedicationsQuery = { __typename?: 'Query', searchMedications: { __typename?: 'MedicationsConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage?: boolean | null, endCursor: string }, edges: Array<{ __typename?: 'MedicationEdge', node: { __typename?: 'Medication', id: string, activeIngredient: string, brandName: string, dosageForms: Array<string | null>, strengthsAvailable?: Array<string> | null } }> } };
+export type SearchMedicationsQuery = { __typename?: 'Query', searchMedications: { __typename?: 'MedicationsConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage?: boolean | null, endCursor: string }, edges: Array<{ __typename?: 'MedicationEdge', node: { __typename?: 'Medication', id: string, activeIngredient: string, brandName: string, strength?: string | null } }> } };
+
+export type LoginMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Session', token?: string | null, user?: { __typename?: 'User', id: string, email: string } | null } };
 
 export type AddFcmTokenMutationVariables = Exact<{
   token: Scalars['String'];
@@ -194,8 +212,8 @@ export type AddMyMedicationMutationHookResult = ReturnType<typeof useAddMyMedica
 export type AddMyMedicationMutationResult = ApolloReactCommon.MutationResult<AddMyMedicationMutation>;
 export type AddMyMedicationMutationOptions = ApolloReactCommon.BaseMutationOptions<AddMyMedicationMutation, AddMyMedicationMutationVariables>;
 export const SearchMedicationsDocument = gql`
-    query SearchMedications($query: String!) {
-  searchMedications(query: $query) {
+    query SearchMedications($query: String!, $after: String) {
+  searchMedications(query: $query, after: $after) {
     pageInfo {
       hasNextPage
       endCursor
@@ -205,8 +223,7 @@ export const SearchMedicationsDocument = gql`
         id
         activeIngredient
         brandName
-        dosageForms
-        strengthsAvailable
+        strength
       }
     }
   }
@@ -226,6 +243,7 @@ export const SearchMedicationsDocument = gql`
  * const { data, loading, error } = useSearchMedicationsQuery({
  *   variables: {
  *      query: // value for 'query'
+ *      after: // value for 'after'
  *   },
  * });
  */
@@ -240,6 +258,43 @@ export function useSearchMedicationsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type SearchMedicationsQueryHookResult = ReturnType<typeof useSearchMedicationsQuery>;
 export type SearchMedicationsLazyQueryHookResult = ReturnType<typeof useSearchMedicationsLazyQuery>;
 export type SearchMedicationsQueryResult = ApolloReactCommon.QueryResult<SearchMedicationsQuery, SearchMedicationsQueryVariables>;
+export const LoginDocument = gql`
+    mutation login($input: LoginInput!) {
+  login(input: $input) {
+    token
+    user {
+      id
+      email
+    }
+  }
+}
+    `;
+export type LoginMutationFn = ApolloReactCommon.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = ApolloReactCommon.MutationResult<LoginMutation>;
+export type LoginMutationOptions = ApolloReactCommon.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const AddFcmTokenDocument = gql`
     mutation addFcmToken($token: String!) {
   addFcmToken(token: $token)

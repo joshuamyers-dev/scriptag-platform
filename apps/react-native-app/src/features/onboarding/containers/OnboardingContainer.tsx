@@ -1,6 +1,10 @@
 import CustomButton, {ButtonType} from '@components/CustomButton';
 import TagExplainerModal from '@components/TagExplainerModal';
-import {SIGN_UP_SCREEN, SIGN_UP_STACK} from '@navigators/ScreenConstants';
+import {
+  LOGIN_STACK,
+  SIGN_UP_SCREEN,
+  SIGN_UP_STACK,
+} from '@navigators/ScreenConstants';
 import {useGlobalStore} from '@store';
 import {SCREEN_HEIGHT} from '@utils/Constants';
 import {
@@ -36,6 +40,10 @@ const OnboardingContainer = ({navigation}) => {
 
   const onPressSignup = useCallback(() => {
     navigation.navigate(SIGN_UP_STACK);
+  }, []);
+
+  const onPressLogin = useCallback(() => {
+    navigation.navigate(LOGIN_STACK);
   }, []);
 
   return (
@@ -112,7 +120,7 @@ const OnboardingContainer = ({navigation}) => {
       </Swiper>
 
       <View style={styles.actionButtonsContainer}>
-        <CustomButton title="Log in" />
+        <CustomButton title="Log in" onPress={onPressLogin} />
         <CustomButton
           title="Sign up"
           type={ButtonType.Secondary}
