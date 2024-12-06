@@ -1,5 +1,4 @@
 import SignUpContainer from '@features/accountCreation/containers/SignUpContainer';
-import AddMedicationNameContainer from '@features/addMedication/containers/AddMedicationNameContainer';
 import ScanTagContainer from '@features/addMedication/containers/ScanTagContainer';
 import SelectTimeContainer from '@features/addMedication/containers/SelectTimeContainer';
 import OnboardingContainer from '@features/onboarding/containers/OnboardingContainer';
@@ -40,6 +39,7 @@ import {
   TAB_NAVIGATOR,
 } from './ScreenConstants';
 import LoginContainer from '@features/login/containers/LoginContainer';
+import AddMedicationContainer from '@features/addMedication/containers/AddMedicationContainer';
 
 const NativeStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,7 +53,7 @@ const AddMedicationStack = () => {
       }}>
       <NativeStack.Screen
         name={HOME_SCREEN}
-        component={AddMedicationNameContainer}
+        component={AddMedicationContainer}
         options={({navigation}) => ({
           headerShown: true,
           headerTitle: 'Add New Medication',

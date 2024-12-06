@@ -1,0 +1,9 @@
+fragment MyMedicationBase on MyMedication {
+  id
+  user {
+    id
+  }
+  brandName
+  activeIngredient
+  dosageStrength
+}

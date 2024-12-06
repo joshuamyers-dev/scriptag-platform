@@ -46,16 +46,17 @@ Represents a medication that a user is taking.
 """
 type MyMedication {
   id: ID!
-  medication: Medication!
   user: User!
+  brandName: String!
+  activeIngredient: String
   dosageStrength: String!
   consumptionTime: Time!
 }
 
 input AddMyMedicationInput {
-  medicationId: String!
-  dosageStrength: String!
-  consumptionTime: Time!
+  medicationId: String
+  name: String
+  dosageStrength: String
 }
 
 type MyMedicationsConnection {

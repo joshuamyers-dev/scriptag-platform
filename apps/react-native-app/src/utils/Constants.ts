@@ -2,3 +2,69 @@ import {Dimensions} from 'react-native';
 
 export const SCREEN_HEIGHT = Dimensions.get('screen').height;
 export const SCREEN_WIDTH = Dimensions.get('screen').width;
+export const UNIT_MEASUREMENTS = [
+  {
+    title: 'Milligrams (mg)',
+    value: 'mg',
+  },
+  {
+    title: 'Micrograms (mcg)',
+    value: 'mcg',
+  },
+  {
+    title: 'Grams (g)',
+    value: 'g',
+  },
+  {
+    title: 'Units',
+    value: 'units',
+  },
+  {
+    title: 'Milliliters (ml)',
+    value: 'ml',
+  },
+  {
+    title: 'Teaspoons (tsp)',
+    value: 'tsp',
+  },
+  {
+    title: 'Tablespoons (tbsp)',
+    value: 'tbsp',
+  },
+  {
+    title: 'Pills',
+    value: 'pills',
+  },
+  {
+    title: 'Capsules',
+    value: 'capsules',
+  },
+  {
+    title: 'Drops',
+    value: 'drops',
+  },
+  {
+    title: 'Sprays',
+    value: 'sprays',
+  },
+  {
+    title: 'Puffs',
+    value: 'puffs',
+  },
+  {
+    title: 'Inhalations',
+    value: 'inhalations',
+  },
+  {
+    title: 'Milliequivalents (mEq)',
+    value: 'mEq',
+  },
+  {
+    title: 'International Units (IU)',
+    value: 'IU',
+  },
+  {
+    title: 'Millions of Units (MU)',
+    value: 'MU',
+  },
+];

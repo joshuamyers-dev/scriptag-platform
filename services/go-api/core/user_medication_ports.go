@@ -8,8 +8,9 @@ type UserMedication struct {
 	ID               string
 	UserID           string
 	User             User
-	Medication       Medication
-	MedicationID     string
+	MedicationID     *string
+	BrandName        string
+	ActiveIngredient string
 	Strength         string
 	ReminderDateTime time.Time
 }

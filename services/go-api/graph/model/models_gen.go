@@ -7,9 +7,9 @@ import (
 )
 
 type AddMyMedicationInput struct {
-	MedicationID    string    `json:"medicationId"`
-	DosageStrength  string    `json:"dosageStrength"`
-	ConsumptionTime time.Time `json:"consumptionTime"`
+	MedicationID   *string `json:"medicationId,omitempty"`
+	Name           *string `json:"name,omitempty"`
+	DosageStrength *string `json:"dosageStrength,omitempty"`
 }
 
 type CreateAccountInput struct {
@@ -47,11 +47,12 @@ type Mutation struct {
 
 // Represents a medication that a user is taking.
 type MyMedication struct {
-	ID              string      `json:"id"`
-	Medication      *Medication `json:"medication"`
-	User            *User       `json:"user"`
-	DosageStrength  string      `json:"dosageStrength"`
-	ConsumptionTime time.Time   `json:"consumptionTime"`
+	ID               string    `json:"id"`
+	User             *User     `json:"user"`
+	BrandName        string    `json:"brandName"`
+	ActiveIngredient *string   `json:"activeIngredient,omitempty"`
+	DosageStrength   string    `json:"dosageStrength"`
+	ConsumptionTime  time.Time `json:"consumptionTime"`
 }
 
 type MyMedicationEdge struct {

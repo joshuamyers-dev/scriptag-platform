@@ -73,11 +73,12 @@ type ComplexityRoot struct {
 	}
 
 	MyMedication struct {
-		ConsumptionTime func(childComplexity int) int
-		DosageStrength  func(childComplexity int) int
-		ID              func(childComplexity int) int
-		Medication      func(childComplexity int) int
-		User            func(childComplexity int) int
+		ActiveIngredient func(childComplexity int) int
+		BrandName        func(childComplexity int) int
+		ConsumptionTime  func(childComplexity int) int
+		DosageStrength   func(childComplexity int) int
+		ID               func(childComplexity int) int
+		User             func(childComplexity int) int
 	}
 
 	MyMedicationEdge struct {
@@ -246,6 +247,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.Login(childComplexity, args["input"].(model.LoginInput)), true
 
+	case "MyMedication.activeIngredient":
+		if e.complexity.MyMedication.ActiveIngredient == nil {
+			break
+		}
+
+		return e.complexity.MyMedication.ActiveIngredient(childComplexity), true
+
+	case "MyMedication.brandName":
+		if e.complexity.MyMedication.BrandName == nil {
+			break
+		}
+
+		return e.complexity.MyMedication.BrandName(childComplexity), true
+
 	case "MyMedication.consumptionTime":
 		if e.complexity.MyMedication.ConsumptionTime == nil {
 			break
@@ -266,13 +281,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.MyMedication.ID(childComplexity), true
-
-	case "MyMedication.medication":
-		if e.complexity.MyMedication.Medication == nil {
-			break
-		}
-
-		return e.complexity.MyMedication.Medication(childComplexity), true
 
 	case "MyMedication.user":
 		if e.complexity.MyMedication.User == nil {
@@ -1128,10 +1136,12 @@ func (ec *executionContext) fieldContext_Mutation_addMyMedication(ctx context.Co
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MyMedication_id(ctx, field)
-			case "medication":
-				return ec.fieldContext_MyMedication_medication(ctx, field)
 			case "user":
 				return ec.fieldContext_MyMedication_user(ctx, field)
+			case "brandName":
+				return ec.fieldContext_MyMedication_brandName(ctx, field)
+			case "activeIngredient":
+				return ec.fieldContext_MyMedication_activeIngredient(ctx, field)
 			case "dosageStrength":
 				return ec.fieldContext_MyMedication_dosageStrength(ctx, field)
 			case "consumptionTime":
@@ -1375,60 +1385,6 @@ func (ec *executionContext) fieldContext_MyMedication_id(_ context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _MyMedication_medication(ctx context.Context, field graphql.CollectedField, obj *model.MyMedication) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MyMedication_medication(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Medication, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Medication)
-	fc.Result = res
-	return ec.marshalNMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMedication(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MyMedication_medication(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MyMedication",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Medication_id(ctx, field)
-			case "brandName":
-				return ec.fieldContext_Medication_brandName(ctx, field)
-			case "activeIngredient":
-				return ec.fieldContext_Medication_activeIngredient(ctx, field)
-			case "strength":
-				return ec.fieldContext_Medication_strength(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Medication", field.Name)
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _MyMedication_user(ctx context.Context, field graphql.CollectedField, obj *model.MyMedication) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MyMedication_user(ctx, field)
 	if err != nil {
@@ -1474,6 +1430,91 @@ func (ec *executionContext) fieldContext_MyMedication_user(_ context.Context, fi
 				return ec.fieldContext_User_email(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MyMedication_brandName(ctx context.Context, field graphql.CollectedField, obj *model.MyMedication) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MyMedication_brandName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BrandName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MyMedication_brandName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MyMedication",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MyMedication_activeIngredient(ctx context.Context, field graphql.CollectedField, obj *model.MyMedication) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MyMedication_activeIngredient(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ActiveIngredient, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MyMedication_activeIngredient(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MyMedication",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1652,10 +1693,12 @@ func (ec *executionContext) fieldContext_MyMedicationEdge_node(_ context.Context
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MyMedication_id(ctx, field)
-			case "medication":
-				return ec.fieldContext_MyMedication_medication(ctx, field)
 			case "user":
 				return ec.fieldContext_MyMedication_user(ctx, field)
+			case "brandName":
+				return ec.fieldContext_MyMedication_brandName(ctx, field)
+			case "activeIngredient":
+				return ec.fieldContext_MyMedication_activeIngredient(ctx, field)
 			case "dosageStrength":
 				return ec.fieldContext_MyMedication_dosageStrength(ctx, field)
 			case "consumptionTime":
@@ -4094,7 +4137,7 @@ func (ec *executionContext) unmarshalInputAddMyMedicationInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"medicationId", "dosageStrength", "consumptionTime"}
+	fieldsInOrder := [...]string{"medicationId", "name", "dosageStrength"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4103,25 +4146,25 @@ func (ec *executionContext) unmarshalInputAddMyMedicationInput(ctx context.Conte
 		switch k {
 		case "medicationId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("medicationId"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.MedicationID = data
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
 		case "dosageStrength":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("dosageStrength"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.DosageStrength = data
-		case "consumptionTime":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("consumptionTime"))
-			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ConsumptionTime = data
 		}
 	}
 
@@ -4429,16 +4472,18 @@ func (ec *executionContext) _MyMedication(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "medication":
-			out.Values[i] = ec._MyMedication_medication(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "user":
 			out.Values[i] = ec._MyMedication_user(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "brandName":
+			out.Values[i] = ec._MyMedication_brandName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "activeIngredient":
+			out.Values[i] = ec._MyMedication_activeIngredient(ctx, field, obj)
 		case "dosageStrength":
 			out.Values[i] = ec._MyMedication_dosageStrength(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

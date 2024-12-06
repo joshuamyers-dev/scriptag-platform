@@ -2,6 +2,7 @@ import {
   Colour0,
   Colour10,
   ColourPurple10,
+  ColourPurple100,
   ColourPurple50,
   fontBodyS,
   Radius4,
@@ -12,6 +13,7 @@ import {StyleSheet, Text, TouchableOpacity, ViewStyle} from 'react-native';
 import {MaterialIndicator} from 'react-native-indicators';
 
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
+import ProgressBar from 'react-native-animated-progress';
 
 export enum ButtonType {
   Primary = 'primary',
@@ -61,13 +63,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         disabled && {backgroundColor: ColourPurple10},
       ]}
       onPress={onPress}>
-      {loading && (
-        <Animated.View entering={FadeIn} exiting={FadeOut}>
-          <MaterialIndicator color={Colour0} size={20} />
-        </Animated.View>
-      )}
       {icon && !loading && icon}
-      {title && !loading && (
+      {title && (
         <Animated.View entering={FadeIn} exiting={FadeOut}>
           <Text
             style={[
@@ -79,6 +76,27 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             ]}>
             {title}
           </Text>
+        </Animated.View>
+      )}
+      {loading && (
+        <Animated.View
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={{
+            position: 'absolute',
+            bottom: 1,
+            left: 0,
+            right: 0,
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+          }}>
+          <ProgressBar
+            indeterminate
+            height={4}
+            animated
+            trackColor={ColourPurple100}
+            backgroundColor={ColourPurple10}
+          />
         </Animated.View>
       )}
     </TouchableOpacity>

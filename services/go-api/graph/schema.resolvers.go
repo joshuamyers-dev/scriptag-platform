@@ -17,10 +17,10 @@ func (r *mutationResolver) AddMyMedication(ctx context.Context, input model.AddM
 	user := auth.ForContext(ctx)
 
 	return r.MedicationService.CreateUserMedication(&core.UserMedication{
-		MedicationID:     input.MedicationID,
-		UserID:           user.ID,
-		Strength:         input.DosageStrength,
-		ReminderDateTime: input.ConsumptionTime,
+		MedicationID: input.MedicationID,
+		UserID:       user.ID,
+		Strength:     *input.DosageStrength,
+		BrandName:    *input.Name,
 	})
 }
 

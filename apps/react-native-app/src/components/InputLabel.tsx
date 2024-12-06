@@ -18,15 +18,19 @@ import {
 
 interface InputLabelProps {
   label?: string;
+  value?: string;
   placeholder?: string;
   onChangeText: (text: string) => void;
   inputProps?: TextInputProps;
+  onPress?: () => void;
 }
 
 const InputLabel = ({
   label = '',
+  value = '',
   placeholder,
   onChangeText,
+  onPress,
   inputProps = {},
 }: InputLabelProps) => {
   return (
@@ -34,9 +38,12 @@ const InputLabel = ({
       {label !== '' && <Text style={styles.labelText}>{label}</Text>}
       <TextInput
         placeholder={placeholder}
+        value={value}
         onChangeText={onChangeText}
         style={styles.textInput}
         placeholderTextColor={Colour80}
+        onPress={onPress}
+        readOnly={onPress ? true : false}
         {...inputProps}
       />
     </View>

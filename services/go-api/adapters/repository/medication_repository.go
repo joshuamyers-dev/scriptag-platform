@@ -40,8 +40,9 @@ func (r *MedicationRepository) CreateUserMedication(userMedication *core.UserMed
 	gormUserMed := adapters.GormUserMedication{
 		UserID:           userMedication.UserID,
 		MedicationID:     userMedication.MedicationID,
-		Strength:         userMedication.Strength,
+		Strength:         &userMedication.Strength,
 		ReminderDateTime: userMedication.ReminderDateTime,
+		Name:             &userMedication.BrandName,
 	}
 
 	if err := r.DB.Create(&gormUserMed).Error; err != nil {
@@ -58,13 +59,13 @@ func (r *MedicationRepository) CreateUserMedication(userMedication *core.UserMed
 			ID:    gormUserMed.User.ID,
 			Email: gormUserMed.User.Email,
 		},
-		Medication: core.Medication{
-			ID:               gormUserMed.Medication.ID,
-			ActiveIngredient: gormUserMed.Medication.ActiveIngredient,
-			Strength:         gormUserMed.Medication.Strength,
-		},
-		Strength:         gormUserMed.Strength,
+		BrandName:        *gormUserMed.Name,
 		ReminderDateTime: gormUserMed.ReminderDateTime,
+	}
+
+	if gormUserMed.Medication != nil {
+		coreUserMed.ActiveIngredient = gormUserMed.Medication.ActiveIngredient
+		coreUserMed.BrandName = gormUserMed.Medication.BrandName
 	}
 
 	return &coreUserMed, nil

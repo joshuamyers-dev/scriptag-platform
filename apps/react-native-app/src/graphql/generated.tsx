@@ -18,9 +18,9 @@ export type Scalars = {
 };
 
 export type AddMyMedicationInput = {
-  consumptionTime: Scalars['Time'];
-  dosageStrength: Scalars['String'];
-  medicationId: Scalars['String'];
+  dosageStrength?: InputMaybe<Scalars['String']>;
+  medicationId?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateAccountInput = {
@@ -87,10 +87,11 @@ export type MutationLoginArgs = {
 /** Represents a medication that a user is taking. */
 export type MyMedication = {
   __typename?: 'MyMedication';
+  activeIngredient: Scalars['String'];
+  brandName: Scalars['String'];
   consumptionTime: Scalars['Time'];
   dosageStrength: Scalars['String'];
   id: Scalars['ID'];
-  medication: Medication;
   user: User;
 };
 
@@ -144,7 +145,7 @@ export type AddMyMedicationMutationVariables = Exact<{
 }>;
 
 
-export type AddMyMedicationMutation = { __typename?: 'Mutation', addMyMedication: { __typename?: 'MyMedication', medication: { __typename?: 'Medication', id: string } } };
+export type AddMyMedicationMutation = { __typename?: 'Mutation', addMyMedication: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient: string, dosageStrength: string, user: { __typename?: 'User', id: string } } };
 
 export type SearchMedicationsQueryVariables = Exact<{
   query: Scalars['String'];
@@ -175,16 +176,26 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: { __typename?: 'Session', token?: string | null, user?: { __typename?: 'User', id: string, email: string } | null } };
 
+export type MyMedicationBaseFragment = { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient: string, dosageStrength: string, user: { __typename?: 'User', id: string } };
 
+export const MyMedicationBaseFragmentDoc = gql`
+    fragment MyMedicationBase on MyMedication {
+  id
+  user {
+    id
+  }
+  brandName
+  activeIngredient
+  dosageStrength
+}
+    `;
 export const AddMyMedicationDocument = gql`
     mutation AddMyMedication($input: AddMyMedicationInput!) {
   addMyMedication(input: $input) {
-    medication {
-      id
-    }
+    ...MyMedicationBase
   }
 }
-    `;
+    ${MyMedicationBaseFragmentDoc}`;
 export type AddMyMedicationMutationFn = ApolloReactCommon.MutationFunction<AddMyMedicationMutation, AddMyMedicationMutationVariables>;
 
 /**

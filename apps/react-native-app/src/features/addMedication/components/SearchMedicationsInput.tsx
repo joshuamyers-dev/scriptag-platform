@@ -13,7 +13,7 @@ import {
   Spacing16,
   Spacing8,
 } from '@utils/tokens';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -34,6 +34,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import MedicationNotFound from './MedicationNotFound';
 
 interface SearchMedicationsInputProps {
   results: Medication[] | undefined;
@@ -41,7 +42,7 @@ interface SearchMedicationsInputProps {
   searchValue: string | null;
   onSearch: (searchValue: string) => void;
   onSelectMedication: (medication: Medication) => void;
-  onSelectOther: () => void;
+  onPressSpecify: () => void;
   onClearSearch: () => void;
   onEndReached: () => void;
 }
@@ -52,7 +53,7 @@ const SearchMedicationsInput: React.FC<SearchMedicationsInputProps> = ({
   isFetching,
   searchValue,
   onSelectMedication,
-  onSelectOther,
+  onPressSpecify,
   onClearSearch,
   onEndReached,
 }) => {
@@ -65,6 +66,12 @@ const SearchMedicationsInput: React.FC<SearchMedicationsInputProps> = ({
       borderColor: withTiming(borderColor.value, {duration: 300}),
     };
   });
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [inputRef]);
 
   return (
     <View>
@@ -80,6 +87,8 @@ const SearchMedicationsInput: React.FC<SearchMedicationsInputProps> = ({
           />
           <TextInput
             ref={inputRef}
+            submitBehavior="submit"
+            autoFocus
             style={styles.input}
             value={searchValue ?? ''}
             placeholder="Search medication"
@@ -122,11 +131,13 @@ const SearchMedicationsInput: React.FC<SearchMedicationsInputProps> = ({
           style={styles.resultsContainer}>
           <FlatList
             removeClippedSubviews
+            persistentScrollbar
             data={results}
             extraData={results}
             keyExtractor={item => item.id}
             style={{flexGrow: 0}}
             onEndReached={onEndReached}
+            onEndReachedThreshold={0.5}
             renderItem={({item}) => (
               <TouchableHighlight
                 style={styles.resultRow}
@@ -143,27 +154,33 @@ const SearchMedicationsInput: React.FC<SearchMedicationsInputProps> = ({
                         : item.brandName + ' - ' + item.activeIngredient}
                     </Text>
                   </View>
-                  <View style={{maxWidth: 120, marginLeft: 16}}>
-                    <Text style={styles.strengthText} numberOfLines={1}>
+                  <View style={{maxWidth: 130, marginLeft: 16}}>
+                    <Text style={styles.strengthText}>
                       {item.strength?.toLowerCase()}
                     </Text>
                   </View>
                 </View>
               </TouchableHighlight>
             )}
-            ListFooterComponent={
-              <TouchableHighlight
-                style={styles.resultRow}
-                underlayColor={ColourPurple10}
-                onPress={onSelectOther}>
-                <View style={{flexDirection: 'row', width: '100%'}}>
-                  <View style={{flex: 1}}>
-                    <Text style={styles.otherText}>Other</Text>
-                  </View>
-                  <Text style={styles.specifyText}>Specify</Text>
-                </View>
-              </TouchableHighlight>
+            ListEmptyComponent={
+              <MedicationNotFound
+                isVisible={!isFetching}
+                onPressSpecify={onPressSpecify}
+              />
             }
+            // ListFooterComponent={
+            //   <TouchableHighlight
+            //     style={styles.resultRow}
+            //     underlayColor={ColourPurple10}
+            //     onPress={onSelectOther}>
+            //     <View style={{flexDirection: 'row', width: '100%'}}>
+            //       <View style={{flex: 1}}>
+            //         <Text style={styles.otherText}>Other</Text>
+            //       </View>
+            //       <Text style={styles.specifyText}>Specify</Text>
+            //     </View>
+            //   </TouchableHighlight>
+            // }
           />
         </Animated.View>
       )}
@@ -192,7 +209,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: Colour10,
     borderRadius: Radius4.original,
-    maxHeight: 300,
+    maxHeight: 250,
   },
   resultRow: {
     padding: Spacing16.original,

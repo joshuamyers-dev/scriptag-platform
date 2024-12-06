@@ -34,11 +34,9 @@ func (s *MedicationServiceImpl) CreateUserMedication(userMed *core.UserMedicatio
 			ID:    userMedication.User.ID,
 			Email: userMedication.User.Email,
 		},
-		Medication: &model.Medication{
-			ID:               userMedication.Medication.ID,
-			ActiveIngredient: userMedication.Medication.ActiveIngredient,
-			Strength:         &userMedication.Medication.Strength,
-		},
+		BrandName: userMed.BrandName,
+		ActiveIngredient: userMed.ActiveIngredient,
+		DosageStrength: userMed.Strength,
 		ConsumptionTime: userMedication.ReminderDateTime,
 	}, nil
 }
