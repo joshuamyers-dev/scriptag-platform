@@ -17,6 +17,16 @@ export const triggerNotificationErrorHaptic = () => {
   ReactNativeHapticFeedback.trigger('notificationError', options);
 };
 
+export const triggerLightHaptic = () => {
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: true,
+  };
+
+  ReactNativeHapticFeedback.trigger('impactLight', options);
+};
+
+
 export const requestPushNotificationPermissions = async () => {
   await messaging().requestPermission();
 

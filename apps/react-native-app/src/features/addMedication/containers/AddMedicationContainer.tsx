@@ -18,6 +18,7 @@ import Animated, {
 import BackButton from '@navigators/components/BackButton';
 import ScheduleContainer from './ScheduleContainer';
 import {Medication} from '@graphql/generated';
+import SelectTimePeriod from './SelectTimePeriod';
 
 const Add_MEDICATION_STEPS = [
   {
@@ -34,6 +35,11 @@ const Add_MEDICATION_STEPS = [
     step: 3,
     title: 'Schedule',
     component: ScheduleContainer,
+  },
+  {
+    step: 4,
+    title: 'Schedule',
+    component: SelectTimePeriod,
   },
 ];
 
@@ -134,6 +140,7 @@ const AddMedicationContainer = ({navigation}) => {
           {currentStep === 0 && <SearchMedicationContainer />}
           {currentStep === 1 && <SpecifyMedicationContainer />}
           {currentStep === 2 && <ScheduleContainer />}
+          {currentStep === 3 && <SelectTimePeriod />}
         </Animated.View>
       </AddMedicationContext.Provider>
     </View>
