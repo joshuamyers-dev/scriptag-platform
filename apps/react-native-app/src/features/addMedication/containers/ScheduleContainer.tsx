@@ -70,9 +70,10 @@ const ScheduleContainer = () => {
           <CheckboxLabel
             label="I take this medication only when needed."
             checked={medicationTakenWhenNeeded}
-            onPress={() =>
-              setMedicationTakenWhenNeeded(!medicationTakenWhenNeeded)
-            }
+            onPress={() => {
+              triggerLightHaptic();
+              setMedicationTakenWhenNeeded(!medicationTakenWhenNeeded);
+            }}
             containerStyle={{marginTop: 16}}
           />
         </View>

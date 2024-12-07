@@ -75,8 +75,10 @@ const AddMedicationContainer = ({navigation}) => {
         <BackButton
           isColoured
           onPress={() => {
-            if (currentStep > 0) {
+            if (currentStep > 0 && currentStep !== 2) {
               handleStepChange(currentStep - 1, -1);
+            } else if (currentStep === 2) {
+              handleStepChange(currentStep - 2, -1);
             } else {
               navigation.goBack();
             }

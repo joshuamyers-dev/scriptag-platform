@@ -90,6 +90,7 @@ const LoginContainer: React.FC<LoginContainerProps> = ({navigation}) => {
         <View style={{paddingBottom: Spacing16.original}}>
           <InputLabel
             label="Log in with your email and password"
+            value={email}
             placeholder="Type your email here"
             inputProps={{
               keyboardType: 'email-address',
@@ -102,6 +103,7 @@ const LoginContainer: React.FC<LoginContainerProps> = ({navigation}) => {
           />
           <InputLabel
             placeholder="Type your password here"
+            value={password}
             inputProps={{
               autoComplete: 'current-password',
               spellCheck: false,

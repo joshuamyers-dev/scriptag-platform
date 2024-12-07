@@ -25,7 +25,15 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
-import Animated, {FadeInDown, FadeOutUp} from 'react-native-reanimated';
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  FadeOutDown,
+  FadeOutLeft,
+  FadeOutUp,
+  SlideInRight,
+  SlideOutLeft,
+} from 'react-native-reanimated';
 
 const SELECTION_ITEMS = ['Days', 'Intervals', 'Periods'];
 const SELECTION_ITEMS_TIME = ['Time', 'Intervals', 'Periods'];
@@ -85,15 +93,18 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
   }, []);
 
   const onPressEditTimeSlot = useCallback((index: number) => {
+    triggerLightHaptic();
     setSettingTimeSlot(index);
     setDatePickerOpen(true);
   }, []);
 
   const onPressAddTimeSlot = useCallback(() => {
+    triggerLightHaptic();
     setTimeSlots([...timeSlots, new Date()]);
   }, [timeSlots]);
 
-  const onDeleteTimeSlot = useCallback((index: number) => {
+  const onPressDeleteTimeSlot = useCallback((index: number) => {
+    triggerLightHaptic();
     setTimeSlots(prevTimeSlots => prevTimeSlots.filter((_, i) => i !== index));
   }, []);
 
@@ -180,36 +191,39 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
               const timeSlotParsed = dayjs(time);
 
               return (
-                <Animated.View entering={FadeInDown} exiting={FadeOutUp}>
-                  <Swipeable
-                    key={index}
-                    renderRightActions={() => <View />}
-                    onSwipeableOpen={() => onDeleteTimeSlot(index)}
-                    rightThreshold={50}>
-                    <TouchableOpacity
-                      key={index}
-                      style={styles.timeRowContainer}
-                      onPress={() => onPressEditTimeSlot(index)}>
-                      <View style={styles.circleContainer}>
-                        <Text style={styles.circleText}>{index + 1}</Text>
-                      </View>
-                      <Text style={styles.subSectionHighlightedText}>
-                        {timeSlotParsed.format('hh')}
-                      </Text>
-                      <Text style={[styles.selectedText, {color: Colour50}]}>
-                        :
-                      </Text>
-                      <Text style={styles.subSectionHighlightedText}>
-                        {timeSlotParsed.format('mm')}
-                      </Text>
-                      <Text style={styles.subSectionHighlightedText}>
-                        {timeSlotParsed.format('A')}
-                      </Text>
-                      <Image
-                        source={require('@assets/icons/pencil-edit.png')}
-                      />
-                    </TouchableOpacity>
-                  </Swipeable>
+                <Animated.View entering={FadeInDown} exiting={FadeOutLeft}>
+                  <View key={index} style={styles.timeRowContainer}>
+                    <View style={styles.circleContainer}>
+                      <Text style={styles.circleText}>{index + 1}</Text>
+                    </View>
+                    <Text style={styles.subSectionHighlightedText}>
+                      {timeSlotParsed.format('hh')}
+                    </Text>
+                    <Text style={[styles.selectedText, {color: Colour50}]}>
+                      :
+                    </Text>
+                    <Text style={styles.subSectionHighlightedText}>
+                      {timeSlotParsed.format('mm')}
+                    </Text>
+                    <Text style={styles.subSectionHighlightedText}>
+                      {timeSlotParsed.format('A')}
+                    </Text>
+
+                    <View style={{flexDirection: 'row', gap: 12}}>
+                      <TouchableOpacity
+                        hitSlop={{left: 10, top: 10, bottom: 10}}
+                        onPress={() => onPressEditTimeSlot(index)}>
+                        <Image
+                          source={require('@assets/icons/pencil-edit.png')}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => onPressDeleteTimeSlot(index)}
+                        hitSlop={{left: 10, top: 10, bottom: 10}}>
+                        <Image source={require('@assets/icons/trash.png')} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 </Animated.View>
               );
             })}
@@ -364,7 +378,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: Colour10,
     borderWidth: 2,
-    borderTopWidth: 0,
+    borderTopWidth: 1,
   },
   timeRowContainer: {
     flexDirection: 'row',
