@@ -22,6 +22,7 @@ import {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import {Keyboard, StyleSheet, Text, TextStyle, View} from 'react-native';
 import {WheelPicker} from 'react-native-infinite-wheel-picker';
 import {AddMedicationContext} from './AddMedicationContainer';
+import InputMultipleSelect from '@components/InputMultipleSelect';
 
 const SpecifyMedicationContainer = () => {
   const context = useContext(AddMedicationContext);
@@ -65,33 +66,6 @@ const SpecifyMedicationContainer = () => {
 
   return (
     <View style={styles.container}>
-      <Portal>
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={-1}
-          // handleComponent={null}
-          enablePanDownToClose
-          backdropComponent={renderBackdrop}>
-          <BottomSheetView style={styles.bottomSheetContentContainer}>
-            <Text style={styles.modalTitle}>Select a unit of measurement</Text>
-            <WheelPicker
-              initialSelectedIndex={0}
-              infiniteScroll={false}
-              data={UNIT_MEASUREMENTS.map(item => item.title)}
-              restElements={2}
-              elementHeight={30}
-              onChangeValue={(index, value) => {
-                setSelectedUnitIndex(index);
-              }}
-              selectedIndex={selectedUnitIndex}
-              containerStyle={styles.containerStyle}
-              selectedLayoutStyle={styles.selectedLayoutStyle}
-              elementTextStyle={styles.elementTextStyle}
-            />
-          </BottomSheetView>
-        </BottomSheet>
-      </Portal>
-
       <Text style={styles.titleText}>
         Name your medication and specify the dose.
       </Text>
@@ -115,14 +89,13 @@ const SpecifyMedicationContainer = () => {
           }}
           onChangeText={setStrength}
         />
-        <InputLabel
+        <InputMultipleSelect
           label="Unit of measurement"
+          placeholder="Select a measurement"
+          items={UNIT_MEASUREMENTS}
           value={UNIT_MEASUREMENTS[selectedUnitIndex]?.title}
-          inputProps={{placeholder: 'Select a measurement'}}
-          onPress={() => {
-            Keyboard.dismiss();
-            bottomSheetRef.current?.expand();
-          }}
+          onSelectItem={index => setSelectedUnitIndex(index)}
+          containerMaxHeight={130}
         />
       </View>
 
@@ -163,10 +136,12 @@ const styles = StyleSheet.create({
     borderTopColor: Colour10,
     borderTopWidth: 2,
     padding: Spacing16.original,
+    paddingBottom: 32,
     position: 'absolute',
-    bottom: 25,
+    bottom: 0,
     left: -16,
     right: -16,
+    backgroundColor: 'white',
   },
   bottomSheetContentContainer: {
     height: 230,

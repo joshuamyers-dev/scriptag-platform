@@ -191,7 +191,7 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
               const timeSlotParsed = dayjs(time);
 
               return (
-                <Animated.View entering={FadeInDown} exiting={FadeOutLeft}>
+                <Animated.View entering={FadeInDown} exiting={FadeOutUp}>
                   <View key={index} style={styles.timeRowContainer}>
                     <View style={styles.circleContainer}>
                       <Text style={styles.circleText}>{index + 1}</Text>
@@ -276,10 +276,17 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
       {selectedItem === 2 && (
         <>
           <Animated.View
-            style={styles.subSectionContainer}
+            style={[
+              styles.subSectionContainer,
+              {borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
+            ]}
             entering={FadeInDown}
             exiting={FadeOutUp}>
-            <View style={styles.intervalsRow}>
+            <View
+              style={[
+                styles.intervalsRow,
+                {borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
+              ]}>
               <View style={styles.intervalsLabelContainer}>
                 <Text style={styles.intervalsText}>Use for</Text>
               </View>
@@ -312,7 +319,7 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
             </View>
           </Animated.View>
           <Animated.View
-            style={styles.subSectionContainer}
+            style={[styles.subSectionContainer, {borderRadius: 0}]}
             entering={FadeInDown}
             exiting={FadeOutUp}>
             <View style={styles.intervalsRow}>
@@ -359,12 +366,18 @@ const styles = StyleSheet.create({
     width: '100%',
     borderColor: Colour10,
     borderWidth: 1,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
   },
   subSectionContainer: {
     flexDirection: 'row',
     width: '100%',
     borderColor: Colour10,
-    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
   },
   boxContainer: {
     paddingVertical: 16,
@@ -379,6 +392,8 @@ const styles = StyleSheet.create({
     borderColor: Colour10,
     borderWidth: 2,
     borderTopWidth: 1,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
   },
   timeRowContainer: {
     flexDirection: 'row',
@@ -420,7 +435,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: Colour10,
     borderWidth: 2,
-    borderTopWidth: 0,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
     flex: 1,
     gap: 16,
     paddingVertical: 12,

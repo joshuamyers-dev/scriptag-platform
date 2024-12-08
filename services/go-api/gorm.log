@@ -696,3 +696,549 @@
 
 2024/12/08 01:53:50 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
 [0m[33m[0.374ms] [34;1m[rows:1][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 01:54:57 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.260ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 01:54:57 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.914ms] [34;1m[rows:2][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 01:55:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.726ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 01:55:11 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.503ms] [34;1m[rows:2][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 01:55:13 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.734ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 01:55:13 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.087ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 01:55:15 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.704ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 01:55:15 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.162ms] [34;1m[rows:2][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 01:55:19 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.124ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 01:55:19 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.413ms] [34;1m[rows:1][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 01:57:51 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.375ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 01:57:51 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[3.380ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:09:36 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.766ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:09:36 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.373ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:14:48 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.622ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:14:48 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.334ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:14:51 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.965ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:14:51 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[3.029ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:15:03 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.146ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:15:03 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.703ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:15:13 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[3.461ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:15:13 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.320ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:15:14 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.098ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:15:14 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.518ms] [34;1m[rows:1][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:15:40 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.943ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:15:40 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[3.204ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:15:46 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.889ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:15:46 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.211ms] [34;1m[rows:10][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:16:05 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.909ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:16:05 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.607ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:16:06 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.979ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:16:06 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.392ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:16:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.779ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:16:17 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.974ms] [34;1m[rows:10][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:16:42 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.767ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:16:42 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[5.643ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:16:58 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.142ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:16:58 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[34.095ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:05 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.766ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:05 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.608ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:17:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.662ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:11 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[9.587ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:13 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.000ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:13 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[14.376ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:19 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.591ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:19 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.583ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:17:21 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.209ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:21 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[12.809ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:25 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.651ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:25 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[13.038ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:28 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.894ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:28 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[12.937ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:33 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.526ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:33 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.622ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:17:34 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.718ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:34 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.489ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:35 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.561ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:35 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.565ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:39 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.945ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:39 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.965ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:47 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[2.070ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:47 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.824ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:17:48 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.628ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:48 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[13.011ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:17:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.628ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:17:50 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[12.586ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:18:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.638ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:11 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[15.134ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:18:25 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.710ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:25 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.014ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:18:27 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.714ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:27 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.058ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:18:29 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.926ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:29 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.594ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:18:31 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.633ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:31 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.756ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:18:33 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.878ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:33 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.614ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:18:36 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.001ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:36 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.271ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:18:42 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.009ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:42 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[4.093ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:18:44 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.930ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:18:44 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[3.281ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 02:19:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[2.655ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:19:11 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.117ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:19:27 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.861ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:19:27 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.912ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:19:28 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.619ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:19:28 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.165ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:19:29 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.974ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:19:29 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.992ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:19:34 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.106ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:19:34 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.950ms] [34;1m[rows:1][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:22:53 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.432ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:22:53 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.202ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 02:22:55 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.649ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 02:22:55 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.505ms] [34;1m[rows:10][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$) AND (medications.created_at, medications.id) > ($3$,$4$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $5$
+
+2024/12/08 15:01:10 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.948ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:01:10 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.412ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 15:10:28 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.562ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:10:28 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.394ms] [34;1m[rows:2][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 15:10:54 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.317ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:10:54 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.908ms] [34;1m[rows:2][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 15:26:25 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.749ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:26:25 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.598ms] [34;1m[rows:2][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 15:26:54 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.397ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:26:54 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.287ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 15:26:55 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.959ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:26:56 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[3.313ms] [34;1m[rows:2][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 15:27:00 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.783ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:27:00 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.394ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 15:27:15 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.185ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:27:15 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.657ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 15:27:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.816ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 15:27:17 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[5.015ms] [34;1m[rows:2][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 16:21:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.677ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 16:21:01 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.609ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 16:22:26 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.927ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 16:22:26 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.874ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 16:23:36 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.511ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 16:23:36 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.483ms] [34;1m[rows:6][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 16:29:38 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[2.236ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 16:29:38 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.151ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 16:35:12 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[4.014ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 16:35:12 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[3.187ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 16:36:36 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.716ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 16:36:36 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.660ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 16:37:25 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.666ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 16:37:25 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.353ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 20:58:34 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.598ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 20:58:34 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.103ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 20:58:37 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.967ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 20:58:37 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.833ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:00:41 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[2.595ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:00:41 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.434ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:01:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.178ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:01:11 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.360ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:01:57 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.569ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:01:57 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.500ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:34:59 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.693ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:34:59 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.439ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:38:34 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.914ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:38:34 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.366ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:38:35 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.020ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:38:35 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.696ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:38:44 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.020ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:38:44 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.606ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:40:12 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.790ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:40:12 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.319ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:40:14 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.951ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:40:14 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.578ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:41:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.100ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:41:17 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[4.668ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:42:38 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.701ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:42:38 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.369ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:43:06 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[3.491ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:43:06 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.316ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:43:10 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.991ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:43:10 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[3.977ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:43:12 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[2.540ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:43:12 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.518ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:43:27 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.640ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:43:27 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.836ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:43:34 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.243ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:43:34 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[3.126ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:43:47 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.515ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:43:47 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.552ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:43:59 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.441ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:43:59 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.352ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:44:25 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.700ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:44:25 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.375ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:45:42 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.610ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:45:42 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.743ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 21:46:22 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[1.025ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 21:46:22 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.417ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 22:06:37 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.703ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 22:06:37 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.478ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 22:07:54 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.710ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 22:07:54 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.379ms] [34;1m[rows:0][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$
+
+2024/12/08 22:09:54 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repository/user_repository.go:20
+[0m[33m[0.829ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = $1$ AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT $2$
+
+2024/12/08 22:09:54 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.025ms] [34;1m[rows:11][0m SELECT * FROM "medications" WHERE (to_tsvector('english', brand_name) @@ to_tsquery('english', $1$) OR to_tsvector('english', active_ingredient) @@ to_tsquery('english', $2$)) AND "medications"."deleted_at" IS NULL ORDER BY medications.created_at ASC, medications.id ASC LIMIT $3$

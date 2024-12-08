@@ -68,3 +68,21 @@ export const UNIT_MEASUREMENTS = [
     value: 'MU',
   },
 ];
+export const MEDICATION_END_TYPES = [
+  {
+    title: 'When I’ve finished all the doses or units',
+    value: 'doses_finished',
+  },
+  {
+    title: 'After a set number of prescription repeats (e.g., refills)',
+    value: 'prescription_repeats',
+  },
+  {
+    title: 'On a specific date',
+    value: 'specific_date',
+  },
+  {
+    title: 'Never',
+    value: 'never',
+  },
+];
