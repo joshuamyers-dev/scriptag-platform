@@ -1,4 +1,12 @@
 import CustomButton from '@components/CustomButton';
+import InputLabel from '@components/InputLabel';
+import InputMultipleSelect from '@components/InputMultipleSelect';
+import {
+  MEDICATION_END_TYPE_DOSES_FINISHED,
+  MEDICATION_END_TYPE_PRESCRIPTION_REPEATS,
+  MEDICATION_END_TYPE_SPECIFIC_DATE,
+  MEDICATION_END_TYPES,
+} from '@utils/Constants';
 import {
   Colour10,
   Colour100,
@@ -8,83 +16,49 @@ import {
   fontLabelS,
   Spacing16,
 } from '@utils/tokens';
-import {useCallback, useContext, useRef, useState} from 'react';
-import {StyleSheet, Text, TextStyle, View} from 'react-native';
+import dayjs from 'dayjs';
+import {useCallback, useContext, useState} from 'react';
+import {Image, StyleSheet, Text, TextStyle, View} from 'react-native';
+import DatePicker from 'react-native-date-picker';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {AddMedicationContext} from './AddMedicationContainer';
-import InputLabel from '@components/InputLabel';
-import DatePicker from 'react-native-date-picker';
-import {Portal} from '@gorhom/portal';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
-import {WheelPicker} from 'react-native-infinite-wheel-picker';
-import {MEDICATION_END_TYPES} from '@utils/Constants';
-import InputMultipleSelect from '@components/InputMultipleSelect';
 
 const SelectTimePeriod = () => {
   const context = useContext(AddMedicationContext);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const [medicationEndTypeIndex, setMedicationEndTypeIndex] = useState(-1);
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const [pickingDateType, setPickingDateType] = useState<
+    'startDate' | 'endDate'
+  >('startDate');
 
   const onPressContinue = useCallback(() => {
     context?.handleStepChange(context.currentStep + 1, 1);
   }, []);
 
-  const renderBackdrop = useCallback(
-    props => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        enableTouchThrough
-      />
-    ),
-    [],
-  );
-
   return (
     <View style={styles.container}>
       <DatePicker
-        mode="datetime"
+        mode="date"
         modal
         open={datePickerOpen}
-        date={startDate}
-        onDateChange={setStartDate}
+        date={
+          pickingDateType === 'startDate'
+            ? startDate || new Date()
+            : endDate || new Date()
+        }
         onCancel={() => setDatePickerOpen(false)}
+        onConfirm={date => {
+          if (pickingDateType === 'startDate') {
+            setStartDate(date);
+          } else {
+            setEndDate(date);
+          }
+
+          setDatePickerOpen(false);
+        }}
       />
-      <Portal>
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={-1}
-          enablePanDownToClose
-          backdropComponent={renderBackdrop}>
-          <BottomSheetView style={styles.bottomSheetContentContainer}>
-            <Text style={styles.modalTitle}>
-              When will you stop taking the medication?
-            </Text>
-            <WheelPicker
-              initialSelectedIndex={0}
-              infiniteScroll={false}
-              data={MEDICATION_END_TYPES.map(item => item.title)}
-              restElements={2}
-              elementHeight={30}
-              onChangeValue={(index, value) => {
-                setMedicationEndTypeIndex(index);
-              }}
-              selectedIndex={
-                medicationEndTypeIndex === -1 ? 0 : medicationEndTypeIndex
-              }
-              containerStyle={styles.containerStyle}
-              selectedLayoutStyle={styles.selectedLayoutStyle}
-              elementTextStyle={styles.elementTextStyle}
-            />
-          </BottomSheetView>
-        </BottomSheet>
-      </Portal>
       <KeyboardAwareScrollView
         enableOnAndroid
         extraScrollHeight={50}
@@ -102,8 +76,13 @@ const SelectTimePeriod = () => {
         <View style={styles.firstContainer}>
           <InputLabel
             label="When will this start?"
+            iconLeft={<Image source={require('@assets/icons/calendar.png')} />}
             placeholder="DD/MM/YY"
-            onPress={() => setDatePickerOpen(true)}
+            onPress={() => {
+              setDatePickerOpen(true);
+              setPickingDateType('startDate');
+            }}
+            value={startDate ? dayjs(startDate).format('DD/MM/YY') : ''}
           />
           <InputMultipleSelect
             label="When will you stop taking the medication?"
@@ -117,10 +96,41 @@ const SelectTimePeriod = () => {
             onSelectItem={index => setMedicationEndTypeIndex(index)}
             containerMaxHeight={300}
           />
+          {MEDICATION_END_TYPES[medicationEndTypeIndex]?.value ===
+            MEDICATION_END_TYPE_PRESCRIPTION_REPEATS && (
+            <InputLabel
+              placeholder="Type a number"
+              label="No. of refills"
+              inputProps={{keyboardType: 'number-pad'}}
+            />
+          )}
+          {MEDICATION_END_TYPES[medicationEndTypeIndex]?.value ===
+            MEDICATION_END_TYPE_DOSES_FINISHED && (
+            <InputLabel
+              placeholder="Type a number"
+              label="No. of doses or units"
+              inputProps={{keyboardType: 'number-pad'}}
+            />
+          )}
+          {MEDICATION_END_TYPES[medicationEndTypeIndex]?.value ===
+            MEDICATION_END_TYPE_SPECIFIC_DATE && (
+            <InputLabel
+              label="End date"
+              iconLeft={
+                <Image source={require('@assets/icons/calendar.png')} />
+              }
+              placeholder="DD/MM/YY"
+              onPress={() => {
+                setDatePickerOpen(true);
+                setPickingDateType('endDate');
+              }}
+              value={endDate ? dayjs(endDate).format('DD/MM/YY') : ''}
+            />
+          )}
         </View>
       </KeyboardAwareScrollView>
       <View style={styles.footerContainer}>
-        <CustomButton title="Continue" onPress={onPressContinue} />
+        <CustomButton title="Save medication" onPress={onPressContinue} />
       </View>
     </View>
   );

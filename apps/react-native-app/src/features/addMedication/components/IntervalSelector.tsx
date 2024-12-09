@@ -12,7 +12,7 @@ import {
   fontLabelS,
 } from '@utils/tokens';
 import dayjs from 'dayjs';
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -41,10 +41,12 @@ const WEEK_DAYS = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
 
 interface IntervalSelectorProps {
   shouldUseTimeSelector?: boolean;
+  resetOpenState?: boolean;
 }
 
 const IntervalSelector: React.FC<IntervalSelectorProps> = ({
   shouldUseTimeSelector = false,
+  resetOpenState = false,
 }) => {
   const [selectedItem, setSelectedItem] = useState(-1);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
@@ -52,12 +54,20 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
   const [useFor, setUseFor] = useState<string>('00');
   const [pauseFor, setPauseFor] = useState<string>('00');
   const [datePickerOpen, setDatePickerOpen] = useState(false);
-  const [timeSlots, setTimeSlots] = useState<Date[]>([new Date(), new Date()]);
+  const [timeSlots, setTimeSlots] = useState<Date[]>([new Date()]);
   const [settingTimeSlot, setSettingTimeSlot] = useState(-1);
 
   const intervalsInputRef = useRef<TextInput>(null);
   const pauseForInputRef = useRef<TextInput>(null);
   const useForInputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    if (resetOpenState) {
+      setSelectedItem(-1);
+      setTimeSlots([new Date()]);
+      setSelectedDays([]);
+    }
+  }, [resetOpenState]);
 
   const onPressItem = useCallback((index: number) => {
     triggerLightHaptic();

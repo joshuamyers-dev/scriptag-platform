@@ -1,44 +1,24 @@
+import CheckboxLabel from '@components/CheckboxLabel';
 import CustomButton from '@components/CustomButton';
-import InputLabel from '@components/InputLabel';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
-import {Portal} from '@gorhom/portal';
-import {useAddMyMedicationMutation} from '@graphql/generated';
-import {UNIT_MEASUREMENTS} from '@utils/Constants';
+import {triggerLightHaptic} from '@utils/Helpers';
 import {
   Colour10,
   Colour100,
   Colour80,
-  ColourPurple10,
-  ColourPurple50,
   fontBodyS,
   fontLabelM,
   fontLabelS,
   Spacing16,
 } from '@utils/tokens';
-import {
-  useCallback,
-  useContext,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
-import {
-  Keyboard,
-  LayoutAnimation,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-} from 'react-native';
-import {WheelPicker} from 'react-native-infinite-wheel-picker';
-import IntervalSelector from '../components/IntervalSelector';
-import {triggerLightHaptic} from '@utils/Helpers';
-import CheckboxLabel from '@components/CheckboxLabel';
+import {useCallback, useContext, useEffect, useState} from 'react';
+import {StyleSheet, Text, TextStyle, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import IntervalSelector from '../components/IntervalSelector';
 import {AddMedicationContext} from './AddMedicationContainer';
 
 const ScheduleContainer = () => {
@@ -46,9 +26,23 @@ const ScheduleContainer = () => {
   const [medicationTakenWhenNeeded, setMedicationTakenWhenNeeded] =
     useState(false);
 
+  const opacityValue = useSharedValue(1);
+
   const onPressContinue = useCallback(() => {
     context?.handleStepChange(context.currentStep + 1, 1);
   }, []);
+
+  const animatedOpacityStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacityValue.value,
+    };
+  });
+
+  useEffect(() => {
+    opacityValue.value = withTiming(medicationTakenWhenNeeded ? 0.3 : 1, {
+      duration: 600,
+    });
+  }, [medicationTakenWhenNeeded]);
 
   return (
     <View style={styles.container}>
@@ -58,27 +52,34 @@ const ScheduleContainer = () => {
         contentContainerStyle={{paddingBottom: 150}}
         showsVerticalScrollIndicator={false}
         style={{flex: 1}}>
-        <Text style={styles.titleText}>
-          Choose how you’ll take your medication
-        </Text>
-        <Text style={styles.subTitleText}>
-          First, tap a box to specify how you will take your medication.
-        </Text>
+        <Animated.View
+          style={animatedOpacityStyle}
+          pointerEvents={medicationTakenWhenNeeded ? 'none' : 'auto'}>
+          <Text style={styles.titleText}>
+            Choose how you’ll take your medication
+          </Text>
+          <Text style={styles.subTitleText}>
+            First, tap a box to specify how you will take your medication.
+          </Text>
 
-        <View style={styles.firstContainer}>
-          <IntervalSelector />
-          <CheckboxLabel
-            label="I take this medication only when needed."
-            checked={medicationTakenWhenNeeded}
-            onPress={() => {
-              triggerLightHaptic();
-              setMedicationTakenWhenNeeded(!medicationTakenWhenNeeded);
-            }}
-            containerStyle={{marginTop: 16}}
-          />
-        </View>
+          <View style={styles.firstContainer}>
+            <IntervalSelector resetOpenState={medicationTakenWhenNeeded} />
+          </View>
+        </Animated.View>
 
-        <View style={styles.secondContainer}>
+        <CheckboxLabel
+          label="I take this medication only when needed."
+          checked={medicationTakenWhenNeeded}
+          onPress={() => {
+            triggerLightHaptic();
+            setMedicationTakenWhenNeeded(!medicationTakenWhenNeeded);
+          }}
+          containerStyle={{marginTop: 16}}
+        />
+
+        <Animated.View
+          style={[styles.secondContainer, animatedOpacityStyle]}
+          pointerEvents={medicationTakenWhenNeeded ? 'none' : 'auto'}>
           <Text style={styles.titleText}>And how often?</Text>
           <Text style={styles.subTitleText}>
             Indicate how you’ll take your medication on the days or periods of
@@ -86,9 +87,12 @@ const ScheduleContainer = () => {
           </Text>
 
           <View style={{marginTop: 8}}>
-            <IntervalSelector shouldUseTimeSelector />
+            <IntervalSelector
+              shouldUseTimeSelector
+              resetOpenState={medicationTakenWhenNeeded}
+            />
           </View>
-        </View>
+        </Animated.View>
       </KeyboardAwareScrollView>
       <View style={styles.footerContainer}>
         <CustomButton title="Continue" onPress={onPressContinue} />

@@ -9,8 +9,9 @@ import {
   fontLabelS,
   Spacing16,
 } from '@utils/tokens';
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {
+  Keyboard,
   ScrollView,
   StyleSheet,
   Text,
@@ -47,23 +48,46 @@ const InputMultipleSelect = ({
   const [open, setOpen] = useState(false);
   const [pressingItemIndex, setPressingItemIndex] = useState(-1);
   const chevronRotation = useSharedValue(180);
+  const dropdownHeight = useSharedValue(0);
+
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const onPress = useCallback(() => {
-    triggerLightHaptic();
-    setOpen(!open);
-    chevronRotation.value = withTiming(!open ? 0 : 180, {duration: 300});
+    openCloseDropdown();
   }, [open]);
 
   const onPressItem = useCallback((index: number) => {
-    triggerLightHaptic();
+    openCloseDropdown();
     onSelectItem(index);
-    setOpen(false);
-    chevronRotation.value = withTiming(180, {duration: 300});
   }, []);
+
+  const openCloseDropdown = useCallback(() => {
+    Keyboard.dismiss();
+    triggerLightHaptic();
+    setOpen(open => !open);
+
+    setTimeout(() => {
+      scrollViewRef.current?.flashScrollIndicators();
+    }, 500);
+  }, [scrollViewRef]);
+
+  useEffect(() => {
+    chevronRotation.value = withTiming(!open ? 0 : 180, {duration: 300});
+    dropdownHeight.value = withTiming(open ? containerMaxHeight : 0, {
+      duration: 300,
+    });
+  }, [open]);
 
   const animatedChevronStyle = useAnimatedStyle(() => {
     return {
       transform: [{rotate: `${chevronRotation.value}deg`}],
+    };
+  });
+
+  const animatedDropdownStyle = useAnimatedStyle(() => {
+    return {
+      maxHeight: dropdownHeight.value,
+      opacity: dropdownHeight.value / containerMaxHeight,
     };
   });
 
@@ -88,32 +112,28 @@ const InputMultipleSelect = ({
           />
         </View>
       </TouchableWithoutFeedback>
-      {open && (
-        <Animated.View
-          style={[styles.selectContainer, {maxHeight: containerMaxHeight}]}
-          entering={FadeInDown}
-          exiting={FadeOutUp}>
-          <ScrollView>
-            {items.map((item, index) => (
-              <TouchableHighlight
-                onPressIn={() => setPressingItemIndex(index)}
-                onPressOut={() => setPressingItemIndex(-1)}
-                style={styles.selectItem}
-                onPress={() => onPressItem(index)}
-                underlayColor={ColourPurple10}>
-                <Text
-                  style={[
-                    styles.selectItemText,
-                    pressingItemIndex === index && styles.valueText,
-                    value === item.title && styles.valueText,
-                  ]}>
-                  {item.title}
-                </Text>
-              </TouchableHighlight>
-            ))}
-          </ScrollView>
-        </Animated.View>
-      )}
+
+      <Animated.View style={[styles.selectContainer, animatedDropdownStyle]}>
+        <ScrollView ref={scrollViewRef} persistentScrollbar>
+          {items.map((item, index) => (
+            <TouchableHighlight
+              onPressIn={() => setPressingItemIndex(index)}
+              onPressOut={() => setPressingItemIndex(-1)}
+              style={styles.selectItem}
+              onPress={() => onPressItem(index)}
+              underlayColor={ColourPurple10}>
+              <Text
+                style={[
+                  styles.selectItemText,
+                  pressingItemIndex === index && styles.valueText,
+                  value === item.title && styles.valueText,
+                ]}>
+                {item.title}
+              </Text>
+            </TouchableHighlight>
+          ))}
+        </ScrollView>
+      </Animated.View>
     </View>
   );
 };
