@@ -7,6 +7,7 @@ import (
 	_ "github.com/99designs/gqlgen/graphql/introspection"
 	_ "github.com/golang-jwt/jwt"
 	_ "github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	_ "github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 	_ "github.com/riverqueue/river"
 	_ "github.com/riverqueue/river/riverdriver/riverpgxv5"

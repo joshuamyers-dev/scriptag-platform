@@ -66,10 +66,11 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddFcmToken     func(childComplexity int, token string) int
-		AddMyMedication func(childComplexity int, input model.AddMyMedicationInput) int
-		CreateAccount   func(childComplexity int, input model.CreateAccountInput) int
-		Login           func(childComplexity int, input model.LoginInput) int
+		AddFcmToken              func(childComplexity int, token string) int
+		AddMyMedication          func(childComplexity int, input model.AddMyMedicationInput) int
+		CreateAccount            func(childComplexity int, input model.CreateAccountInput) int
+		CreateMedicationSchedule func(childComplexity int, input model.AddMedicationScheduleInput) int
+		Login                    func(childComplexity int, input model.LoginInput) int
 	}
 
 	MyMedication struct {
@@ -118,6 +119,7 @@ type MutationResolver interface {
 	CreateAccount(ctx context.Context, input model.CreateAccountInput) (*model.Session, error)
 	Login(ctx context.Context, input model.LoginInput) (*model.Session, error)
 	AddFcmToken(ctx context.Context, token string) (bool, error)
+	CreateMedicationSchedule(ctx context.Context, input model.AddMedicationScheduleInput) (bool, error)
 }
 type QueryResolver interface {
 	SearchMedications(ctx context.Context, query string, after *string) (*model.MedicationsConnection, error)
@@ -234,6 +236,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreateAccount(childComplexity, args["input"].(model.CreateAccountInput)), true
+
+	case "Mutation.createMedicationSchedule":
+		if e.complexity.Mutation.CreateMedicationSchedule == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMedicationSchedule_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMedicationSchedule(childComplexity, args["input"].(model.AddMedicationScheduleInput)), true
 
 	case "Mutation.login":
 		if e.complexity.Mutation.Login == nil {
@@ -393,6 +407,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	opCtx := graphql.GetOperationContext(ctx)
 	ec := executionContext{opCtx, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputAddMedicationScheduleInput,
 		ec.unmarshalInputAddMyMedicationInput,
 		ec.unmarshalInputCreateAccountInput,
 		ec.unmarshalInputLoginInput,
@@ -578,6 +593,29 @@ func (ec *executionContext) field_Mutation_createAccount_argsInput(
 	}
 
 	var zeroVal model.CreateAccountInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMedicationSchedule_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	arg0, err := ec.field_Mutation_createMedicationSchedule_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createMedicationSchedule_argsInput(
+	ctx context.Context,
+	rawArgs map[string]interface{},
+) (model.AddMedicationScheduleInput, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNAddMedicationScheduleInput2goᚑapiᚋgraphᚋmodelᚐAddMedicationScheduleInput(ctx, tmp)
+	}
+
+	var zeroVal model.AddMedicationScheduleInput
 	return zeroVal, nil
 }
 
@@ -1335,6 +1373,61 @@ func (ec *executionContext) fieldContext_Mutation_addFcmToken(ctx context.Contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_addFcmToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createMedicationSchedule(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createMedicationSchedule(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMedicationSchedule(rctx, fc.Args["input"].(model.AddMedicationScheduleInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createMedicationSchedule(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createMedicationSchedule_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -4130,6 +4223,131 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputAddMedicationScheduleInput(ctx context.Context, obj interface{}) (model.AddMedicationScheduleInput, error) {
+	var it model.AddMedicationScheduleInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"myMedicationId", "timeSlots", "daysOfWeek", "useForDays", "pauseForDays", "useForHours", "pauseForHours", "intervalsDays", "intervalsHours", "startDate", "endDate", "refillsRemaining", "dosesRemaining", "methodType", "recurringType"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "myMedicationId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("myMedicationId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MyMedicationID = data
+		case "timeSlots":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("timeSlots"))
+			data, err := ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TimeSlots = data
+		case "daysOfWeek":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("daysOfWeek"))
+			data, err := ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DaysOfWeek = data
+		case "useForDays":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("useForDays"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.UseForDays = data
+		case "pauseForDays":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pauseForDays"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.PauseForDays = data
+		case "useForHours":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("useForHours"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.UseForHours = data
+		case "pauseForHours":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pauseForHours"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.PauseForHours = data
+		case "intervalsDays":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("intervalsDays"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IntervalsDays = data
+		case "intervalsHours":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("intervalsHours"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IntervalsHours = data
+		case "startDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startDate"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.StartDate = data
+		case "endDate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endDate"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EndDate = data
+		case "refillsRemaining":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refillsRemaining"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RefillsRemaining = data
+		case "dosesRemaining":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("dosesRemaining"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DosesRemaining = data
+		case "methodType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("methodType"))
+			data, err := ec.unmarshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MethodType = data
+		case "recurringType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("recurringType"))
+			data, err := ec.unmarshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RecurringType = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputAddMyMedicationInput(ctx context.Context, obj interface{}) (model.AddMyMedicationInput, error) {
 	var it model.AddMyMedicationInput
 	asMap := map[string]interface{}{}
@@ -4429,6 +4647,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "addFcmToken":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_addFcmToken(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createMedicationSchedule":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMedicationSchedule(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -5153,6 +5378,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
+func (ec *executionContext) unmarshalNAddMedicationScheduleInput2goᚑapiᚋgraphᚋmodelᚐAddMedicationScheduleInput(ctx context.Context, v interface{}) (model.AddMedicationScheduleInput, error) {
+	res, err := ec.unmarshalInputAddMedicationScheduleInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNAddMyMedicationInput2goᚑapiᚋgraphᚋmodelᚐAddMyMedicationInput(ctx context.Context, v interface{}) (model.AddMyMedicationInput, error) {
 	res, err := ec.unmarshalInputAddMyMedicationInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -5687,6 +5917,102 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
+func (ec *executionContext) unmarshalOID2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalID(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	res := graphql.MarshalID(*v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v interface{}) (*int, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalInt(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.SelectionSet, v *int) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	res := graphql.MarshalInt(*v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx context.Context, v interface{}) (*model.MethodScheduleType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.MethodScheduleType)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx context.Context, sel ast.SelectionSet, v *model.MethodScheduleType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
+}
+
+func (ec *executionContext) unmarshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, v interface{}) (*model.RecurringScheduleType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.RecurringScheduleType)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, sel ast.SelectionSet, v *model.RecurringScheduleType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
+}
+
+func (ec *executionContext) unmarshalOString2ᚕᚖstring(ctx context.Context, v interface{}) ([]*string, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOString2ᚖstring(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOString2ᚕᚖstring(ctx context.Context, sel ast.SelectionSet, v []*string) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalOString2ᚖstring(ctx, sel, v[i])
+	}
+
+	return ret
+}
+
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
 	if v == nil {
 		return nil, nil
@@ -5700,6 +6026,54 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 		return graphql.Null
 	}
 	res := graphql.MarshalString(*v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOTime2ᚕᚖtimeᚐTime(ctx context.Context, v interface{}) ([]*time.Time, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*time.Time, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOTime2ᚖtimeᚐTime(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOTime2ᚕᚖtimeᚐTime(ctx context.Context, sel ast.SelectionSet, v []*time.Time) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalOTime2ᚖtimeᚐTime(ctx, sel, v[i])
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOTime2ᚖtimeᚐTime(ctx context.Context, v interface{}) (*time.Time, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalTime(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOTime2ᚖtimeᚐTime(ctx context.Context, sel ast.SelectionSet, v *time.Time) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	res := graphql.MarshalTime(*v)
 	return res
 }
 

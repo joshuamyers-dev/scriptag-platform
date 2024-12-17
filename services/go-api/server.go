@@ -35,10 +35,13 @@ func main() {
 	userService := service.NewUserService(userRepo)
 	medRepo := repository.NewMedicationRepository(db)
 	medService := service.NewMedicationService(medRepo)
+	userMedRepo := repository.NewUserMedicationRepository(db)
+	userMedService := service.NewUserMedicationService(userMedRepo)
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		MedicationService: medService,
 		UserService: userService,
+		UserMedicationService: userMedService,
 	}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))

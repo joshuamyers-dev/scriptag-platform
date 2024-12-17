@@ -44,6 +44,8 @@ const ScheduleContainer = () => {
     });
   }, [medicationTakenWhenNeeded]);
 
+  console.log(context);
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -63,7 +65,13 @@ const ScheduleContainer = () => {
           </Text>
 
           <View style={styles.firstContainer}>
-            <IntervalSelector resetOpenState={medicationTakenWhenNeeded} />
+            <IntervalSelector
+              resetOpenState={medicationTakenWhenNeeded}
+              onSetDaysInterval={context?.setDaysInterval}
+              onSetPauseFor={context?.setPauseForDays}
+              onSetUseFor={context?.setUseForDays}
+              onSetScheduledDays={context?.setScheduledDays}
+            />
           </View>
         </Animated.View>
 
@@ -90,6 +98,10 @@ const ScheduleContainer = () => {
             <IntervalSelector
               shouldUseTimeSelector
               resetOpenState={medicationTakenWhenNeeded}
+              onSetDaysInterval={context?.setHoursInterval}
+              onSetPauseFor={context?.setPauseForHours}
+              onSetUseFor={context?.setUseForHours}
+              onSetTimeSlots={context?.setTimeSlots}
             />
           </View>
         </Animated.View>

@@ -17,6 +17,24 @@ export type Scalars = {
   Time: any;
 };
 
+export type AddMedicationScheduleInput = {
+  daysOfWeek?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  dosesRemaining?: InputMaybe<Scalars['Int']>;
+  endDate?: InputMaybe<Scalars['Time']>;
+  intervalsDays?: InputMaybe<Scalars['Int']>;
+  intervalsHours?: InputMaybe<Scalars['Int']>;
+  methodType?: InputMaybe<MethodScheduleType>;
+  myMedicationId?: InputMaybe<Scalars['ID']>;
+  pauseForDays?: InputMaybe<Scalars['Int']>;
+  pauseForHours?: InputMaybe<Scalars['Int']>;
+  recurringType?: InputMaybe<RecurringScheduleType>;
+  refillsRemaining?: InputMaybe<Scalars['Int']>;
+  startDate?: InputMaybe<Scalars['Time']>;
+  timeSlots?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  useForDays?: InputMaybe<Scalars['Int']>;
+  useForHours?: InputMaybe<Scalars['Int']>;
+};
+
 export type AddMyMedicationInput = {
   dosageStrength?: InputMaybe<Scalars['String']>;
   medicationId?: InputMaybe<Scalars['String']>;
@@ -56,11 +74,20 @@ export type MedicationsConnection = {
   pageInfo: PageInfo;
 };
 
+/** Represents the type of method schedule for a Medication Schedule. For e.g. some are taken on certain days (Mon, Tues, Fri), intervals (every X days), periods (use for X days, pause for X days), or taken as needed/no schedule. */
+export enum MethodScheduleType {
+  Days = 'DAYS',
+  Intervals = 'INTERVALS',
+  Periods = 'PERIODS',
+  WhenNeeded = 'WHEN_NEEDED'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   addFcmToken: Scalars['Boolean'];
   addMyMedication: MyMedication;
   createAccount: Session;
+  createMedicationSchedule: Scalars['Boolean'];
   login: Session;
 };
 
@@ -80,6 +107,11 @@ export type MutationCreateAccountArgs = {
 };
 
 
+export type MutationCreateMedicationScheduleArgs = {
+  input: AddMedicationScheduleInput;
+};
+
+
 export type MutationLoginArgs = {
   input: LoginInput;
 };
@@ -87,7 +119,7 @@ export type MutationLoginArgs = {
 /** Represents a medication that a user is taking. */
 export type MyMedication = {
   __typename?: 'MyMedication';
-  activeIngredient: Scalars['String'];
+  activeIngredient?: Maybe<Scalars['String']>;
   brandName: Scalars['String'];
   consumptionTime: Scalars['Time'];
   dosageStrength: Scalars['String'];
@@ -128,6 +160,14 @@ export type QuerySearchMedicationsArgs = {
   query: Scalars['String'];
 };
 
+/** Represents the type of recurring schedule for a Medication Schedule. For e.g. some are taken in time slots (e.g. 8am, 12pm, 6pm), intervals (every X hours) or periods (use for X days, pause for X days). */
+export enum RecurringScheduleType {
+  Intervals = 'INTERVALS',
+  Periods = 'PERIODS',
+  Time = 'TIME',
+  WhenNeeded = 'WHEN_NEEDED'
+}
+
 export type Session = {
   __typename?: 'Session';
   token?: Maybe<Scalars['String']>;
@@ -140,12 +180,19 @@ export type User = {
   id: Scalars['ID'];
 };
 
+export type AddMedicationScheduleMutationVariables = Exact<{
+  input: AddMedicationScheduleInput;
+}>;
+
+
+export type AddMedicationScheduleMutation = { __typename?: 'Mutation', createMedicationSchedule: boolean };
+
 export type AddMyMedicationMutationVariables = Exact<{
   input: AddMyMedicationInput;
 }>;
 
 
-export type AddMyMedicationMutation = { __typename?: 'Mutation', addMyMedication: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient: string, dosageStrength: string, user: { __typename?: 'User', id: string } } };
+export type AddMyMedicationMutation = { __typename?: 'Mutation', addMyMedication: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, user: { __typename?: 'User', id: string } } };
 
 export type SearchMedicationsQueryVariables = Exact<{
   query: Scalars['String'];
@@ -176,7 +223,7 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: { __typename?: 'Session', token?: string | null, user?: { __typename?: 'User', id: string, email: string } | null } };
 
-export type MyMedicationBaseFragment = { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient: string, dosageStrength: string, user: { __typename?: 'User', id: string } };
+export type MyMedicationBaseFragment = { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, user: { __typename?: 'User', id: string } };
 
 export const MyMedicationBaseFragmentDoc = gql`
     fragment MyMedicationBase on MyMedication {
@@ -189,6 +236,37 @@ export const MyMedicationBaseFragmentDoc = gql`
   dosageStrength
 }
     `;
+export const AddMedicationScheduleDocument = gql`
+    mutation AddMedicationSchedule($input: AddMedicationScheduleInput!) {
+  createMedicationSchedule(input: $input)
+}
+    `;
+export type AddMedicationScheduleMutationFn = ApolloReactCommon.MutationFunction<AddMedicationScheduleMutation, AddMedicationScheduleMutationVariables>;
+
+/**
+ * __useAddMedicationScheduleMutation__
+ *
+ * To run a mutation, you first call `useAddMedicationScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddMedicationScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addMedicationScheduleMutation, { data, loading, error }] = useAddMedicationScheduleMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddMedicationScheduleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddMedicationScheduleMutation, AddMedicationScheduleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<AddMedicationScheduleMutation, AddMedicationScheduleMutationVariables>(AddMedicationScheduleDocument, options);
+      }
+export type AddMedicationScheduleMutationHookResult = ReturnType<typeof useAddMedicationScheduleMutation>;
+export type AddMedicationScheduleMutationResult = ApolloReactCommon.MutationResult<AddMedicationScheduleMutation>;
+export type AddMedicationScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<AddMedicationScheduleMutation, AddMedicationScheduleMutationVariables>;
 export const AddMyMedicationDocument = gql`
     mutation AddMyMedication($input: AddMyMedicationInput!) {
   addMyMedication(input: $input) {

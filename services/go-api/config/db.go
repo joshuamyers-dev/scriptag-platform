@@ -40,7 +40,14 @@ func InitDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	err = db.AutoMigrate(&adapters.GormUser{}, &adapters.GormMedication{}, &adapters.GormUserMedication{}, &adapters.GormUserFCMToken{})
+	createMedicationScheduleTypes(db)
+
+	err = db.AutoMigrate(&adapters.GormUser{},
+		&adapters.GormMedication{},
+		&adapters.GormUserMedication{},
+		&adapters.GormUserFCMToken{},
+		&adapters.GormUserMedicationSchedule{},
+	)
 
 	if err != nil {
 		log.Panicf("failed to migrate database: %v", err)
@@ -81,4 +88,34 @@ func createSearchIndex(db *gorm.DB) {
 	if err := db.Exec(indexSQL).Error; err != nil {
 		log.Fatalf("Error creating GIN index: %v", err)
 	}
+}
+
+func createMedicationScheduleTypes(db *gorm.DB) {
+	// sql := `DROP TYPE IF EXISTS user_medication_schedule_type;`
+
+	// if err := db.Exec(sql).Error; err != nil {
+	// 	log.Fatalf("Error creating GIN index: %v", err)
+	// }
+
+	// sql := `CREATE TYPE user_medication_method_schedule_type AS ENUM (
+	// 	'DAYS',
+	// 	'INTERVALS',
+	// 	'PERIODS',
+	// 	'WHEN_NEEDED');
+	// 	`
+
+	// if err := db.Exec(sql).Error; err != nil {
+	// 	log.Fatalf("Error creating GIN index: %v", err)
+	// }
+
+	// sql = `CREATE TYPE user_medication_recurring_schedule_type AS ENUM (
+	// 	'TIME',
+	// 	'INTERVALS',
+	// 	'PERIODS',
+	// 	'WHEN_NEEDED');
+	// 	`
+
+	// if err := db.Exec(sql).Error; err != nil {
+	// 	log.Fatalf("Error creating GIN index: %v", err)
+	// }
 }

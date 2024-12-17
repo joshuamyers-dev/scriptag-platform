@@ -21,7 +21,7 @@ import {
 
 interface InputLabelProps {
   label?: string;
-  value?: string;
+  value?: string | null;
   iconLeft?: ReactNode | null;
   placeholder?: string;
   onChangeText: (text: string) => void;

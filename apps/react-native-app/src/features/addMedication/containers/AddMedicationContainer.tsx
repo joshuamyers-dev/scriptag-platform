@@ -48,6 +48,30 @@ interface AddMedicationContextProps {
   selectedMedication: Medication | null;
   setSelectedMedication: (medication: Medication) => void;
   handleStepChange: (newStepIndex: number, direction: number) => void;
+  daysInterval?: string | null;
+  setDaysInterval?: (days: string) => void;
+  hoursInterval: string | null;
+  setHoursInterval: (hours: string) => void;
+  scheduledDays: string[];
+  setScheduledDays: (days: string[]) => void;
+  useForDays: string | null;
+  setUseForDays: (days: string) => void;
+  pauseForDays: string | null;
+  setPauseForDays: (days: string) => void;
+  useForHours: string | null;
+  setUseForHours: (hours: string) => void;
+  pauseForHours: string | null;
+  setPauseForHours: (hours: string) => void;
+  timeSlots: Date[];
+  setTimeSlots: (timeSlots: Date[]) => void;
+  startDate: Date | null;
+  setStartDate: (date: Date | null) => void;
+  endDate: Date | null;
+  setEndDate: (date: Date | null) => void;
+  dosesRemaining: string | null;
+  setDosesRemaining: (doses: string | null) => void;
+  refillsRemaining: string | null;
+  setRefillsRemaining: (refills: string | null) => void;
 }
 
 export const AddMedicationContext = createContext<
@@ -58,6 +82,19 @@ const AddMedicationContainer = ({navigation}) => {
   const [currentStep, setStep] = useState<number>(0);
   const [selectedMedication, setSelectedMedication] =
     useState<Medication | null>(null);
+
+  const [daysInterval, setDaysInterval] = useState<string | null>(null);
+  const [scheduledDays, setScheduledDays] = useState<string[]>([]);
+  const [useForDays, setUseForDays] = useState<string | null>(null);
+  const [pauseForDays, setPauseForDays] = useState<string | null>(null);
+  const [useForHours, setUseForHours] = useState<string | null>(null);
+  const [pauseForHours, setPauseForHours] = useState<string | null>(null);
+  const [hoursInterval, setHoursInterval] = useState<string | null>(null);
+  const [timeSlots, setTimeSlots] = useState<Date[]>([]);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [dosesRemaining, setDosesRemaining] = useState<string | null>(null);
+  const [refillsRemaining, setRefillsRemaining] = useState<string | null>(null);
 
   const opacity = useSharedValue(1);
   const translateX = useSharedValue(0);
@@ -137,6 +174,30 @@ const AddMedicationContainer = ({navigation}) => {
           handleStepChange,
           selectedMedication,
           setSelectedMedication,
+          setHoursInterval,
+          setDaysInterval,
+          daysInterval,
+          setScheduledDays,
+          scheduledDays,
+          setUseForDays,
+          setPauseForDays,
+          pauseForDays,
+          pauseForHours,
+          useForDays,
+          useForHours,
+          hoursInterval,
+          setUseForHours,
+          setPauseForHours,
+          timeSlots,
+          setTimeSlots,
+          startDate,
+          endDate,
+          setStartDate,
+          setEndDate,
+          dosesRemaining,
+          setDosesRemaining,
+          refillsRemaining,
+          setRefillsRemaining,
         }}>
         <Animated.View style={[animatedStyle, {width: '100%', flex: 1}]}>
           {currentStep === 0 && <SearchMedicationContainer />}

@@ -17,11 +17,17 @@ import {
   Spacing16,
 } from '@utils/tokens';
 import dayjs from 'dayjs';
-import {useCallback, useContext, useState} from 'react';
+import {useCallback, useContext, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TextStyle, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {AddMedicationContext} from './AddMedicationContainer';
+import {
+  MethodScheduleType,
+  RecurringScheduleType,
+  useAddMedicationScheduleMutation,
+} from '@graphql/generated';
+import {parseIntOrNull} from '@utils/Helpers';
 
 const SelectTimePeriod = () => {
   const context = useContext(AddMedicationContext);
@@ -32,10 +38,62 @@ const SelectTimePeriod = () => {
   const [pickingDateType, setPickingDateType] = useState<
     'startDate' | 'endDate'
   >('startDate');
+  const [refillsAmount, setRefillsAmount] = useState<string | null>(null);
+  const [dosesRemaining, setDosesRemaining] = useState<string | null>(null);
 
-  const onPressContinue = useCallback(() => {
-    context?.handleStepChange(context.currentStep + 1, 1);
-  }, []);
+  const [addMedicationScheduleMutation, {loading, error, data}] =
+    useAddMedicationScheduleMutation();
+
+  const onPressContinue = useCallback(async () => {
+    let methodType: MethodScheduleType = MethodScheduleType.WhenNeeded;
+
+    if (context?.scheduledDays && context.scheduledDays.length > 0) {
+      methodType = MethodScheduleType.Days;
+    } else if (context?.daysInterval) {
+      methodType = MethodScheduleType.Intervals;
+    } else if (context?.useForDays && context?.useForHours) {
+      methodType = MethodScheduleType.Periods;
+    }
+
+    let recurringType: RecurringScheduleType = RecurringScheduleType.WhenNeeded;
+
+    if (context?.timeSlots && context.timeSlots.length > 0) {
+      recurringType = RecurringScheduleType.Time;
+    } else if (context?.hoursInterval) {
+      recurringType = RecurringScheduleType.Intervals;
+    } else if (context?.useForHours && context?.useForDays) {
+      recurringType = RecurringScheduleType.Periods;
+    }
+
+    await addMedicationScheduleMutation({
+      variables: {
+        input: {
+          myMedicationId: context?.selectedMedication?.id,
+          startDate: startDate?.toISOString(),
+          endDate: endDate?.toISOString(),
+          refillsRemaining: parseIntOrNull(context?.refillsRemaining),
+          dosesRemaining: parseIntOrNull(context?.dosesRemaining),
+          intervalsDays: parseIntOrNull(context?.daysInterval),
+          intervalsHours: parseIntOrNull(context?.hoursInterval),
+          useForDays: parseIntOrNull(context?.useForDays),
+          pauseForDays: parseIntOrNull(context?.pauseForDays),
+          useForHours: parseIntOrNull(context?.useForHours),
+          pauseForHours: parseIntOrNull(context?.pauseForHours),
+          timeSlots: context?.timeSlots,
+          daysOfWeek: context?.scheduledDays,
+          methodType,
+          recurringType,
+        },
+      },
+    });
+  }, [context]);
+
+  useEffect(() => {
+    context?.setStartDate(startDate);
+    context?.setEndDate(endDate);
+    context?.setRefillsRemaining(refillsAmount);
+    context?.setDosesRemaining(dosesRemaining);
+  }, [startDate, endDate, refillsAmount, dosesRemaining]);
 
   return (
     <View style={styles.container}>
@@ -102,6 +160,8 @@ const SelectTimePeriod = () => {
               placeholder="Type a number"
               label="No. of refills"
               inputProps={{keyboardType: 'number-pad'}}
+              onChangeText={text => setRefillsAmount(text)}
+              value={refillsAmount}
             />
           )}
           {MEDICATION_END_TYPES[medicationEndTypeIndex]?.value ===
@@ -110,6 +170,8 @@ const SelectTimePeriod = () => {
               placeholder="Type a number"
               label="No. of doses or units"
               inputProps={{keyboardType: 'number-pad'}}
+              onChangeText={text => setDosesRemaining(text)}
+              value={dosesRemaining}
             />
           )}
           {MEDICATION_END_TYPES[medicationEndTypeIndex]?.value ===

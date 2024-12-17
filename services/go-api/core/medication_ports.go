@@ -26,14 +26,9 @@ type MedicationConnection struct {
 }
 
 type MedicationService interface {
-	CreateMedication(medication Medication) (Medication, error)
 	SearchMedications(query string, afterCursor *string) (*model.MedicationsConnection, error)
-	CreateUserMedication(userMedication *UserMedication) (*model.MyMedication, error)
 }
 
 type MedicationRepository interface {
-	FindByID(id string) (Medication, error)
-	Create(medication *Medication) error
-	CreateUserMedication(userMedication *UserMedication) (*UserMedication, error)
 	Search(query string, afterCursor *string) (*MedicationConnection, error)
 }

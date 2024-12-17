@@ -59,6 +59,44 @@ input AddMyMedicationInput {
   dosageStrength: String
 }
 
+"""
+Represents the type of method schedule for a Medication Schedule. For e.g. some are taken on certain days (Mon, Tues, Fri), intervals (every X days), periods (use for X days, pause for X days), or taken as needed/no schedule.
+"""
+enum MethodScheduleType {
+  DAYS
+  INTERVALS
+  PERIODS
+  WHEN_NEEDED
+}
+
+"""
+Represents the type of recurring schedule for a Medication Schedule. For e.g. some are taken in time slots (e.g. 8am, 12pm, 6pm), intervals (every X hours) or periods (use for X days, pause for X days).
+"""
+enum RecurringScheduleType {
+  TIME
+  INTERVALS
+  PERIODS
+  WHEN_NEEDED
+}
+
+input AddMedicationScheduleInput {
+  myMedicationId: ID
+  timeSlots: [Time]
+  daysOfWeek: [String]
+  useForDays: Int
+  pauseForDays: Int
+  useForHours: Int
+  pauseForHours: Int
+  intervalsDays: Int
+  intervalsHours: Int
+  startDate: Time
+  endDate: Time
+  refillsRemaining: Int
+  dosesRemaining: Int
+  methodType: MethodScheduleType
+  recurringType: RecurringScheduleType
+}
+
 type MyMedicationsConnection {
   edges: [MyMedicationEdge!]!
   pageInfo: PageInfo!
@@ -100,4 +138,5 @@ type Mutation {
   createAccount(input: CreateAccountInput!): Session!
   login(input: LoginInput!): Session!
   addFcmToken(token: String!): Boolean!
+  createMedicationSchedule(input: AddMedicationScheduleInput!): Boolean!
 }

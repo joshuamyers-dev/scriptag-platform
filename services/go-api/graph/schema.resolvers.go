@@ -16,7 +16,7 @@ import (
 func (r *mutationResolver) AddMyMedication(ctx context.Context, input model.AddMyMedicationInput) (*model.MyMedication, error) {
 	user := auth.ForContext(ctx)
 
-	return r.MedicationService.CreateUserMedication(&core.UserMedication{
+	return r.UserMedicationService.CreateUserMedication(&core.UserMedication{
 		MedicationID: input.MedicationID,
 		UserID:       user.ID,
 		Strength:     *input.DosageStrength,
@@ -47,6 +47,29 @@ func (r *mutationResolver) AddFcmToken(ctx context.Context, token string) (bool,
 	} else {
 		return true, nil
 	}
+}
+
+// CreateMedicationSchedule is the resolver for the createMedicationSchedule field.
+func (r *mutationResolver) CreateMedicationSchedule(ctx context.Context, input model.AddMedicationScheduleInput) (bool, error) {
+	// user := auth.ForContext(ctx)
+
+	return r.UserMedicationService.CreateUserMedicationSchedule(&core.MedicationSchedule{
+		UserMedicationID: *input.MyMedicationID,
+		MethodType:       *input.MethodType,
+		RecurringType:    *input.RecurringType,
+		DaysOfWeek:       input.DaysOfWeek,
+		TimeSlots:        input.TimeSlots,
+		StartDate:        input.StartDate,
+		EndDate:          input.EndDate,
+		DaysInterval:     input.IntervalsDays,
+		HoursInterval:    input.IntervalsHours,
+		UseForDays:       input.UseForDays,
+		PauseForDays:     input.PauseForDays,
+		UseForHours:      input.UseForHours,
+		PauseForHours:    input.PauseForHours,
+		RefillsAmount:    input.RefillsRemaining,
+		DosesAmount:      input.DosesRemaining,
+	})
 }
 
 // SearchMedications is the resolver for the searchMedications field.

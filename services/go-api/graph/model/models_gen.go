@@ -3,8 +3,29 @@
 package model
 
 import (
+	"fmt"
+	"io"
+	"strconv"
 	"time"
 )
+
+type AddMedicationScheduleInput struct {
+	MyMedicationID   *string                `json:"myMedicationId,omitempty"`
+	TimeSlots        []*time.Time           `json:"timeSlots,omitempty"`
+	DaysOfWeek       []*string              `json:"daysOfWeek,omitempty"`
+	UseForDays       *int                   `json:"useForDays,omitempty"`
+	PauseForDays     *int                   `json:"pauseForDays,omitempty"`
+	UseForHours      *int                   `json:"useForHours,omitempty"`
+	PauseForHours    *int                   `json:"pauseForHours,omitempty"`
+	IntervalsDays    *int                   `json:"intervalsDays,omitempty"`
+	IntervalsHours   *int                   `json:"intervalsHours,omitempty"`
+	StartDate        *time.Time             `json:"startDate,omitempty"`
+	EndDate          *time.Time             `json:"endDate,omitempty"`
+	RefillsRemaining *int                   `json:"refillsRemaining,omitempty"`
+	DosesRemaining   *int                   `json:"dosesRemaining,omitempty"`
+	MethodType       *MethodScheduleType    `json:"methodType,omitempty"`
+	RecurringType    *RecurringScheduleType `json:"recurringType,omitempty"`
+}
 
 type AddMyMedicationInput struct {
 	MedicationID   *string `json:"medicationId,omitempty"`
@@ -82,4 +103,96 @@ type Session struct {
 type User struct {
 	ID    string `json:"id"`
 	Email string `json:"email"`
+}
+
+// Represents the type of method schedule for a Medication Schedule. For e.g. some are taken on certain days (Mon, Tues, Fri), intervals (every X days), periods (use for X days, pause for X days), or taken as needed/no schedule.
+type MethodScheduleType string
+
+const (
+	MethodScheduleTypeDays       MethodScheduleType = "DAYS"
+	MethodScheduleTypeIntervals  MethodScheduleType = "INTERVALS"
+	MethodScheduleTypePeriods    MethodScheduleType = "PERIODS"
+	MethodScheduleTypeWhenNeeded MethodScheduleType = "WHEN_NEEDED"
+)
+
+var AllMethodScheduleType = []MethodScheduleType{
+	MethodScheduleTypeDays,
+	MethodScheduleTypeIntervals,
+	MethodScheduleTypePeriods,
+	MethodScheduleTypeWhenNeeded,
+}
+
+func (e MethodScheduleType) IsValid() bool {
+	switch e {
+	case MethodScheduleTypeDays, MethodScheduleTypeIntervals, MethodScheduleTypePeriods, MethodScheduleTypeWhenNeeded:
+		return true
+	}
+	return false
+}
+
+func (e MethodScheduleType) String() string {
+	return string(e)
+}
+
+func (e *MethodScheduleType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = MethodScheduleType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid MethodScheduleType", str)
+	}
+	return nil
+}
+
+func (e MethodScheduleType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Represents the type of recurring schedule for a Medication Schedule. For e.g. some are taken in time slots (e.g. 8am, 12pm, 6pm), intervals (every X hours) or periods (use for X days, pause for X days).
+type RecurringScheduleType string
+
+const (
+	RecurringScheduleTypeTime       RecurringScheduleType = "TIME"
+	RecurringScheduleTypeIntervals  RecurringScheduleType = "INTERVALS"
+	RecurringScheduleTypePeriods    RecurringScheduleType = "PERIODS"
+	RecurringScheduleTypeWhenNeeded RecurringScheduleType = "WHEN_NEEDED"
+)
+
+var AllRecurringScheduleType = []RecurringScheduleType{
+	RecurringScheduleTypeTime,
+	RecurringScheduleTypeIntervals,
+	RecurringScheduleTypePeriods,
+	RecurringScheduleTypeWhenNeeded,
+}
+
+func (e RecurringScheduleType) IsValid() bool {
+	switch e {
+	case RecurringScheduleTypeTime, RecurringScheduleTypeIntervals, RecurringScheduleTypePeriods, RecurringScheduleTypeWhenNeeded:
+		return true
+	}
+	return false
+}
+
+func (e RecurringScheduleType) String() string {
+	return string(e)
+}
+
+func (e *RecurringScheduleType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RecurringScheduleType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RecurringScheduleType", str)
+	}
+	return nil
+}
+
+func (e RecurringScheduleType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }

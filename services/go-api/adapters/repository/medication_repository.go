@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"go-api/adapters"
 	"go-api/core"
 	"go-api/utils"
@@ -18,63 +17,8 @@ func NewMedicationRepository(db *gorm.DB) *MedicationRepository {
 	return &MedicationRepository{DB: db}
 }
 
-// FindByID implements core.TodoRepository.
-func (r *MedicationRepository) FindByID(id string) (core.Medication, error) {
-	panic("unimplemented")
-}
-
-func (r *MedicationRepository) Create(todo *core.Medication) error {
-	// gormTodo := adapters.GormMedication{
-	// 	Text:   todo.Text,
-	// 	Done:   todo.Done,
-	// 	UserID: todo.UserId,
-	// }
-	// if err := r.DB.Create(&gormTodo).Error; err != nil {
-	// 	return err
-	// }
-	// todo.ID = gormTodo.ID
-	return nil
-}
-
-func (r *MedicationRepository) CreateUserMedication(userMedication *core.UserMedication) (*core.UserMedication, error) {
-	gormUserMed := adapters.GormUserMedication{
-		UserID:           userMedication.UserID,
-		MedicationID:     userMedication.MedicationID,
-		Strength:         &userMedication.Strength,
-		ReminderDateTime: userMedication.ReminderDateTime,
-		Name:             &userMedication.BrandName,
-	}
-
-	if err := r.DB.Create(&gormUserMed).Error; err != nil {
-		return &core.UserMedication{}, err
-	}
-
-	if err := r.DB.Preload("User").Preload("Medication").First(&gormUserMed, "id = ?", gormUserMed.ID).Error; err != nil {
-		return &core.UserMedication{}, err
-	}
-
-	coreUserMed := core.UserMedication{
-		ID: gormUserMed.ID,
-		User: core.User{
-			ID:    gormUserMed.User.ID,
-			Email: gormUserMed.User.Email,
-		},
-		BrandName:        *gormUserMed.Name,
-		ReminderDateTime: gormUserMed.ReminderDateTime,
-	}
-
-	if gormUserMed.Medication != nil {
-		coreUserMed.ActiveIngredient = gormUserMed.Medication.ActiveIngredient
-		coreUserMed.BrandName = gormUserMed.Medication.BrandName
-	}
-
-	return &coreUserMed, nil
-}
-
 func (r *MedicationRepository) Search(query string, afterCursor *string) (*core.MedicationConnection, error) {
 	tsQuery := utils.ConvertToTSQuery(query)
-
-	fmt.Println(afterCursor)
 
 	var medications []*adapters.GormMedication
 	statement := r.DB.Model(&adapters.GormMedication{}).

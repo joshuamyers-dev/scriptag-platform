@@ -1,0 +1,3 @@
+mutation AddMedicationSchedule($input: AddMedicationScheduleInput!) {
+  createMedicationSchedule(input: $input)
+}

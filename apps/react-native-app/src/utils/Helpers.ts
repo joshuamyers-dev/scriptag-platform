@@ -37,9 +37,29 @@ export const requestPushNotificationPermissions = async () => {
   }
 };
 
+/**
+ * Rounds down numbers in a string that are followed by "mg".
+ * @param {string} str - The string containing numbers to round down.
+ * @returns {string} - The string with numbers rounded down.
+ */
 export const roundNumbersDown = (str: string): string => {
   return str.replace(/(\d+(\.\d+)?)(\s*mg)/g, (match, p1, p2, p3) => {
     const roundedNumber = Math.floor(parseFloat(p1));
     return `${roundedNumber}${p3}`;
   });
+};
+
+/**
+ * Parses a string to an integer or returns null if the string is empty.
+ * @param {string | null | undefined} value - The string to parse.
+ * @returns {number | null} - The parsed integer or null.
+*/
+export const parseIntOrNull = (
+  value: string | null | undefined,
+): number | null => {
+  if (value) {
+    return parseInt(value);
+  }
+
+  return null;
 };

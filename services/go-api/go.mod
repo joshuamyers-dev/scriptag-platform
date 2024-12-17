@@ -6,6 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.17.56
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/joho/godotenv v1.5.1
+	github.com/lib/pq v1.10.9
 	github.com/pilagod/gorm-cursor-paginator/v2 v2.6.1
 	github.com/riverqueue/river v0.14.2
 	github.com/riverqueue/river/riverdriver/riverpgxv5 v0.14.2

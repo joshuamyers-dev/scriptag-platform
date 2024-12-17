@@ -24,16 +24,7 @@ import {
   View,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
-import Animated, {
-  FadeInDown,
-  FadeInUp,
-  FadeOutDown,
-  FadeOutLeft,
-  FadeOutUp,
-  SlideInRight,
-  SlideOutLeft,
-} from 'react-native-reanimated';
+import Animated, {FadeInDown, FadeOutUp} from 'react-native-reanimated';
 
 const SELECTION_ITEMS = ['Days', 'Intervals', 'Periods'];
 const SELECTION_ITEMS_TIME = ['Time', 'Intervals', 'Periods'];
@@ -42,11 +33,21 @@ const WEEK_DAYS = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
 interface IntervalSelectorProps {
   shouldUseTimeSelector?: boolean;
   resetOpenState?: boolean;
+  onSetUseFor?: (useFor: string) => void;
+  onSetPauseFor?: (pauseFor: string) => void;
+  onSetDaysInterval?: (daysInterval: string) => void;
+  onSetScheduledDays?: (scheduledDays: string[]) => void;
+  onSetTimeSlots?: (timeSlots: Date[]) => void;
 }
 
 const IntervalSelector: React.FC<IntervalSelectorProps> = ({
   shouldUseTimeSelector = false,
   resetOpenState = false,
+  onSetDaysInterval,
+  onSetPauseFor,
+  onSetUseFor,
+  onSetScheduledDays,
+  onSetTimeSlots,
 }) => {
   const [selectedItem, setSelectedItem] = useState(-1);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
@@ -87,6 +88,10 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
     [selectedDays],
   );
 
+  useEffect(() => {
+    onSetScheduledDays?.(selectedDays.map(day => WEEK_DAYS[day]));
+  }, [selectedDays]);
+
   const onPressEditInterval = useCallback(() => {
     triggerLightHaptic();
     intervalsInputRef.current?.focus();
@@ -117,6 +122,10 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
     triggerLightHaptic();
     setTimeSlots(prevTimeSlots => prevTimeSlots.filter((_, i) => i !== index));
   }, []);
+
+  useEffect(() => {
+    onSetTimeSlots?.(timeSlots);
+  }, [timeSlots]);
 
   const items = shouldUseTimeSelector ? SELECTION_ITEMS_TIME : SELECTION_ITEMS;
 
@@ -267,6 +276,9 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
                 onBlur={() => {
                   if (interval === '') {
                     setInterval('00');
+                    onSetDaysInterval?.('00');
+                  } else {
+                    onSetDaysInterval?.(interval);
                   }
                 }}
                 maxLength={3}
@@ -312,6 +324,9 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
                   onBlur={() => {
                     if (useFor === '') {
                       setUseFor('00');
+                      onSetUseFor?.('00');
+                    } else {
+                      onSetUseFor?.(useFor);
                     }
                   }}
                   maxLength={3}
@@ -348,6 +363,9 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
                   onBlur={() => {
                     if (pauseFor === '') {
                       setPauseFor('00');
+                      onSetPauseFor?.('00');
+                    } else {
+                      onSetPauseFor?.(pauseFor);
                     }
                   }}
                   maxLength={3}
