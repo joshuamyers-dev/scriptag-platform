@@ -41,6 +41,7 @@ type Config struct {
 
 type ResolverRoot interface {
 	Mutation() MutationResolver
+	MyMedication() MyMedicationResolver
 	Query() QueryResolver
 }
 
@@ -79,12 +80,19 @@ type ComplexityRoot struct {
 		ConsumptionTime  func(childComplexity int) int
 		DosageStrength   func(childComplexity int) int
 		ID               func(childComplexity int) int
+		Schedule         func(childComplexity int) int
 		User             func(childComplexity int) int
 	}
 
 	MyMedicationEdge struct {
 		Cursor func(childComplexity int) int
 		Node   func(childComplexity int) int
+	}
+
+	MyMedicationSchedule struct {
+		DosesRemaining func(childComplexity int) int
+		ScheduledDays  func(childComplexity int) int
+		TimesPerDay    func(childComplexity int) int
 	}
 
 	MyMedicationsConnection struct {
@@ -99,7 +107,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		MyMedications     func(childComplexity int) int
+		MyMedications     func(childComplexity int, after *string) int
 		SearchMedications func(childComplexity int, query string, after *string) int
 	}
 
@@ -121,9 +129,12 @@ type MutationResolver interface {
 	AddFcmToken(ctx context.Context, token string) (bool, error)
 	CreateMedicationSchedule(ctx context.Context, input model.AddMedicationScheduleInput) (bool, error)
 }
+type MyMedicationResolver interface {
+	Schedule(ctx context.Context, obj *model.MyMedication) (*model.MyMedicationSchedule, error)
+}
 type QueryResolver interface {
 	SearchMedications(ctx context.Context, query string, after *string) (*model.MedicationsConnection, error)
-	MyMedications(ctx context.Context) ([]*model.MyMedicationEdge, error)
+	MyMedications(ctx context.Context, after *string) (*model.MyMedicationsConnection, error)
 }
 
 type executableSchema struct {
@@ -296,6 +307,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.MyMedication.ID(childComplexity), true
 
+	case "MyMedication.schedule":
+		if e.complexity.MyMedication.Schedule == nil {
+			break
+		}
+
+		return e.complexity.MyMedication.Schedule(childComplexity), true
+
 	case "MyMedication.user":
 		if e.complexity.MyMedication.User == nil {
 			break
@@ -316,6 +334,27 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.MyMedicationEdge.Node(childComplexity), true
+
+	case "MyMedicationSchedule.dosesRemaining":
+		if e.complexity.MyMedicationSchedule.DosesRemaining == nil {
+			break
+		}
+
+		return e.complexity.MyMedicationSchedule.DosesRemaining(childComplexity), true
+
+	case "MyMedicationSchedule.scheduledDays":
+		if e.complexity.MyMedicationSchedule.ScheduledDays == nil {
+			break
+		}
+
+		return e.complexity.MyMedicationSchedule.ScheduledDays(childComplexity), true
+
+	case "MyMedicationSchedule.timesPerDay":
+		if e.complexity.MyMedicationSchedule.TimesPerDay == nil {
+			break
+		}
+
+		return e.complexity.MyMedicationSchedule.TimesPerDay(childComplexity), true
 
 	case "MyMedicationsConnection.edges":
 		if e.complexity.MyMedicationsConnection.Edges == nil {
@@ -357,7 +396,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		return e.complexity.Query.MyMedications(childComplexity), true
+		args, err := ec.field_Query_myMedications_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MyMedications(childComplexity, args["after"].(*string)), true
 
 	case "Query.searchMedications":
 		if e.complexity.Query.SearchMedications == nil {
@@ -662,6 +706,29 @@ func (ec *executionContext) field_Query___type_argsName(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_myMedications_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	arg0, err := ec.field_Query_myMedications_argsAfter(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["after"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_myMedications_argsAfter(
+	ctx context.Context,
+	rawArgs map[string]interface{},
+) (*string, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
+	if tmp, ok := rawArgs["after"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
 	return zeroVal, nil
 }
 
@@ -1184,6 +1251,8 @@ func (ec *executionContext) fieldContext_Mutation_addMyMedication(ctx context.Co
 				return ec.fieldContext_MyMedication_dosageStrength(ctx, field)
 			case "consumptionTime":
 				return ec.fieldContext_MyMedication_consumptionTime(ctx, field)
+			case "schedule":
+				return ec.fieldContext_MyMedication_schedule(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MyMedication", field.Name)
 		},
@@ -1701,6 +1770,55 @@ func (ec *executionContext) fieldContext_MyMedication_consumptionTime(_ context.
 	return fc, nil
 }
 
+func (ec *executionContext) _MyMedication_schedule(ctx context.Context, field graphql.CollectedField, obj *model.MyMedication) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MyMedication_schedule(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.MyMedication().Schedule(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MyMedicationSchedule)
+	fc.Result = res
+	return ec.marshalOMyMedicationSchedule2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationSchedule(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MyMedication_schedule(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MyMedication",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "scheduledDays":
+				return ec.fieldContext_MyMedicationSchedule_scheduledDays(ctx, field)
+			case "timesPerDay":
+				return ec.fieldContext_MyMedicationSchedule_timesPerDay(ctx, field)
+			case "dosesRemaining":
+				return ec.fieldContext_MyMedicationSchedule_dosesRemaining(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MyMedicationSchedule", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MyMedicationEdge_cursor(ctx context.Context, field graphql.CollectedField, obj *model.MyMedicationEdge) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MyMedicationEdge_cursor(ctx, field)
 	if err != nil {
@@ -1796,8 +1914,133 @@ func (ec *executionContext) fieldContext_MyMedicationEdge_node(_ context.Context
 				return ec.fieldContext_MyMedication_dosageStrength(ctx, field)
 			case "consumptionTime":
 				return ec.fieldContext_MyMedication_consumptionTime(ctx, field)
+			case "schedule":
+				return ec.fieldContext_MyMedication_schedule(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MyMedication", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MyMedicationSchedule_scheduledDays(ctx context.Context, field graphql.CollectedField, obj *model.MyMedicationSchedule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MyMedicationSchedule_scheduledDays(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ScheduledDays, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MyMedicationSchedule_scheduledDays(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MyMedicationSchedule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MyMedicationSchedule_timesPerDay(ctx context.Context, field graphql.CollectedField, obj *model.MyMedicationSchedule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MyMedicationSchedule_timesPerDay(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TimesPerDay, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MyMedicationSchedule_timesPerDay(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MyMedicationSchedule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MyMedicationSchedule_dosesRemaining(ctx context.Context, field graphql.CollectedField, obj *model.MyMedicationSchedule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MyMedicationSchedule_dosesRemaining(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DosesRemaining, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MyMedicationSchedule_dosesRemaining(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MyMedicationSchedule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2109,7 +2352,7 @@ func (ec *executionContext) _Query_myMedications(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().MyMedications(rctx)
+		return ec.resolvers.Query().MyMedications(rctx, fc.Args["after"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2121,12 +2364,12 @@ func (ec *executionContext) _Query_myMedications(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.MyMedicationEdge)
+	res := resTmp.(*model.MyMedicationsConnection)
 	fc.Result = res
-	return ec.marshalNMyMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdgeᚄ(ctx, field.Selections, res)
+	return ec.marshalNMyMedicationsConnection2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_myMedications(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_myMedications(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -2134,13 +2377,24 @@ func (ec *executionContext) fieldContext_Query_myMedications(_ context.Context, 
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "cursor":
-				return ec.fieldContext_MyMedicationEdge_cursor(ctx, field)
-			case "node":
-				return ec.fieldContext_MyMedicationEdge_node(ctx, field)
+			case "edges":
+				return ec.fieldContext_MyMedicationsConnection_edges(ctx, field)
+			case "pageInfo":
+				return ec.fieldContext_MyMedicationsConnection_pageInfo(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type MyMedicationEdge", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type MyMedicationsConnection", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_myMedications_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -4695,30 +4949,63 @@ func (ec *executionContext) _MyMedication(ctx context.Context, sel ast.Selection
 		case "id":
 			out.Values[i] = ec._MyMedication_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "user":
 			out.Values[i] = ec._MyMedication_user(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "brandName":
 			out.Values[i] = ec._MyMedication_brandName(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "activeIngredient":
 			out.Values[i] = ec._MyMedication_activeIngredient(ctx, field, obj)
 		case "dosageStrength":
 			out.Values[i] = ec._MyMedication_dosageStrength(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "consumptionTime":
 			out.Values[i] = ec._MyMedication_consumptionTime(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "schedule":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._MyMedication_schedule(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -4763,6 +5050,46 @@ func (ec *executionContext) _MyMedicationEdge(ctx context.Context, sel ast.Selec
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var myMedicationScheduleImplementors = []string{"MyMedicationSchedule"}
+
+func (ec *executionContext) _MyMedicationSchedule(ctx context.Context, sel ast.SelectionSet, obj *model.MyMedicationSchedule) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, myMedicationScheduleImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MyMedicationSchedule")
+		case "scheduledDays":
+			out.Values[i] = ec._MyMedicationSchedule_scheduledDays(ctx, field, obj)
+		case "timesPerDay":
+			out.Values[i] = ec._MyMedicationSchedule_timesPerDay(ctx, field, obj)
+		case "dosesRemaining":
+			out.Values[i] = ec._MyMedicationSchedule_dosesRemaining(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -5574,6 +5901,20 @@ func (ec *executionContext) marshalNMyMedicationEdge2ᚖgoᚑapiᚋgraphᚋmodel
 	return ec._MyMedicationEdge(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNMyMedicationsConnection2goᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v model.MyMedicationsConnection) graphql.Marshaler {
+	return ec._MyMedicationsConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNMyMedicationsConnection2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v *model.MyMedicationsConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MyMedicationsConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNPageInfo2ᚖgoᚑapiᚋgraphᚋmodelᚐPageInfo(ctx context.Context, sel ast.SelectionSet, v *model.PageInfo) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -5963,6 +6304,13 @@ func (ec *executionContext) marshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmod
 		return graphql.Null
 	}
 	return v
+}
+
+func (ec *executionContext) marshalOMyMedicationSchedule2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationSchedule(ctx context.Context, sel ast.SelectionSet, v *model.MyMedicationSchedule) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._MyMedicationSchedule(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, v interface{}) (*model.RecurringScheduleType, error) {

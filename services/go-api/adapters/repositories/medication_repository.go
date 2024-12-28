@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"go-api/adapters"
+	adapters "go-api/adapters/models"
 	"go-api/core"
 	"go-api/utils"
 

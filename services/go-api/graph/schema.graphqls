@@ -51,6 +51,16 @@ type MyMedication {
   activeIngredient: String
   dosageStrength: String!
   consumptionTime: Time!
+  schedule: MyMedicationSchedule
+}
+
+type MyMedicationSchedule {
+  """
+  The number of days the medication is taken each week. E.g. Every Day, Weekly, Every Other Day or Mon, Tues, Fri.
+  """
+  scheduledDays: String
+  timesPerDay: Int
+  dosesRemaining: Int
 }
 
 input AddMyMedicationInput {
@@ -130,7 +140,7 @@ type Query {
   """
   Get all medications that a user is taking.
   """
-  myMedications: [MyMedicationEdge!]!
+  myMedications(after: String): MyMedicationsConnection!
 }
 
 type Mutation {

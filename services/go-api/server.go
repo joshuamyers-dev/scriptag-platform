@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"go-api/adapters/repository"
+	repository "go-api/adapters/repositories"
 	"go-api/auth"
 	"go-api/config"
 	"go-api/graph"

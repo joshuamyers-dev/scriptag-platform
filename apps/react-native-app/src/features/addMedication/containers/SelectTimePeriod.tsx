@@ -24,10 +24,12 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {AddMedicationContext} from './AddMedicationContainer';
 import {
   MethodScheduleType,
+  MyMedicationsDocument,
   RecurringScheduleType,
   useAddMedicationScheduleMutation,
 } from '@graphql/generated';
 import {parseIntOrNull} from '@utils/Helpers';
+import {ToastType, useGlobalStore} from '@store';
 
 const SelectTimePeriod = () => {
   const context = useContext(AddMedicationContext);
@@ -40,6 +42,7 @@ const SelectTimePeriod = () => {
   >('startDate');
   const [refillsAmount, setRefillsAmount] = useState<string | null>(null);
   const [dosesRemaining, setDosesRemaining] = useState<string | null>(null);
+  const {showToast} = useGlobalStore();
 
   const [addMedicationScheduleMutation, {loading, error, data}] =
     useAddMedicationScheduleMutation();
@@ -59,9 +62,13 @@ const SelectTimePeriod = () => {
 
     if (context?.timeSlots && context.timeSlots.length > 0) {
       recurringType = RecurringScheduleType.Time;
-    } else if (context?.hoursInterval) {
+    }
+
+    if (context?.hoursInterval) {
       recurringType = RecurringScheduleType.Intervals;
-    } else if (context?.useForHours && context?.useForDays) {
+    }
+
+    if (context?.useForHours && context?.useForDays) {
       recurringType = RecurringScheduleType.Periods;
     }
 
@@ -79,14 +86,34 @@ const SelectTimePeriod = () => {
           pauseForDays: parseIntOrNull(context?.pauseForDays),
           useForHours: parseIntOrNull(context?.useForHours),
           pauseForHours: parseIntOrNull(context?.pauseForHours),
-          timeSlots: context?.timeSlots,
+          timeSlots:
+            recurringType === RecurringScheduleType.Time
+              ? context?.timeSlots?.map(slot => slot.toISOString())
+              : [],
           daysOfWeek: context?.scheduledDays,
           methodType,
           recurringType,
         },
       },
+      refetchQueries: [
+        {
+          query: MyMedicationsDocument,
+        },
+      ],
     });
   }, [context]);
+
+  useEffect(() => {
+    if (error?.message) {
+      showToast('An error occurred.', error?.message, ToastType.ERROR);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (data?.createMedicationSchedule) {
+      context?.onFlowComplete();
+    }
+  }, [data]);
 
   useEffect(() => {
     context?.setStartDate(startDate);
@@ -192,7 +219,11 @@ const SelectTimePeriod = () => {
         </View>
       </KeyboardAwareScrollView>
       <View style={styles.footerContainer}>
-        <CustomButton title="Save medication" onPress={onPressContinue} />
+        <CustomButton
+          title="Save medication"
+          onPress={onPressContinue}
+          loading={loading}
+        />
       </View>
     </View>
   );

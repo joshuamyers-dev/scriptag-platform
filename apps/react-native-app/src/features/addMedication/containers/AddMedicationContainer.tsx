@@ -19,6 +19,7 @@ import BackButton from '@navigators/components/BackButton';
 import ScheduleContainer from './ScheduleContainer';
 import {Medication} from '@graphql/generated';
 import SelectTimePeriod from './SelectTimePeriod';
+import {ToastType, useGlobalStore} from '@store';
 
 const Add_MEDICATION_STEPS = [
   {
@@ -72,6 +73,7 @@ interface AddMedicationContextProps {
   setDosesRemaining: (doses: string | null) => void;
   refillsRemaining: string | null;
   setRefillsRemaining: (refills: string | null) => void;
+  onFlowComplete: () => void;
 }
 
 export const AddMedicationContext = createContext<
@@ -95,6 +97,8 @@ const AddMedicationContainer = ({navigation}) => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [dosesRemaining, setDosesRemaining] = useState<string | null>(null);
   const [refillsRemaining, setRefillsRemaining] = useState<string | null>(null);
+
+  const {showToast} = useGlobalStore();
 
   const opacity = useSharedValue(1);
   const translateX = useSharedValue(0);
@@ -145,6 +149,15 @@ const AddMedicationContainer = ({navigation}) => {
     },
     [currentStep],
   );
+
+  const onFlowComplete = useCallback(() => {
+    navigation.pop();
+    showToast(
+      'We’ve added your medication.',
+      'It will show up on this screen.',
+      ToastType.SUCCESS,
+    );
+  }, []);
 
   return (
     <View
@@ -198,6 +211,7 @@ const AddMedicationContainer = ({navigation}) => {
           setDosesRemaining,
           refillsRemaining,
           setRefillsRemaining,
+          onFlowComplete,
         }}>
         <Animated.View style={[animatedStyle, {width: '100%', flex: 1}]}>
           {currentStep === 0 && <SearchMedicationContainer />}

@@ -68,17 +68,25 @@ type Mutation struct {
 
 // Represents a medication that a user is taking.
 type MyMedication struct {
-	ID               string    `json:"id"`
-	User             *User     `json:"user"`
-	BrandName        string    `json:"brandName"`
-	ActiveIngredient *string   `json:"activeIngredient,omitempty"`
-	DosageStrength   string    `json:"dosageStrength"`
-	ConsumptionTime  time.Time `json:"consumptionTime"`
+	ID               string                `json:"id"`
+	User             *User                 `json:"user"`
+	BrandName        string                `json:"brandName"`
+	ActiveIngredient *string               `json:"activeIngredient,omitempty"`
+	DosageStrength   string                `json:"dosageStrength"`
+	ConsumptionTime  time.Time             `json:"consumptionTime"`
+	Schedule         *MyMedicationSchedule `json:"schedule,omitempty"`
 }
 
 type MyMedicationEdge struct {
 	Cursor string        `json:"cursor"`
 	Node   *MyMedication `json:"node"`
+}
+
+type MyMedicationSchedule struct {
+	// The number of days the medication is taken each week. E.g. Every Day, Weekly, Every Other Day or Mon, Tues, Fri.
+	ScheduledDays  *string `json:"scheduledDays,omitempty"`
+	TimesPerDay    *int    `json:"timesPerDay,omitempty"`
+	DosesRemaining *int    `json:"dosesRemaining,omitempty"`
 }
 
 type MyMedicationsConnection struct {

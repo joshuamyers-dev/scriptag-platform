@@ -5,25 +5,17 @@ import BottomSheet, {
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
 import {Portal} from '@gorhom/portal';
+import {useMyMedicationsQuery} from '@graphql/generated';
 import {ADD_MEDICATION_STACK} from '@navigators/ScreenConstants';
 import {Spacing16, Spacing24} from '@utils/tokens';
 import {useCallback, useRef} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import MedicationCard from '../components/MedicationCard';
 
 const StockContainer = ({navigation}) => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const renderBackdrop = useCallback(
-    props => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        enableTouchThrough
-      />
-    ),
-    [],
-  );
+  const {data: myMedicationsData, loading} = useMyMedicationsQuery({
+    fetchPolicy: 'cache-and-network',
+  });
 
   return (
     <View
@@ -33,23 +25,19 @@ const StockContainer = ({navigation}) => {
         paddingTop: Spacing24.original,
         paddingBottom: Spacing16.original,
       }}>
-      <Portal>
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={-1}
-          enablePanDownToClose
-          backdropComponent={renderBackdrop}>
-          <BottomSheetView style={styles.contentContainer}>
-            <Text>Awesome 🎉</Text>
-          </BottomSheetView>
-        </BottomSheet>
-      </Portal>
-      <EmptyState
-        header="Stay on top of your supply"
-        description="Here’s where you can view all your medications and their current stock levels. Easily check how much you have left and get reminders when it’s time to refill."
-        image={<Image source={require('@assets/images/stock-empty.png')} />}
+      {myMedicationsData?.myMedications.edges.length === 0 && (
+        <EmptyState
+          header="Stay on top of your supply"
+          description="Here’s where you can view all your medications and their current stock levels. Easily check how much you have left and get reminders when it’s time to refill."
+          image={<Image source={require('@assets/images/stock-empty.png')} />}
+        />
+      )}
+      <FlatList
+        data={myMedicationsData?.myMedications.edges}
+        extraData={myMedicationsData?.myMedications.edges}
+        renderItem={({item}) => <MedicationCard medication={item.node} />}
+        keyExtractor={item => item.node.id}
       />
-
       <CustomButton
         title="New Medication"
         icon={<Image source={require('@assets/icons/plus-add.png')} />}

@@ -17,13 +17,19 @@ const zustandStorage: StateStorage = {
   },
 };
 
+export enum ToastType {
+  ERROR = 'error',
+  SUCCESS = 'success',
+}
+
 interface GlobalState {
   authToken: string | null;
   setAuthToken: (token: string) => void;
   toastVisible: boolean;
   toastTitle: string | null;
   toastMessage: string | null;
-  showToast(title: string, message: string): void;
+  toastType: ToastType | null;
+  showToast(title: string, message: string, type: ToastType): void;
   hideToast(): void;
 }
 
@@ -35,11 +41,13 @@ export const useGlobalStore = create<GlobalState>()(
       toastVisible: false,
       toastTitle: null,
       toastMessage: null,
-      showToast(title, message) {
+      toastType: null,
+      showToast(title, message, type) {
         set({
           toastVisible: true,
           toastTitle: title,
           toastMessage: message,
+          toastType: type,
         });
       },
       hideToast: () =>
@@ -47,6 +55,7 @@ export const useGlobalStore = create<GlobalState>()(
           toastVisible: false,
           toastTitle: null,
           toastMessage: null,
+          toastType: null,
         }),
     }),
     {

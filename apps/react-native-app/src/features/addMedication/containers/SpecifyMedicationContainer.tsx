@@ -1,36 +1,26 @@
 import CustomButton from '@components/CustomButton';
 import InputLabel from '@components/InputLabel';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
-import {Portal} from '@gorhom/portal';
+import InputMultipleSelect from '@components/InputMultipleSelect';
 import {useAddMyMedicationMutation} from '@graphql/generated';
 import {UNIT_MEASUREMENTS} from '@utils/Constants';
 import {
   Colour10,
   Colour100,
   Colour80,
-  ColourPurple10,
-  ColourPurple50,
   fontBodyS,
   fontLabelM,
   fontLabelS,
   Spacing16,
 } from '@utils/tokens';
-import {useCallback, useContext, useEffect, useRef, useState} from 'react';
-import {Keyboard, StyleSheet, Text, TextStyle, View} from 'react-native';
-import {WheelPicker} from 'react-native-infinite-wheel-picker';
+import {useCallback, useContext, useEffect, useState} from 'react';
+import {StyleSheet, Text, TextStyle, View} from 'react-native';
 import {AddMedicationContext} from './AddMedicationContainer';
-import InputMultipleSelect from '@components/InputMultipleSelect';
 
 const SpecifyMedicationContainer = () => {
   const context = useContext(AddMedicationContext);
   const [name, setName] = useState('');
   const [strength, setStrength] = useState('');
   const [selectedUnitIndex, setSelectedUnitIndex] = useState(0);
-
-  const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [createMedicationMutation, {loading, error, data}] =
     useAddMyMedicationMutation();
@@ -51,18 +41,6 @@ const SpecifyMedicationContainer = () => {
       context?.handleStepChange(context.currentStep + 1, 1);
     }
   }, [error, data]);
-
-  const renderBackdrop = useCallback(
-    props => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        enableTouchThrough
-      />
-    ),
-    [],
-  );
 
   return (
     <View style={styles.container}>

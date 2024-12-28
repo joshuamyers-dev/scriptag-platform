@@ -124,6 +124,7 @@ export type MyMedication = {
   consumptionTime: Scalars['Time'];
   dosageStrength: Scalars['String'];
   id: Scalars['ID'];
+  schedule?: Maybe<MyMedicationSchedule>;
   user: User;
 };
 
@@ -131,6 +132,14 @@ export type MyMedicationEdge = {
   __typename?: 'MyMedicationEdge';
   cursor: Scalars['String'];
   node: MyMedication;
+};
+
+export type MyMedicationSchedule = {
+  __typename?: 'MyMedicationSchedule';
+  dosesRemaining?: Maybe<Scalars['Int']>;
+  /** The number of days the medication is taken each week. E.g. Every Day, Weekly, Every Other Day or Mon, Tues, Fri. */
+  scheduledDays?: Maybe<Scalars['String']>;
+  timesPerDay?: Maybe<Scalars['Int']>;
 };
 
 export type MyMedicationsConnection = {
@@ -149,9 +158,14 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   /** Get all medications that a user is taking. */
-  myMedications: Array<MyMedicationEdge>;
+  myMedications: MyMedicationsConnection;
   /** Search for medications in the global library by name. */
   searchMedications: MedicationsConnection;
+};
+
+
+export type QueryMyMedicationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -222,6 +236,13 @@ export type CreateAccountMutationVariables = Exact<{
 
 
 export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: { __typename?: 'Session', token?: string | null, user?: { __typename?: 'User', id: string, email: string } | null } };
+
+export type MyMedicationsQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type MyMedicationsQuery = { __typename?: 'Query', myMedications: { __typename?: 'MyMedicationsConnection', edges: Array<{ __typename?: 'MyMedicationEdge', node: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, schedule?: { __typename?: 'MyMedicationSchedule', scheduledDays?: string | null, timesPerDay?: number | null, dosesRemaining?: number | null } | null, user: { __typename?: 'User', id: string } } }>, pageInfo: { __typename?: 'PageInfo', endCursor: string, hasNextPage?: boolean | null } } };
 
 export type MyMedicationBaseFragment = { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, user: { __typename?: 'User', id: string } };
 
@@ -452,3 +473,51 @@ export function useCreateAccountMutation(baseOptions?: ApolloReactHooks.Mutation
 export type CreateAccountMutationHookResult = ReturnType<typeof useCreateAccountMutation>;
 export type CreateAccountMutationResult = ApolloReactCommon.MutationResult<CreateAccountMutation>;
 export type CreateAccountMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateAccountMutation, CreateAccountMutationVariables>;
+export const MyMedicationsDocument = gql`
+    query MyMedications($after: String) {
+  myMedications(after: $after) {
+    edges {
+      node {
+        ...MyMedicationBase
+        schedule {
+          scheduledDays
+          timesPerDay
+          dosesRemaining
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+    ${MyMedicationBaseFragmentDoc}`;
+
+/**
+ * __useMyMedicationsQuery__
+ *
+ * To run a query within a React component, call `useMyMedicationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyMedicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyMedicationsQuery({
+ *   variables: {
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useMyMedicationsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyMedicationsQuery, MyMedicationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<MyMedicationsQuery, MyMedicationsQueryVariables>(MyMedicationsDocument, options);
+      }
+export function useMyMedicationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyMedicationsQuery, MyMedicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<MyMedicationsQuery, MyMedicationsQueryVariables>(MyMedicationsDocument, options);
+        }
+export type MyMedicationsQueryHookResult = ReturnType<typeof useMyMedicationsQuery>;
+export type MyMedicationsLazyQueryHookResult = ReturnType<typeof useMyMedicationsLazyQuery>;
+export type MyMedicationsQueryResult = ApolloReactCommon.QueryResult<MyMedicationsQuery, MyMedicationsQueryVariables>;

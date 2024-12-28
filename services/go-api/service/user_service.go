@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"go-api/adapters/mappers"
 	"go-api/core"
 	"go-api/graph/model"
 	"os"
@@ -11,12 +12,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// UserServiceImpl is an implementation of the UserService interface.
 type UserServiceImpl struct {
 	repo core.UserRepository
 }
 
-// NewUserService creates a new instance of UserServiceImpl.
 func NewUserService(repo core.UserRepository) *UserServiceImpl {
 	return &UserServiceImpl{repo: repo}
 }
@@ -55,12 +54,9 @@ func (s *UserServiceImpl) CreateUser(context context.Context, user *core.User) (
 	}
 
 	return &model.Session{
-		Token: &tokenString,
-		User: &model.User{
-			ID:    user.ID,
-			Email: user.Email,
-		},
-	}, nil
+        Token: &tokenString,
+        User:  mappers.MapCoreUserToGraphQL(user),
+    }, nil
 }
 
 func (s *UserServiceImpl) LoginUser(context context.Context, email string, password string) (*model.Session, error) {
@@ -90,12 +86,9 @@ func (s *UserServiceImpl) LoginUser(context context.Context, email string, passw
 	}
 
 	return &model.Session{
-		Token: &tokenString,
-		User: &model.User{
-			ID:    user.ID,
-			Email: user.Email,
-		},
-	}, nil
+        Token: &tokenString,
+        User:  mappers.MapCoreUserToGraphQL(user),
+    }, nil
 }
 
 func (s *UserServiceImpl) GetUserByID(id string) (*core.User, error) {
@@ -105,11 +98,7 @@ func (s *UserServiceImpl) GetUserByID(id string) (*core.User, error) {
 		return &core.User{}, err
 	}
 
-	return &core.User{
-		ID:       user.ID,
-		Email:    user.Email,
-		Password: user.Password,
-	}, nil
+	return user, nil
 }
 
 func (s *UserServiceImpl) AddFCMToken(context context.Context, user *core.User, token string) error {

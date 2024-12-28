@@ -26,12 +26,12 @@ const (
 
 type GormUserMedicationSchedule struct {
 	Base
-	UserMedicationID uint               `gorm:"not null;index"`
-	UserMedication   GormUserMedication `gorm:"foreignKey:UserMedicationID"`
+	UserMedicationID string             `gorm:"not null;index"`
+	UserMedication   GormUserMedication `gorm:"foreignKey:UserMedicationID;constraint:OnDelete:CASCADE"`
 	MethodType       MethodType         `gorm:"type:user_medication_method_schedule_type;not null"`
 	RecurringType    RecurringType      `gorm:"type:user_medication_recurring_schedule_type;not null"`
 	DaysOfWeek       *pq.StringArray    `gorm:"type:varchar(10)[]"`
-	TimeSlots        []*time.Time       `gorm:"type:timestamptz[]"`
+	TimeSlots        *TimestamptzArray  `gorm:"type:timestamptz[]"`
 	StartDate        *time.Time         `gorm:"default:null"`
 	EndDate          *time.Time         `gorm:"default:null"`
 	DaysInterval     *uint              `gorm:"default:null"`

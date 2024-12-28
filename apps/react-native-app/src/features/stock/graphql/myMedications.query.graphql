@@ -1,0 +1,18 @@
+query MyMedications($after: String) {
+  myMedications(after: $after) {
+    edges {
+      node {
+        ...MyMedicationBase
+        schedule {
+          scheduledDays
+          timesPerDay
+          dosesRemaining
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}

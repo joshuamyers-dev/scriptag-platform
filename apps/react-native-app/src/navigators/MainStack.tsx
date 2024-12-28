@@ -1,6 +1,5 @@
 import SignUpContainer from '@features/accountCreation/containers/SignUpContainer';
 import ScanTagContainer from '@features/addMedication/containers/ScanTagContainer';
-import SelectTimeContainer from '@features/addMedication/containers/SelectTimeContainer';
 import OnboardingContainer from '@features/onboarding/containers/OnboardingContainer';
 import ProfileOnboardingContainer from '@features/onboarding/containers/ProfileOnboardingContainer';
 import ProfileOnboardingSuccessContainer from '@features/onboarding/containers/ProfileOnboardingSuccessContainer';
@@ -64,14 +63,6 @@ const AddMedicationStack = () => {
           headerLeft: () => (
             <BackButton isColoured onPress={() => navigation.goBack()} />
           ),
-        })}
-      />
-      <NativeStack.Screen
-        name={SELECT_TIME_SCREEN}
-        component={SelectTimeContainer}
-        options={({navigation}) => ({
-          headerShown: true,
-          headerTitle: 'Add Medication',
         })}
       />
       <NativeStack.Screen

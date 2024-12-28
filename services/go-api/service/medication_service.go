@@ -1,6 +1,7 @@
 package service
 
 import (
+	"go-api/adapters/mappers"
 	"go-api/core"
 	"go-api/graph/model"
 )
@@ -21,15 +22,7 @@ func (s *MedicationServiceImpl) SearchMedications(query string, afterCursor *str
 
 	var medicationEdges []*model.MedicationEdge
 	for _, med := range coreMeds.Edges {
-		medicationEdges = append(medicationEdges, &model.MedicationEdge{
-			Cursor: med.Node.ID,
-			Node: &model.Medication{
-				ID:               med.Node.ID,
-				ActiveIngredient: med.Node.ActiveIngredient,
-				BrandName:        med.Node.BrandName,
-				Strength:         &med.Node.Strength,
-			},
-		})
+		medicationEdges = append(medicationEdges, mappers.MapCoreMedicationEdgeToGraphQLEdge(med))
 	}
 
 	var medsConnection = &model.MedicationsConnection{

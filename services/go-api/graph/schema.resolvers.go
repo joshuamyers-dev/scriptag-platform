@@ -6,7 +6,7 @@ package graph
 
 import (
 	"context"
-	"fmt"
+	adapters "go-api/adapters/models"
 	"go-api/auth"
 	"go-api/core"
 	"go-api/graph/model"
@@ -51,12 +51,12 @@ func (r *mutationResolver) AddFcmToken(ctx context.Context, token string) (bool,
 
 // CreateMedicationSchedule is the resolver for the createMedicationSchedule field.
 func (r *mutationResolver) CreateMedicationSchedule(ctx context.Context, input model.AddMedicationScheduleInput) (bool, error) {
-	// user := auth.ForContext(ctx)
+	user := auth.ForContext(ctx)
 
 	return r.UserMedicationService.CreateUserMedicationSchedule(&core.MedicationSchedule{
 		UserMedicationID: *input.MyMedicationID,
-		MethodType:       *input.MethodType,
-		RecurringType:    *input.RecurringType,
+		MethodType:       adapters.MethodType(*input.MethodType),
+		RecurringType:    adapters.RecurringType(*input.RecurringType),
 		DaysOfWeek:       input.DaysOfWeek,
 		TimeSlots:        input.TimeSlots,
 		StartDate:        input.StartDate,
@@ -69,7 +69,12 @@ func (r *mutationResolver) CreateMedicationSchedule(ctx context.Context, input m
 		PauseForHours:    input.PauseForHours,
 		RefillsAmount:    input.RefillsRemaining,
 		DosesAmount:      input.DosesRemaining,
-	})
+	}, user.ID)
+}
+
+// Schedule is the resolver for the schedule field.
+func (r *myMedicationResolver) Schedule(ctx context.Context, obj *model.MyMedication) (*model.MyMedicationSchedule, error) {
+	return r.UserMedicationService.FetchUserMedicationSchedule(obj.ID)
 }
 
 // SearchMedications is the resolver for the searchMedications field.
@@ -78,15 +83,21 @@ func (r *queryResolver) SearchMedications(ctx context.Context, query string, aft
 }
 
 // MyMedications is the resolver for the myMedications field.
-func (r *queryResolver) MyMedications(ctx context.Context) ([]*model.MyMedicationEdge, error) {
-	panic(fmt.Errorf("not implemented: MyMedications - myMedications"))
+func (r *queryResolver) MyMedications(ctx context.Context, after *string) (*model.MyMedicationsConnection, error) {
+	user := auth.ForContext(ctx)
+
+	return r.UserMedicationService.FetchUserMedications(user.ID, after)
 }
 
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
+// MyMedication returns MyMedicationResolver implementation.
+func (r *Resolver) MyMedication() MyMedicationResolver { return &myMedicationResolver{r} }
+
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
+type myMedicationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

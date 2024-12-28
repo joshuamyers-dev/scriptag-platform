@@ -1,6 +1,7 @@
 package core
 
 import (
+	adapters "go-api/adapters/models"
 	"go-api/graph/model"
 	"time"
 )
@@ -16,11 +17,21 @@ type UserMedication struct {
 	ReminderDateTime time.Time
 }
 
+type UserMedicationEdge struct {
+	Cursor string
+	Node   *UserMedication
+}
+
+type UserMedicationConnection struct {
+	Edges    []*UserMedicationEdge
+	PageInfo PageInfo
+}
+
 type MedicationSchedule struct {
 	ID               string
 	UserMedicationID string
-	MethodType       model.MethodScheduleType
-	RecurringType    model.RecurringScheduleType
+	MethodType       adapters.MethodType
+	RecurringType    adapters.RecurringType
 	DaysOfWeek       []*string
 	TimeSlots        []*time.Time
 	StartDate        *time.Time
@@ -35,12 +46,23 @@ type MedicationSchedule struct {
 	DosesAmount      *int
 }
 
+type MyMedicationSchedule struct {
+	DosageIntervalHours *int
+	DosageIntervalDays  *int
+	AmountRemaining     *int
+}
+
 type UserMedicationRepository interface {
 	Create(userMedication *UserMedication) (*UserMedication, error)
 	CreateSchedule(userMedicationSchedule *MedicationSchedule) (*MedicationSchedule, error)
+	FetchScheduleByUserMedicationID(id string) (*MedicationSchedule, error)
+	FetchUserMedicationByID(id string) (*UserMedication, error)
+	FetchPaginated(userId string, afterCursor *string) (*UserMedicationConnection, error)
 }
 
 type UserMedicationService interface {
 	CreateUserMedication(userMedication *UserMedication) (*model.MyMedication, error)
-	CreateUserMedicationSchedule(userMedicationSchedule *MedicationSchedule) (bool, error)
+	CreateUserMedicationSchedule(userMedicationSchedule *MedicationSchedule, userId string) (bool, error)
+	FetchUserMedications(userId string, afterCursor *string) (*model.MyMedicationsConnection, error)
+	FetchUserMedicationSchedule(userMedicationId string) (*model.MyMedicationSchedule, error)
 }

@@ -1,7 +1,8 @@
 package repository
 
 import (
-	"go-api/adapters"
+	"go-api/adapters/mappers"
+	adapters "go-api/adapters/models"
 	"go-api/core"
 
 	"gorm.io/gorm"
@@ -20,11 +21,7 @@ func (r *UserRepository) FindByID(id string) (*core.User, error) {
 	if err := r.DB.Where("id = ?", id).First(&user).Error; err != nil {
 		return &core.User{}, err
 	}
-	return &core.User{
-		ID:       user.ID,
-		Email:    user.Email,
-		Password: user.Password,
-	}, nil
+	return mappers.MapUserToCoreUser(&user), nil
 }
 
 func (r *UserRepository) FindByEmail(email string) (*core.User, error) {
@@ -32,11 +29,7 @@ func (r *UserRepository) FindByEmail(email string) (*core.User, error) {
 	if err := r.DB.Where("email = ?", email).First(&user).Error; err != nil {
 		return &core.User{}, err
 	}
-	return &core.User{
-		ID:       user.ID,
-		Email:    user.Email,
-		Password: user.Password,
-	}, nil
+	return mappers.MapUserToCoreUser(&user), nil
 }
 
 func (r *UserRepository) Create(user *core.User) (*core.User, error) {
@@ -52,11 +45,7 @@ func (r *UserRepository) Create(user *core.User) (*core.User, error) {
 		return &core.User{}, err
 	}
 
-	return &core.User{
-		ID:       gormUser.ID,
-		Email:    gormUser.Email,
-		Password: gormUser.Password,
-	}, nil
+	return mappers.MapUserToCoreUser(&gormUser), nil
 }
 
 func (r *UserRepository) AddFCMToken(user *core.User, token string) error {

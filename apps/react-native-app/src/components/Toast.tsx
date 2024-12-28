@@ -1,12 +1,17 @@
+import {ToastType, useGlobalStore} from '@store';
 import {triggerNotificationErrorHaptic} from '@utils/Helpers';
 import {
+  ColourGreen10,
+  ColourGreen100,
+  ColourGreen50,
   ColourRed10,
   ColourRed100,
+  ColourRed50,
   fontBodyS,
   fontLabelS,
   Spacing16,
 } from '@utils/tokens';
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {
   Image,
   StyleSheet,
@@ -18,22 +23,17 @@ import {
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
-  runOnUI,
-  SlideInUp,
-  SlideOutUp,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {useGlobalStore} from '@store';
 
 const ToastMessage: React.FC = () => {
   const translateY = useSharedValue(-500);
   const timeout = useSharedValue<NodeJS.Timeout | null>(null);
 
-  const {toastMessage, toastTitle, toastVisible, hideToast} = useGlobalStore(
-    state => state,
-  );
+  const {toastMessage, toastTitle, toastType, toastVisible, hideToast} =
+    useGlobalStore(state => state);
 
   const gesture = Gesture.Pan()
     .onUpdate(event => {
@@ -73,16 +73,51 @@ const ToastMessage: React.FC = () => {
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.toastContainer, animatedStyle]}>
-        <View style={styles.iconContainer}>
-          <Image source={require('@assets/icons/info.png')} />
+      <Animated.View
+        style={[
+          styles.toastContainer,
+          animatedStyle,
+          toastType === ToastType.ERROR && {borderColor: ColourRed50},
+          toastType === ToastType.SUCCESS && {borderColor: ColourGreen50},
+        ]}>
+        <View
+          style={[
+            styles.iconContainer,
+            toastType === ToastType.ERROR && {backgroundColor: ColourRed10},
+            toastType === ToastType.SUCCESS && {backgroundColor: ColourGreen10},
+          ]}>
+          {toastType === ToastType.ERROR && (
+            <Image source={require('@assets/icons/info.png')} />
+          )}
+          {toastType === ToastType.SUCCESS && (
+            <Image source={require('@assets/icons/green-tick.png')} />
+          )}
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.toastTitle}>{toastTitle}</Text>
-          <Text style={styles.toastMessage}>{toastMessage}</Text>
+          <Text
+            style={[
+              styles.toastTitle,
+              toastType === ToastType.SUCCESS && {color: ColourGreen100},
+              toastType === ToastType.ERROR && {color: ColourRed100},
+            ]}>
+            {toastTitle}
+          </Text>
+          <Text
+            style={[
+              styles.toastMessage,
+              toastType === ToastType.SUCCESS && {color: ColourGreen100},
+              toastType === ToastType.ERROR && {color: ColourRed100},
+            ]}>
+            {toastMessage}
+          </Text>
         </View>
         <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-          <Image source={require('@assets/icons/x-close.png')} />
+          {toastType === ToastType.ERROR && (
+            <Image source={require('@assets/icons/x-close.png')} />
+          )}
+          {toastType === ToastType.SUCCESS && (
+            <Image source={require('@assets/icons/x-close-green.png')} />
+          )}
         </TouchableOpacity>
       </Animated.View>
     </GestureDetector>
@@ -98,7 +133,6 @@ const styles = StyleSheet.create({
     zIndex: 100,
     flexDirection: 'row',
     backgroundColor: 'white',
-    borderColor: '#E50000',
     borderWidth: 1,
     borderRadius: 4,
     margin: Spacing16.original,
@@ -124,13 +158,11 @@ const styles = StyleSheet.create({
     fontFamily: fontLabelS.fontFamily,
     fontSize: fontLabelS.fontSize,
     fontWeight: fontLabelS.fontWeight as TextStyle['fontWeight'],
-    color: ColourRed100,
   },
   toastMessage: {
     fontFamily: fontBodyS.fontFamily,
     fontSize: fontBodyS.fontSize,
     fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
-    color: ColourRed100,
     marginTop: 5,
   },
   closeButton: {

@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"go-api/adapters"
+	adapters "go-api/adapters/models"
 	"io"
 	"log"
 	"os"
@@ -71,7 +71,7 @@ func initLog() logger.Interface {
 		Colorful:             true,
 		LogLevel:             logger.Info,
 		SlowThreshold:        time.Second,
-		ParameterizedQueries: true,
+		ParameterizedQueries: false,
 	})
 	return newLogger
 }

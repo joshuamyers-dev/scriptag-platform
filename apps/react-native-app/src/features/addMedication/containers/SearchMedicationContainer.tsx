@@ -1,7 +1,6 @@
 import SearchMedicationsInput from '@features/addMedication/components/SearchMedicationsInput';
 import {useSearchMedicationsLazyQuery} from '@graphql/generated';
 import {useDebounce} from '@hooks/useDebounce';
-import {SELECT_TIME_SCREEN} from '@navigators/ScreenConstants';
 import React, {
   useCallback,
   useContext,
