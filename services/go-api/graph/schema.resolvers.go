@@ -6,6 +6,7 @@ package graph
 
 import (
 	"context"
+	"go-api/adapters/loaders"
 	adapters "go-api/adapters/models"
 	"go-api/auth"
 	"go-api/core"
@@ -74,7 +75,7 @@ func (r *mutationResolver) CreateMedicationSchedule(ctx context.Context, input m
 
 // Schedule is the resolver for the schedule field.
 func (r *myMedicationResolver) Schedule(ctx context.Context, obj *model.MyMedication) (*model.MyMedicationSchedule, error) {
-	return r.UserMedicationService.FetchUserMedicationSchedule(obj.ID)
+	return loaders.GetMedicationSchedule(ctx, obj.ID)
 }
 
 // SearchMedications is the resolver for the searchMedications field.

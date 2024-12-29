@@ -8,10 +8,15 @@ import {relayStylePagination} from '@apollo/client/utilities';
 
 import Config from 'react-native-config';
 import {useGlobalStore} from './Store';
+import {
+  AsyncStorageWrapper,
+  MMKVStorageWrapper,
+  MMKVWrapper,
+  persistCache,
+} from 'apollo3-cache-persist';
+import {storage} from '@utils/Storage';
 
-// const persistedQueriesLink = createPersistedQueryLink({sha256});
-
-console.log('API_URL', Config.API_URL);
+let client: ApolloClient<any>;
 
 const httpLink = createHttpLink({
   uri: Config.API_URL,
@@ -66,10 +71,19 @@ const cache = new InMemoryCache({
   },
 });
 
-const client = new ApolloClient({
-  link: errorLink.concat(retryLink.concat(authLink.concat(httpLink))),
-  cache: cache,
-});
+export const createApolloClient = async () => {
+  await persistCache({
+    cache,
+    storage: new MMKVWrapper(storage),
+  });
+
+  client = new ApolloClient({
+    link: errorLink.concat(retryLink.concat(authLink.concat(httpLink))),
+    cache: cache,
+  });
+
+  return client;
+};
 
 export function updateClientHeaders(token: string) {
   const authLink = setContext((_, {headers}) => {
@@ -84,4 +98,4 @@ export function updateClientHeaders(token: string) {
   client.setLink(authLink.concat(httpLink));
 }
 
-export default client;
+createApolloClient();

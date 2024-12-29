@@ -50,11 +50,12 @@ type MyMedication {
   brandName: String!
   activeIngredient: String
   dosageStrength: String!
-  consumptionTime: Time!
   schedule: MyMedicationSchedule
+  isTagLinked: Boolean
 }
 
 type MyMedicationSchedule {
+  id: ID!
   """
   The number of days the medication is taken each week. E.g. Every Day, Weekly, Every Other Day or Mon, Tues, Fri.
   """

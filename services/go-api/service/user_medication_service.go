@@ -1,12 +1,9 @@
 package service
 
 import (
-	"fmt"
 	"go-api/adapters/mappers"
-	adapters "go-api/adapters/models"
 	"go-api/core"
 	"go-api/graph/model"
-	"go-api/utils"
 )
 
 type UserMedicationServiceImpl struct {
@@ -88,64 +85,4 @@ func (s *UserMedicationServiceImpl) FetchUserMedications(userId string, afterCur
 	}
 
 	return myMeds, nil
-}
-
-func (s *UserMedicationServiceImpl) FetchUserMedicationSchedule(userMedicationId string) (*model.MyMedicationSchedule, error) {
-	userMed, err := s.repo.FetchUserMedicationByID(userMedicationId)
-
-	if err != nil {
-		return nil, err
-	}
-
-	schedule, err := s.repo.FetchScheduleByUserMedicationID(userMed.ID)
-
-	if err != nil {
-		return nil, err
-	}
-
-	var scheduledDays string
-	var timesPerDay int
-
-	switch schedule.MethodType {
-	case adapters.METHOD_TYPE_DAYS:
-		for index, day := range schedule.DaysOfWeek {
-			if day != nil {
-				scheduledDays += utils.ConvertShortDayToMid(*day)
-
-				if index < len(schedule.DaysOfWeek)-1 {
-					scheduledDays += ", "
-				}
-			}
-		}
-
-	case adapters.METHOD_TYPE_INTERVALS:
-		scheduledDays = "Every " + fmt.Sprint(*schedule.DaysInterval) + " days"
-
-	case adapters.METHOD_TYPE_PERIODS:
-		scheduledDays = fmt.Sprintf("Every %d days with %d days break", *schedule.UseForDays, *schedule.PauseForDays)
-	}
-
-	switch schedule.RecurringType {
-	case adapters.RECURRING_TYPE_TIME:
-		timesPerDay = len(schedule.TimeSlots)
-
-	case adapters.RECURRING_TYPE_INTERVALS:
-		timesPerDay = 24 / *schedule.HoursInterval
-
-	case adapters.RECURRING_TYPE_PERIODS:
-		cycleHours := *schedule.UseForHours + *schedule.PauseForHours
-		completeCycles := 24 / cycleHours
-		timesPerDay = completeCycles
-		remainingHours := 24 % cycleHours
-
-		if remainingHours >= *schedule.UseForHours {
-			timesPerDay++
-		}
-	}
-
-	return &model.MyMedicationSchedule{
-		TimesPerDay:    &timesPerDay,
-		ScheduledDays:  &scheduledDays,
-		DosesRemaining: schedule.DosesAmount,
-	}, nil
 }

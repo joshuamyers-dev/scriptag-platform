@@ -14,7 +14,7 @@ type UserMedication struct {
 	BrandName        string
 	ActiveIngredient string
 	Strength         string
-	ReminderDateTime time.Time
+	TagLinked	     bool
 }
 
 type UserMedicationEdge struct {
@@ -64,5 +64,4 @@ type UserMedicationService interface {
 	CreateUserMedication(userMedication *UserMedication) (*model.MyMedication, error)
 	CreateUserMedicationSchedule(userMedicationSchedule *MedicationSchedule, userId string) (bool, error)
 	FetchUserMedications(userId string, afterCursor *string) (*model.MyMedicationsConnection, error)
-	FetchUserMedicationSchedule(userMedicationId string) (*model.MyMedicationSchedule, error)
 }

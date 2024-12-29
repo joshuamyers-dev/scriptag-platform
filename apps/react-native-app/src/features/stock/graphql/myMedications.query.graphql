@@ -4,6 +4,7 @@ query MyMedications($after: String) {
       node {
         ...MyMedicationBase
         schedule {
+          id
           scheduledDays
           timesPerDay
           dosesRemaining

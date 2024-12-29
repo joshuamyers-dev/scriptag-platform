@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go-api/adapters/loaders"
 	repository "go-api/adapters/repositories"
 	"go-api/auth"
 	"go-api/config"
@@ -44,8 +45,10 @@ func main() {
 		UserMedicationService: userMedService,
 	}}))
 
+	loaderMiddleware := loaders.Middleware(db, srv)
+
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", auth.Middleware(userService)(srv))
+	http.Handle("/query", auth.Middleware(userService)(loaderMiddleware))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

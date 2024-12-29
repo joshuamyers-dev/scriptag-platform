@@ -73,8 +73,8 @@ type MyMedication struct {
 	BrandName        string                `json:"brandName"`
 	ActiveIngredient *string               `json:"activeIngredient,omitempty"`
 	DosageStrength   string                `json:"dosageStrength"`
-	ConsumptionTime  time.Time             `json:"consumptionTime"`
 	Schedule         *MyMedicationSchedule `json:"schedule,omitempty"`
+	IsTagLinked      *bool                 `json:"isTagLinked,omitempty"`
 }
 
 type MyMedicationEdge struct {
@@ -83,6 +83,7 @@ type MyMedicationEdge struct {
 }
 
 type MyMedicationSchedule struct {
+	ID string `json:"id"`
 	// The number of days the medication is taken each week. E.g. Every Day, Weekly, Every Other Day or Mon, Tues, Fri.
 	ScheduledDays  *string `json:"scheduledDays,omitempty"`
 	TimesPerDay    *int    `json:"timesPerDay,omitempty"`

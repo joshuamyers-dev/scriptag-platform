@@ -6,4 +6,5 @@ fragment MyMedicationBase on MyMedication {
   brandName
   activeIngredient
   dosageStrength
+  isTagLinked
 }

@@ -121,9 +121,9 @@ export type MyMedication = {
   __typename?: 'MyMedication';
   activeIngredient?: Maybe<Scalars['String']>;
   brandName: Scalars['String'];
-  consumptionTime: Scalars['Time'];
   dosageStrength: Scalars['String'];
   id: Scalars['ID'];
+  isTagLinked?: Maybe<Scalars['Boolean']>;
   schedule?: Maybe<MyMedicationSchedule>;
   user: User;
 };
@@ -137,6 +137,7 @@ export type MyMedicationEdge = {
 export type MyMedicationSchedule = {
   __typename?: 'MyMedicationSchedule';
   dosesRemaining?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
   /** The number of days the medication is taken each week. E.g. Every Day, Weekly, Every Other Day or Mon, Tues, Fri. */
   scheduledDays?: Maybe<Scalars['String']>;
   timesPerDay?: Maybe<Scalars['Int']>;
@@ -206,7 +207,7 @@ export type AddMyMedicationMutationVariables = Exact<{
 }>;
 
 
-export type AddMyMedicationMutation = { __typename?: 'Mutation', addMyMedication: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, user: { __typename?: 'User', id: string } } };
+export type AddMyMedicationMutation = { __typename?: 'Mutation', addMyMedication: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, user: { __typename?: 'User', id: string } } };
 
 export type SearchMedicationsQueryVariables = Exact<{
   query: Scalars['String'];
@@ -242,9 +243,9 @@ export type MyMedicationsQueryVariables = Exact<{
 }>;
 
 
-export type MyMedicationsQuery = { __typename?: 'Query', myMedications: { __typename?: 'MyMedicationsConnection', edges: Array<{ __typename?: 'MyMedicationEdge', node: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, schedule?: { __typename?: 'MyMedicationSchedule', scheduledDays?: string | null, timesPerDay?: number | null, dosesRemaining?: number | null } | null, user: { __typename?: 'User', id: string } } }>, pageInfo: { __typename?: 'PageInfo', endCursor: string, hasNextPage?: boolean | null } } };
+export type MyMedicationsQuery = { __typename?: 'Query', myMedications: { __typename?: 'MyMedicationsConnection', edges: Array<{ __typename?: 'MyMedicationEdge', node: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, schedule?: { __typename?: 'MyMedicationSchedule', id: string, scheduledDays?: string | null, timesPerDay?: number | null, dosesRemaining?: number | null } | null, user: { __typename?: 'User', id: string } } }>, pageInfo: { __typename?: 'PageInfo', endCursor: string, hasNextPage?: boolean | null } } };
 
-export type MyMedicationBaseFragment = { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, user: { __typename?: 'User', id: string } };
+export type MyMedicationBaseFragment = { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, user: { __typename?: 'User', id: string } };
 
 export const MyMedicationBaseFragmentDoc = gql`
     fragment MyMedicationBase on MyMedication {
@@ -255,6 +256,7 @@ export const MyMedicationBaseFragmentDoc = gql`
   brandName
   activeIngredient
   dosageStrength
+  isTagLinked
 }
     `;
 export const AddMedicationScheduleDocument = gql`
@@ -480,6 +482,7 @@ export const MyMedicationsDocument = gql`
       node {
         ...MyMedicationBase
         schedule {
+          id
           scheduledDays
           timesPerDay
           dosesRemaining

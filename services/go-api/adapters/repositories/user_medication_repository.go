@@ -23,7 +23,6 @@ func (r *UserMedicationRepository) Create(userMedication *core.UserMedication) (
 		UserID:           userMedication.UserID,
 		MedicationID:     userMedication.MedicationID,
 		Strength:         &userMedication.Strength,
-		ReminderDateTime: userMedication.ReminderDateTime,
 		Name:             &userMedication.BrandName,
 	}
 
@@ -92,6 +91,7 @@ func (r *UserMedicationRepository) FetchPaginated(userId string, afterCursor *st
 	var userMeds []*adapters.GormUserMedication
 	statement := r.DB.Model(&adapters.GormUserMedication{}).
 		Where("user_id = ?", userId).
+		Order("created_at DESC").
 		Preload("Medication")
 
 	limit := 10

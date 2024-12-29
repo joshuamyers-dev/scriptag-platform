@@ -22,7 +22,6 @@ const StockContainer = ({navigation}) => {
       style={{
         flex: 1,
         paddingHorizontal: Spacing16.original,
-        paddingTop: Spacing24.original,
         paddingBottom: Spacing16.original,
       }}>
       {myMedicationsData?.myMedications.edges.length === 0 && (
@@ -37,6 +36,8 @@ const StockContainer = ({navigation}) => {
         extraData={myMedicationsData?.myMedications.edges}
         renderItem={({item}) => <MedicationCard medication={item.node} />}
         keyExtractor={item => item.node.id}
+        contentContainerStyle={{paddingTop: 24}}
+        showsVerticalScrollIndicator={false}
       />
       <CustomButton
         title="New Medication"

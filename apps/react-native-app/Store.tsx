@@ -1,8 +1,7 @@
+import {storage} from '@utils/Storage';
 import {MMKV} from 'react-native-mmkv';
 import {create} from 'zustand';
 import {persist, createJSONStorage, StateStorage} from 'zustand/middleware';
-
-const storage = new MMKV();
 
 const zustandStorage: StateStorage = {
   setItem: (name, value) => {

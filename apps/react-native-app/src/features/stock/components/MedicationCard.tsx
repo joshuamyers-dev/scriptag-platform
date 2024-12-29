@@ -1,3 +1,5 @@
+import AlertBox, {AlertBoxType} from '@components/AlertBox';
+import CustomButton, {ButtonType} from '@components/CustomButton';
 import {Medication, MyMedication} from '@graphql/generated';
 import {
   Colour10,
@@ -11,7 +13,7 @@ import {
   fontLabelXl,
 } from '@utils/tokens';
 import {useCallback, useMemo} from 'react';
-import {StyleSheet, Text, TextStyle, View} from 'react-native';
+import {Image, StyleSheet, Text, TextStyle, View} from 'react-native';
 
 interface MedicationCardProps {
   medication: MyMedication;
@@ -22,7 +24,7 @@ const MedicationCard: React.FC<MedicationCardProps> = ({medication}) => {
     <View style={styles.container}>
       <View style={styles.innerBorder} />
 
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', marginBottom: 16}}>
         <View style={styles.unitCountContainer}>
           <Text style={styles.unitText}>
             {medication.schedule?.dosesRemaining}
@@ -44,6 +46,25 @@ const MedicationCard: React.FC<MedicationCardProps> = ({medication}) => {
           </Text>
         </View>
       </View>
+
+      {!medication.isTagLinked && (
+        <View style={styles.linkContainer}>
+          <AlertBox
+            title="You can start taking your medication now, even before your NFC tag arrives."
+            message={
+              'Once your tag is set up, you’ll begin tracking doses by tapping the tag for each dose you take. During setup, we’ll ask you to input how much medication you have left so we can remind you when it’s time for a refill. For now, just follow your prescription, and your tracking will begin as soon as your tag is ready.'
+            }
+            type={AlertBoxType.INFO}
+            ctaText="Ok, got it!"
+          />
+
+          <CustomButton
+            type={ButtonType.Secondary}
+            title="Link tag"
+            icon={<Image source={require('@assets/icons/link.png')} />}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -58,6 +79,7 @@ const styles = StyleSheet.create({
     paddingLeft: 24,
     paddingVertical: 16,
     marginBottom: 8,
+    paddingRight: 16,
   },
   innerBorder: {
     width: 12,
@@ -76,6 +98,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     borderRadius: 17,
     alignItems: 'center',
+  },
+  linkContainer: {
+    gap: 16,
   },
   unitText: {
     fontFamily: fontLabelM.fontFamily,

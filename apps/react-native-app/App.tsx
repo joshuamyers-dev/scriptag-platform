@@ -1,28 +1,38 @@
-import {ApolloProvider} from '@apollo/client';
+import {ApolloClient, ApolloProvider} from '@apollo/client';
+import ToastMessage from '@components/Toast';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {PortalProvider} from '@gorhom/portal';
 import MainStack from '@navigators/MainStack';
 import {NavigationContainer} from '@react-navigation/native';
-import client from './ApolloClient';
-import React, {useCallback, useEffect} from 'react';
+import {createApolloClient} from './ApolloClient';
+import React, {useEffect, useState} from 'react';
+import {Linking} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {enableLayoutAnimations} from 'react-native-reanimated';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import Toast from 'react-native-toast-message';
 import {
   enableFreeze,
   enableScreens,
   FullWindowOverlay,
 } from 'react-native-screens';
-import {Linking} from 'react-native';
-import {PortalProvider} from '@gorhom/portal';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import ToastMessage from '@components/Toast';
-import {firebase} from '@react-native-firebase/messaging';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {enableLayoutAnimations} from 'react-native-reanimated';
+import Toast from 'react-native-toast-message';
 
 enableScreens(true);
 enableFreeze(true);
 enableLayoutAnimations(true);
 
 function App() {
+  const [apolloClient, setApolloClient] = useState<ApolloClient<any>>();
+
+  useEffect(() => {
+    const createClient = async () => {
+      const client = await createApolloClient();
+      setApolloClient(client);
+    };
+
+    createClient();
+  }, []);
+
   useEffect(() => {
     const getUrlAsync = async () => {
       const initialUrl = await Linking.getInitialURL();
@@ -49,8 +59,12 @@ function App() {
     });
   }, []);
 
+  if (!apolloClient) {
+    return null;
+  }
+
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <SafeAreaProvider>
         <NavigationContainer>
           <GestureHandlerRootView>

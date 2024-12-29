@@ -15,8 +15,7 @@ func ToCoreUserMedication(gormUserMed *adapters.GormUserMedication) *core.UserMe
 			ID:    gormUserMed.User.ID,
 			Email: gormUserMed.User.Email,
 		},
-		BrandName:        *gormUserMed.Name,
-		ReminderDateTime: gormUserMed.ReminderDateTime,
+		BrandName: *gormUserMed.Name,
 	}
 
 	if gormUserMed.Medication != nil {
@@ -38,7 +37,7 @@ func ToGraphQLMyMedication(coreUserMed *core.UserMedication) *model.MyMedication
 		BrandName:        coreUserMed.BrandName,
 		ActiveIngredient: &coreUserMed.ActiveIngredient,
 		DosageStrength:   coreUserMed.Strength,
-		ConsumptionTime:  coreUserMed.ReminderDateTime,
+		IsTagLinked:      &coreUserMed.TagLinked,
 	}
 }
 

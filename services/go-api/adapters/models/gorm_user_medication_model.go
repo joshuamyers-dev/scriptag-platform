@@ -1,8 +1,6 @@
 package adapters
 
 import (
-	"time"
-
 	"github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 )
 
@@ -14,7 +12,7 @@ type GormUserMedication struct {
 	Medication       *GormMedication `gorm:"foreignKey:MedicationID"`
 	Name             *string         `gorm:"type:varchar(255)"`
 	Strength         *string         `gorm:"type:varchar(255)"`
-	ReminderDateTime time.Time       `gorm:"type:timestamptz"`
+	TagLinked		 *bool           `gorm:"type:boolean;default:false"`
 }
 
 
