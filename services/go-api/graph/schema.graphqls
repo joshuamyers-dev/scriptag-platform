@@ -92,6 +92,7 @@ enum RecurringScheduleType {
 
 input AddMedicationScheduleInput {
   myMedicationId: ID
+  medicationId: ID
   timeSlots: [Time]
   daysOfWeek: [String]
   useForDays: Int
@@ -106,6 +107,11 @@ input AddMedicationScheduleInput {
   dosesRemaining: Int
   methodType: MethodScheduleType
   recurringType: RecurringScheduleType
+}
+
+input UpdateMedicationTagLinkedInput {
+  myMedicationId: ID!
+  isTagLinked: Boolean!
 }
 
 type MyMedicationsConnection {
@@ -150,4 +156,5 @@ type Mutation {
   login(input: LoginInput!): Session!
   addFcmToken(token: String!): Boolean!
   createMedicationSchedule(input: AddMedicationScheduleInput!): Boolean!
+  updateMedicationTagLinked(input: UpdateMedicationTagLinkedInput!): Boolean!
 }

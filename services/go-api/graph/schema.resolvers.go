@@ -55,7 +55,8 @@ func (r *mutationResolver) CreateMedicationSchedule(ctx context.Context, input m
 	user := auth.ForContext(ctx)
 
 	return r.UserMedicationService.CreateUserMedicationSchedule(&core.MedicationSchedule{
-		UserMedicationID: *input.MyMedicationID,
+		MedicationID:     input.MedicationID,
+		UserMedicationID: input.MyMedicationID,
 		MethodType:       adapters.MethodType(*input.MethodType),
 		RecurringType:    adapters.RecurringType(*input.RecurringType),
 		DaysOfWeek:       input.DaysOfWeek,
@@ -71,6 +72,13 @@ func (r *mutationResolver) CreateMedicationSchedule(ctx context.Context, input m
 		RefillsAmount:    input.RefillsRemaining,
 		DosesAmount:      input.DosesRemaining,
 	}, user.ID)
+}
+
+// UpdateMedicationTagLinked is the resolver for the updateMedicationTagLinked field.
+func (r *mutationResolver) UpdateMedicationTagLinked(ctx context.Context, input model.UpdateMedicationTagLinkedInput) (bool, error) {
+	user := auth.ForContext(ctx)
+
+	return r.UserMedicationService.UpdateUserMedicationTagLinked(user.ID, input.MyMedicationID, input.IsTagLinked)
 }
 
 // Schedule is the resolver for the schedule field.

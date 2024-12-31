@@ -1,0 +1,3 @@
+mutation updateMedicationTagLinked($input: UpdateMedicationTagLinkedInput!) {
+  updateMedicationTagLinked(input: $input)
+}

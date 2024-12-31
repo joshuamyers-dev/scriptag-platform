@@ -8,7 +8,7 @@ import {
   STOCK_STACK,
   TAB_NAVIGATOR,
 } from '@navigators/ScreenConstants';
-import {useGlobalStore} from '@store';
+import {ToastType, useGlobalStore} from '@store';
 import {SCREEN_HEIGHT} from '@utils/Constants';
 import {
   Colour0,
@@ -64,7 +64,7 @@ const LoginContainer: React.FC<LoginContainerProps> = ({navigation}) => {
 
   useEffect(() => {
     if (error?.message) {
-      showToast('Whoops.', error.message);
+      showToast('Whoops.', error.message, ToastType.ERROR);
     }
   }, [error]);
 

@@ -9,6 +9,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/pilagod/gorm-cursor-paginator/v2 v2.6.1
 	github.com/riverqueue/river v0.14.2
+	github.com/riverqueue/river/riverdriver/riverdatabasesql v0.14.2
 	github.com/riverqueue/river/riverdriver/riverpgxv5 v0.14.2
 	github.com/vektah/gqlparser/v2 v2.5.19
 	github.com/vikstrous/dataloadgen v0.0.6

@@ -16,6 +16,8 @@ func ToCoreUserMedication(gormUserMed *adapters.GormUserMedication) *core.UserMe
 			Email: gormUserMed.User.Email,
 		},
 		BrandName: *gormUserMed.Name,
+		TagLinked: *gormUserMed.TagLinked,
+		Strength:  *gormUserMed.Strength,
 	}
 
 	if gormUserMed.Medication != nil {
@@ -72,7 +74,7 @@ func ToCoreMedicationSchedule(gormMedSchedule *adapters.GormUserMedicationSchedu
 
 	return &core.MedicationSchedule{
 		ID:               gormMedSchedule.ID,
-		UserMedicationID: gormMedSchedule.UserMedicationID,
+		UserMedicationID: &gormMedSchedule.UserMedicationID,
 		MethodType:       gormMedSchedule.MethodType,
 		RecurringType:    gormMedSchedule.RecurringType,
 		DaysOfWeek:       utils.ConvertStringArrayToPointerArray(gormMedSchedule.DaysOfWeek),

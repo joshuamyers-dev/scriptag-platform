@@ -33,5 +33,6 @@ func MapUserToCoreUser(gormUser *adapters.GormUser) *core.User {
     return &core.User{
         ID:       gormUser.ID,
         Email:    gormUser.Email,
+        Password: gormUser.Password,
     }
 }

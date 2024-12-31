@@ -38,6 +38,7 @@ const SpecifyMedicationContainer = () => {
 
   useEffect(() => {
     if (!error && data?.addMyMedication) {
+      context?.setMyMedicationId(data.addMyMedication.id);
       context?.handleStepChange(context.currentStep + 1, 1);
     }
   }, [error, data]);

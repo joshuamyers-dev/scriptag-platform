@@ -16,7 +16,7 @@ import {
   useCreateAccountMutation,
 } from '@graphql/generated';
 import BackButton from '@navigators/components/BackButton';
-import {useGlobalStore} from '@store';
+import {ToastType, useGlobalStore} from '@store';
 import {
   isPasswordStrong,
   requestPushNotificationPermissions,
@@ -158,7 +158,7 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
 
   useEffect(() => {
     if (createAccountError?.message) {
-      showToast('Oops.', createAccountError.message);
+      showToast('Oops.', createAccountError.message, ToastType.ERROR);
     }
   }, [createAccountError]);
 

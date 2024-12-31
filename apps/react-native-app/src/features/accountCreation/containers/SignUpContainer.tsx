@@ -67,6 +67,7 @@ const SignUpContainer: React.FC<SignUpContainerProps> = ({navigation}) => {
           <InputLabel
             label="Enter your email"
             placeholder="Type your email here"
+            value={email}
             inputProps={{
               keyboardType: 'email-address',
               autoComplete: 'email',
@@ -140,6 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
     textAlign: 'center',
     paddingBottom: 70,
+    marginHorizontal: Spacing16.original,
   },
   cardContainer: {
     flex: 1,

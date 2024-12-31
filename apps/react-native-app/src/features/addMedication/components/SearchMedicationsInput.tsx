@@ -154,7 +154,11 @@ const SearchMedicationsInput: React.FC<SearchMedicationsInputProps> = ({
                         : item.brandName + ' - ' + item.activeIngredient}
                     </Text>
                   </View>
-                  <View style={{maxWidth: 130, marginLeft: 16}}>
+                  <View
+                    style={{
+                      maxWidth: 130,
+                      marginLeft: 16,
+                    }}>
                     <Text style={styles.strengthText}>
                       {item.strength?.toLowerCase()}
                     </Text>
@@ -241,6 +245,7 @@ const styles = StyleSheet.create({
     fontSize: fontBodyS.fontSize,
     fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
     color: Colour80,
+    textAlign: 'right',
   },
 });
 

@@ -39,6 +39,7 @@ const SetPassword = () => {
         placeholder="Type your password here"
         inputProps={{secureTextEntry: true}}
         onChangeText={setPassword}
+        value={password}
       />
     </View>
   );

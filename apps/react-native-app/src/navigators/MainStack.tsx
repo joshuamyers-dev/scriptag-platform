@@ -1,5 +1,5 @@
 import SignUpContainer from '@features/accountCreation/containers/SignUpContainer';
-import ScanTagContainer from '@features/addMedication/containers/ScanTagContainer';
+import ScanTagContainer from '@features/stock/containers/ScanTagContainer';
 import OnboardingContainer from '@features/onboarding/containers/OnboardingContainer';
 import ProfileOnboardingContainer from '@features/onboarding/containers/ProfileOnboardingContainer';
 import ProfileOnboardingSuccessContainer from '@features/onboarding/containers/ProfileOnboardingSuccessContainer';
@@ -63,14 +63,6 @@ const AddMedicationStack = () => {
           headerLeft: () => (
             <BackButton isColoured onPress={() => navigation.goBack()} />
           ),
-        })}
-      />
-      <NativeStack.Screen
-        name={SCAN_TAG_SCREEN}
-        component={ScanTagContainer}
-        options={({navigation}) => ({
-          headerShown: true,
-          headerTitle: 'Add Medication',
         })}
       />
     </NativeStack.Navigator>
@@ -354,6 +346,21 @@ const MainStack = () => {
           contentStyle: {
             backgroundColor: Colour0,
           },
+        })}
+      />
+      <NativeStack.Screen
+        name={SCAN_TAG_SCREEN}
+        component={ScanTagContainer}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: 'Link tag',
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+          headerTitleStyle: defaultHeaderTitleStyle,
+          headerLeft: () => (
+            <BackButton isColoured onPress={() => navigation.goBack()} />
+          ),
         })}
       />
     </NativeStack.Navigator>

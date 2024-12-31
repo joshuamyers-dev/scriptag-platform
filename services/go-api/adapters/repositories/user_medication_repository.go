@@ -44,7 +44,7 @@ func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.Medic
 	}
 
 	gormMedSchedule := adapters.GormUserMedicationSchedule{
-		UserMedicationID: medicationSchedule.UserMedicationID,
+		UserMedicationID: *medicationSchedule.UserMedicationID,
 		MethodType:       adapters.MethodType(medicationSchedule.MethodType),
 		RecurringType:    adapters.RecurringType(medicationSchedule.RecurringType),
 		DaysOfWeek:       utils.ConvertStringPointerArray(medicationSchedule.DaysOfWeek),
@@ -134,4 +134,20 @@ func (r *UserMedicationRepository) FetchPaginated(userId string, afterCursor *st
 	}
 
 	return userMedConnection, nil
+}
+
+func (r *UserMedicationRepository) UpdateUserMedication(userMedication *core.UserMedication) (*core.UserMedication, error) {
+	var gormUserMed adapters.GormUserMedication
+
+	if err := r.DB.First(&gormUserMed, "id = ?", userMedication.ID).Error; err != nil {
+		return &core.UserMedication{}, err
+	}
+
+	gormUserMed.TagLinked = &userMedication.TagLinked
+
+	if err := r.DB.Save(&gormUserMed).Error; err != nil {
+		return &core.UserMedication{}, err
+	}
+
+	return mappers.ToCoreUserMedication(&gormUserMed), nil
 }

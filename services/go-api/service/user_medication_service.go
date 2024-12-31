@@ -25,17 +25,29 @@ func (s *UserMedicationServiceImpl) CreateUserMedication(userMed *core.UserMedic
 }
 
 func (s *UserMedicationServiceImpl) CreateUserMedicationSchedule(medicationSchedule *core.MedicationSchedule, userId string) (bool, error) {
-	userMed, err := s.repo.Create(&core.UserMedication{
-		UserID:       userId,
-		MedicationID: &medicationSchedule.UserMedicationID,
-	})
+	var userMed *core.UserMedication
+	var err error
 
-	if err != nil {
-		return false, err
+	if medicationSchedule.MedicationID != nil {
+		userMed, err = s.repo.Create(&core.UserMedication{
+			UserID:       userId,
+			MedicationID: medicationSchedule.MedicationID,
+		})
+
+		if err != nil {
+			return false, err
+		}
+	} else {
+		userMed, err = s.repo.FetchUserMedicationByID(*medicationSchedule.UserMedicationID)
+
+		if err != nil {
+			return false, err
+		}
 	}
 
 	_, err = s.repo.CreateSchedule(&core.MedicationSchedule{
-		UserMedicationID: userMed.ID,
+		UserMedicationID: &userMed.ID,
+		MedicationID:     userMed.MedicationID,
 		MethodType:       medicationSchedule.MethodType,
 		RecurringType:    medicationSchedule.RecurringType,
 		DaysOfWeek:       medicationSchedule.DaysOfWeek,
@@ -85,4 +97,22 @@ func (s *UserMedicationServiceImpl) FetchUserMedications(userId string, afterCur
 	}
 
 	return myMeds, nil
+}
+
+func (s *UserMedicationServiceImpl) UpdateUserMedicationTagLinked(userId string, userMedicationId string, tagLinked bool) (bool, error) {
+	userMed, err := s.repo.FetchUserMedicationByID(userMedicationId)
+
+	if err != nil {
+		return false, err
+	}
+
+	userMed.TagLinked = tagLinked
+
+	_, err = s.repo.UpdateUserMedication(userMed)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }

@@ -14,6 +14,8 @@ import {useCallback, useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, TextStyle, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Animated, {
+  FadeIn,
+  FadeOut,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -23,8 +25,7 @@ import {AddMedicationContext} from './AddMedicationContainer';
 
 const ScheduleContainer = () => {
   const context = useContext(AddMedicationContext);
-  const [medicationTakenWhenNeeded, setMedicationTakenWhenNeeded] =
-    useState(false);
+  const [howOftenSectionVisible, setHowOftenSectionVisible] = useState(false);
 
   const opacityValue = useSharedValue(1);
 
@@ -39,12 +40,22 @@ const ScheduleContainer = () => {
   });
 
   useEffect(() => {
-    opacityValue.value = withTiming(medicationTakenWhenNeeded ? 0.3 : 1, {
+    opacityValue.value = withTiming(context?.takenWhenNeeded ? 0.3 : 1, {
       duration: 600,
     });
-  }, [medicationTakenWhenNeeded]);
+  }, [context?.takenWhenNeeded]);
 
-  console.log(context);
+  useEffect(() => {
+    if (
+      (context?.scheduledDays && context.scheduledDays.length > 0) ||
+      context?.daysInterval ||
+      (context?.useForDays && context?.pauseForDays)
+    ) {
+      setHowOftenSectionVisible(true);
+    } else {
+      setHowOftenSectionVisible(false);
+    }
+  }, [context]);
 
   return (
     <View style={styles.container}>
@@ -56,7 +67,7 @@ const ScheduleContainer = () => {
         style={{flex: 1}}>
         <Animated.View
           style={animatedOpacityStyle}
-          pointerEvents={medicationTakenWhenNeeded ? 'none' : 'auto'}>
+          pointerEvents={context?.takenWhenNeeded ? 'none' : 'auto'}>
           <Text style={styles.titleText}>
             Choose how you’ll take your medication
           </Text>
@@ -66,7 +77,7 @@ const ScheduleContainer = () => {
 
           <View style={styles.firstContainer}>
             <IntervalSelector
-              resetOpenState={medicationTakenWhenNeeded}
+              resetOpenState={context?.takenWhenNeeded}
               onSetDaysInterval={context?.setDaysInterval}
               onSetPauseFor={context?.setPauseForDays}
               onSetUseFor={context?.setUseForDays}
@@ -77,34 +88,41 @@ const ScheduleContainer = () => {
 
         <CheckboxLabel
           label="I take this medication only when needed."
-          checked={medicationTakenWhenNeeded}
+          checked={context?.takenWhenNeeded ?? false}
           onPress={() => {
             triggerLightHaptic();
-            setMedicationTakenWhenNeeded(!medicationTakenWhenNeeded);
+            context?.setTakenWhenNeeded(!context.takenWhenNeeded);
           }}
           containerStyle={{marginTop: 16}}
         />
 
-        <Animated.View
-          style={[styles.secondContainer, animatedOpacityStyle]}
-          pointerEvents={medicationTakenWhenNeeded ? 'none' : 'auto'}>
-          <Text style={styles.titleText}>And how often?</Text>
-          <Text style={styles.subTitleText}>
-            Indicate how you’ll take your medication on the days or periods of
-            time you selected.
-          </Text>
+        {howOftenSectionVisible && (
+          <Animated.View
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={styles.secondContainer}>
+            <Animated.View
+              style={animatedOpacityStyle}
+              pointerEvents={context?.takenWhenNeeded ? 'none' : 'auto'}>
+              <Text style={styles.titleText}>And how often?</Text>
+              <Text style={styles.subTitleText}>
+                Indicate how you’ll take your medication on the days or periods
+                of time you selected.
+              </Text>
 
-          <View style={{marginTop: 8}}>
-            <IntervalSelector
-              shouldUseTimeSelector
-              resetOpenState={medicationTakenWhenNeeded}
-              onSetDaysInterval={context?.setHoursInterval}
-              onSetPauseFor={context?.setPauseForHours}
-              onSetUseFor={context?.setUseForHours}
-              onSetTimeSlots={context?.setTimeSlots}
-            />
-          </View>
-        </Animated.View>
+              <View style={{marginTop: 8}}>
+                <IntervalSelector
+                  shouldUseTimeSelector
+                  resetOpenState={context?.takenWhenNeeded}
+                  onSetDaysInterval={context?.setHoursInterval}
+                  onSetPauseFor={context?.setPauseForHours}
+                  onSetUseFor={context?.setUseForHours}
+                  onSetTimeSlots={context?.setTimeSlots}
+                />
+              </View>
+            </Animated.View>
+          </Animated.View>
+        )}
       </KeyboardAwareScrollView>
       <View style={styles.footerContainer}>
         <CustomButton title="Continue" onPress={onPressContinue} />

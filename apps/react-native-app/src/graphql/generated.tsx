@@ -23,6 +23,7 @@ export type AddMedicationScheduleInput = {
   endDate?: InputMaybe<Scalars['Time']>;
   intervalsDays?: InputMaybe<Scalars['Int']>;
   intervalsHours?: InputMaybe<Scalars['Int']>;
+  medicationId?: InputMaybe<Scalars['ID']>;
   methodType?: InputMaybe<MethodScheduleType>;
   myMedicationId?: InputMaybe<Scalars['ID']>;
   pauseForDays?: InputMaybe<Scalars['Int']>;
@@ -89,6 +90,7 @@ export type Mutation = {
   createAccount: Session;
   createMedicationSchedule: Scalars['Boolean'];
   login: Session;
+  updateMedicationTagLinked: Scalars['Boolean'];
 };
 
 
@@ -114,6 +116,11 @@ export type MutationCreateMedicationScheduleArgs = {
 
 export type MutationLoginArgs = {
   input: LoginInput;
+};
+
+
+export type MutationUpdateMedicationTagLinkedArgs = {
+  input: UpdateMedicationTagLinkedInput;
 };
 
 /** Represents a medication that a user is taking. */
@@ -189,6 +196,11 @@ export type Session = {
   user?: Maybe<User>;
 };
 
+export type UpdateMedicationTagLinkedInput = {
+  isTagLinked: Scalars['Boolean'];
+  myMedicationId: Scalars['ID'];
+};
+
 export type User = {
   __typename?: 'User';
   email: Scalars['String'];
@@ -244,6 +256,13 @@ export type MyMedicationsQueryVariables = Exact<{
 
 
 export type MyMedicationsQuery = { __typename?: 'Query', myMedications: { __typename?: 'MyMedicationsConnection', edges: Array<{ __typename?: 'MyMedicationEdge', node: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, schedule?: { __typename?: 'MyMedicationSchedule', id: string, scheduledDays?: string | null, timesPerDay?: number | null, dosesRemaining?: number | null } | null, user: { __typename?: 'User', id: string } } }>, pageInfo: { __typename?: 'PageInfo', endCursor: string, hasNextPage?: boolean | null } } };
+
+export type UpdateMedicationTagLinkedMutationVariables = Exact<{
+  input: UpdateMedicationTagLinkedInput;
+}>;
+
+
+export type UpdateMedicationTagLinkedMutation = { __typename?: 'Mutation', updateMedicationTagLinked: boolean };
 
 export type MyMedicationBaseFragment = { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, user: { __typename?: 'User', id: string } };
 
@@ -524,3 +543,34 @@ export function useMyMedicationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type MyMedicationsQueryHookResult = ReturnType<typeof useMyMedicationsQuery>;
 export type MyMedicationsLazyQueryHookResult = ReturnType<typeof useMyMedicationsLazyQuery>;
 export type MyMedicationsQueryResult = ApolloReactCommon.QueryResult<MyMedicationsQuery, MyMedicationsQueryVariables>;
+export const UpdateMedicationTagLinkedDocument = gql`
+    mutation updateMedicationTagLinked($input: UpdateMedicationTagLinkedInput!) {
+  updateMedicationTagLinked(input: $input)
+}
+    `;
+export type UpdateMedicationTagLinkedMutationFn = ApolloReactCommon.MutationFunction<UpdateMedicationTagLinkedMutation, UpdateMedicationTagLinkedMutationVariables>;
+
+/**
+ * __useUpdateMedicationTagLinkedMutation__
+ *
+ * To run a mutation, you first call `useUpdateMedicationTagLinkedMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMedicationTagLinkedMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMedicationTagLinkedMutation, { data, loading, error }] = useUpdateMedicationTagLinkedMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateMedicationTagLinkedMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateMedicationTagLinkedMutation, UpdateMedicationTagLinkedMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UpdateMedicationTagLinkedMutation, UpdateMedicationTagLinkedMutationVariables>(UpdateMedicationTagLinkedDocument, options);
+      }
+export type UpdateMedicationTagLinkedMutationHookResult = ReturnType<typeof useUpdateMedicationTagLinkedMutation>;
+export type UpdateMedicationTagLinkedMutationResult = ApolloReactCommon.MutationResult<UpdateMedicationTagLinkedMutation>;
+export type UpdateMedicationTagLinkedMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateMedicationTagLinkedMutation, UpdateMedicationTagLinkedMutationVariables>;

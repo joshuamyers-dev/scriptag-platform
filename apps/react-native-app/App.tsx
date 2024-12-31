@@ -15,7 +15,6 @@ import {
   enableScreens,
   FullWindowOverlay,
 } from 'react-native-screens';
-import Toast from 'react-native-toast-message';
 
 enableScreens(true);
 enableFreeze(true);
@@ -38,24 +37,12 @@ function App() {
       const initialUrl = await Linking.getInitialURL();
 
       console.log(initialUrl);
-
-      Toast.show({
-        type: 'success',
-        text1: 'Medication Taken!',
-        text2: 'Your Lexapro has been taken successfully!',
-      });
     };
 
     getUrlAsync();
 
     Linking.addEventListener('url', event => {
       console.log(event);
-
-      Toast.show({
-        type: 'success',
-        text1: 'Medication Taken!',
-        text2: 'Your Lexapro has been taken successfully!',
-      });
     });
   }, []);
 

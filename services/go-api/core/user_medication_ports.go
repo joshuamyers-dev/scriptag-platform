@@ -14,7 +14,7 @@ type UserMedication struct {
 	BrandName        string
 	ActiveIngredient string
 	Strength         string
-	TagLinked	     bool
+	TagLinked        bool
 }
 
 type UserMedicationEdge struct {
@@ -29,7 +29,8 @@ type UserMedicationConnection struct {
 
 type MedicationSchedule struct {
 	ID               string
-	UserMedicationID string
+	UserMedicationID *string
+	MedicationID     *string
 	MethodType       adapters.MethodType
 	RecurringType    adapters.RecurringType
 	DaysOfWeek       []*string
@@ -58,10 +59,12 @@ type UserMedicationRepository interface {
 	FetchScheduleByUserMedicationID(id string) (*MedicationSchedule, error)
 	FetchUserMedicationByID(id string) (*UserMedication, error)
 	FetchPaginated(userId string, afterCursor *string) (*UserMedicationConnection, error)
+	UpdateUserMedication(userMedication *UserMedication) (*UserMedication, error)
 }
 
 type UserMedicationService interface {
 	CreateUserMedication(userMedication *UserMedication) (*model.MyMedication, error)
 	CreateUserMedicationSchedule(userMedicationSchedule *MedicationSchedule, userId string) (bool, error)
 	FetchUserMedications(userId string, afterCursor *string) (*model.MyMedicationsConnection, error)
+	UpdateUserMedicationTagLinked(userId string, userMedicationId string, tagLinked bool) (bool, error)
 }

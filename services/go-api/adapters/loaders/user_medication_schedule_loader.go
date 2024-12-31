@@ -49,6 +49,10 @@ func (m *medicationScheduleReader) getMedicationSchedules(ctx context.Context, u
 						}
 					}
 
+					if len(*schedule.DaysOfWeek) == 7 {
+						scheduledDays = "Daily"
+					}
+
 				case adapters.METHOD_TYPE_INTERVALS:
 					scheduledDays = "Every " + fmt.Sprint(*schedule.DaysInterval) + " days"
 

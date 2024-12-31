@@ -11,6 +11,7 @@ import (
 
 type AddMedicationScheduleInput struct {
 	MyMedicationID   *string                `json:"myMedicationId,omitempty"`
+	MedicationID     *string                `json:"medicationId,omitempty"`
 	TimeSlots        []*time.Time           `json:"timeSlots,omitempty"`
 	DaysOfWeek       []*string              `json:"daysOfWeek,omitempty"`
 	UseForDays       *int                   `json:"useForDays,omitempty"`
@@ -107,6 +108,11 @@ type Query struct {
 type Session struct {
 	Token *string `json:"token,omitempty"`
 	User  *User   `json:"user,omitempty"`
+}
+
+type UpdateMedicationTagLinkedInput struct {
+	MyMedicationID string `json:"myMedicationId"`
+	IsTagLinked    bool   `json:"isTagLinked"`
 }
 
 type User struct {

@@ -1,6 +1,6 @@
 import AlertBox, {AlertBoxType} from '@components/AlertBox';
 import CustomButton, {ButtonType} from '@components/CustomButton';
-import {Medication, MyMedication} from '@graphql/generated';
+import {MyMedication} from '@graphql/generated';
 import {
   Colour10,
   Colour100,
@@ -10,45 +10,53 @@ import {
   fontBodyXs,
   fontLabelM,
   fontLabelS,
-  fontLabelXl,
 } from '@utils/tokens';
-import {useCallback, useMemo} from 'react';
 import {Image, StyleSheet, Text, TextStyle, View} from 'react-native';
+import Animated, {FadeOut} from 'react-native-reanimated';
 
 interface MedicationCardProps {
   medication: MyMedication;
+  onPressLinkTag: () => void;
 }
 
-const MedicationCard: React.FC<MedicationCardProps> = ({medication}) => {
+const MedicationCard: React.FC<MedicationCardProps> = ({
+  medication,
+  onPressLinkTag,
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.innerBorder} />
 
-      <View style={{flexDirection: 'row', marginBottom: 16}}>
-        <View style={styles.unitCountContainer}>
-          <Text style={styles.unitText}>
-            {medication.schedule?.dosesRemaining}
-          </Text>
-          <Text style={styles.unitsText}>Units</Text>
-        </View>
+      <View style={{flexDirection: 'row'}}>
+        {medication.schedule?.dosesRemaining && (
+          <View style={styles.unitCountContainer}>
+            <Text style={styles.unitText}>
+              {medication.schedule?.dosesRemaining}
+            </Text>
+            <Text style={styles.unitsText}>Units</Text>
+          </View>
+        )}
 
-        <View style={{marginHorizontal: 16, flex: 1}}>
+        <View style={{flex: 1}}>
           <Text style={styles.medicationNameText}>
             {medication.brandName} {medication.activeIngredient}
           </Text>
           <Text style={styles.strengthText}>
             {medication.dosageStrength.toLowerCase()}
           </Text>
-          <Text style={styles.strengthText}>
-            {medication.schedule?.scheduledDays}
-            {medication.schedule?.scheduledDays && ', '}
-            {medication.schedule?.timesPerDay}x per day
-          </Text>
+          {(medication.schedule?.scheduledDays ||
+            medication.schedule?.timesPerDay) && (
+            <Text style={styles.strengthText}>
+              {medication.schedule?.scheduledDays}
+              {medication.schedule?.scheduledDays && ', '}
+              {medication.schedule?.timesPerDay}x per day
+            </Text>
+          )}
         </View>
       </View>
 
       {!medication.isTagLinked && (
-        <View style={styles.linkContainer}>
+        <Animated.View style={styles.linkContainer} exiting={FadeOut}>
           <AlertBox
             title="You can start taking your medication now, even before your NFC tag arrives."
             message={
@@ -62,8 +70,9 @@ const MedicationCard: React.FC<MedicationCardProps> = ({medication}) => {
             type={ButtonType.Secondary}
             title="Link tag"
             icon={<Image source={require('@assets/icons/link.png')} />}
+            onPress={onPressLinkTag}
           />
-        </View>
+        </Animated.View>
       )}
     </View>
   );
@@ -98,9 +107,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     borderRadius: 17,
     alignItems: 'center',
+    marginRight: 16,
   },
   linkContainer: {
     gap: 16,
+    marginTop: 16,
   },
   unitText: {
     fontFamily: fontLabelM.fontFamily,

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"database/sql"
 	"fmt"
 	adapters "go-api/adapters/models"
 	"io"
@@ -34,7 +35,16 @@ func InitDB() (*gorm.DB, error) {
 	dbName := os.Getenv("DB_NAME")
 
 	dsn := fmt.Sprintf("host=%s user=%s dbname=%s port=5432 sslmode=disable", dbHost, dbUser, dbName)
-	db, err := gorm.Open(postgres.Open(dsn), initConfig())
+
+	sqlDB, err := sql.Open("pgx", dsn)
+
+	if err != nil {
+		return nil, err
+	}
+
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		Conn: sqlDB,
+	}), initConfig())
 
 	if err != nil {
 		return nil, err
@@ -54,6 +64,12 @@ func InitDB() (*gorm.DB, error) {
 	}
 
 	createSearchIndex(db)
+	
+	err = SetupWorkers(sqlDB, db)
+
+	if err != nil {
+		log.Panicf("Failed to setup workers: %v", err)
+	}
 
 	return db, nil
 }

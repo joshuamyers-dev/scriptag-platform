@@ -49,33 +49,31 @@ const SelectTimePeriod = () => {
 
   const onPressContinue = useCallback(async () => {
     let methodType: MethodScheduleType = MethodScheduleType.WhenNeeded;
-
-    if (context?.scheduledDays && context.scheduledDays.length > 0) {
-      methodType = MethodScheduleType.Days;
-    } else if (context?.daysInterval) {
-      methodType = MethodScheduleType.Intervals;
-    } else if (context?.useForDays && context?.useForHours) {
-      methodType = MethodScheduleType.Periods;
-    }
-
     let recurringType: RecurringScheduleType = RecurringScheduleType.WhenNeeded;
 
-    if (context?.timeSlots && context.timeSlots.length > 0) {
-      recurringType = RecurringScheduleType.Time;
-    }
+    if (!context?.takenWhenNeeded) {
+      if (context?.scheduledDays && context.scheduledDays.length > 0) {
+        methodType = MethodScheduleType.Days;
+      } else if (context?.daysInterval) {
+        methodType = MethodScheduleType.Intervals;
+      } else if (context?.useForDays && context?.useForHours) {
+        methodType = MethodScheduleType.Periods;
+      }
 
-    if (context?.hoursInterval) {
-      recurringType = RecurringScheduleType.Intervals;
-    }
-
-    if (context?.useForHours && context?.useForDays) {
-      recurringType = RecurringScheduleType.Periods;
+      if (context?.timeSlots && context.timeSlots.length > 0) {
+        recurringType = RecurringScheduleType.Time;
+      } else if (context?.hoursInterval) {
+        recurringType = RecurringScheduleType.Intervals;
+      } else if (context?.useForHours && context?.useForDays) {
+        recurringType = RecurringScheduleType.Periods;
+      }
     }
 
     await addMedicationScheduleMutation({
       variables: {
         input: {
-          myMedicationId: context?.selectedMedication?.id,
+          medicationId: context?.selectedMedication?.id,
+          myMedicationId: context?.myMedicationId,
           startDate: startDate?.toISOString(),
           endDate: endDate?.toISOString(),
           refillsRemaining: parseIntOrNull(context?.refillsRemaining),

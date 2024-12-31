@@ -47,6 +47,8 @@ const Add_MEDICATION_STEPS = [
 interface AddMedicationContextProps {
   currentStep: number;
   selectedMedication: Medication | null;
+  myMedicationId: string | null;
+  setMyMedicationId: (id: string) => void;
   setSelectedMedication: (medication: Medication) => void;
   handleStepChange: (newStepIndex: number, direction: number) => void;
   daysInterval?: string | null;
@@ -73,6 +75,8 @@ interface AddMedicationContextProps {
   setDosesRemaining: (doses: string | null) => void;
   refillsRemaining: string | null;
   setRefillsRemaining: (refills: string | null) => void;
+  takenWhenNeeded: boolean;
+  setTakenWhenNeeded: (value: boolean) => void;
   onFlowComplete: () => void;
 }
 
@@ -82,9 +86,10 @@ export const AddMedicationContext = createContext<
 
 const AddMedicationContainer = ({navigation}) => {
   const [currentStep, setStep] = useState<number>(0);
+
+  const [myMedicationId, setMyMedicationId] = useState<string | null>(null);
   const [selectedMedication, setSelectedMedication] =
     useState<Medication | null>(null);
-
   const [daysInterval, setDaysInterval] = useState<string | null>(null);
   const [scheduledDays, setScheduledDays] = useState<string[]>([]);
   const [useForDays, setUseForDays] = useState<string | null>(null);
@@ -97,6 +102,7 @@ const AddMedicationContainer = ({navigation}) => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [dosesRemaining, setDosesRemaining] = useState<string | null>(null);
   const [refillsRemaining, setRefillsRemaining] = useState<string | null>(null);
+  const [takenWhenNeeded, setTakenWhenNeeded] = useState<boolean>(false);
 
   const {showToast} = useGlobalStore();
 
@@ -187,6 +193,8 @@ const AddMedicationContainer = ({navigation}) => {
           handleStepChange,
           selectedMedication,
           setSelectedMedication,
+          setMyMedicationId,
+          myMedicationId,
           setHoursInterval,
           setDaysInterval,
           daysInterval,
@@ -212,6 +220,8 @@ const AddMedicationContainer = ({navigation}) => {
           refillsRemaining,
           setRefillsRemaining,
           onFlowComplete,
+          takenWhenNeeded,
+          setTakenWhenNeeded,
         }}>
         <Animated.View style={[animatedStyle, {width: '100%', flex: 1}]}>
           {currentStep === 0 && <SearchMedicationContainer />}
