@@ -31,7 +31,7 @@ type GormUserMedicationSchedule struct {
 	MethodType       MethodType         `gorm:"type:user_medication_method_schedule_type;not null"`
 	RecurringType    RecurringType      `gorm:"type:user_medication_recurring_schedule_type;not null"`
 	DaysOfWeek       *pq.StringArray    `gorm:"type:varchar(10)[]"`
-	TimeSlots        *TimestamptzArray  `gorm:"type:timestamptz[]"`
+	TimeSlots        *TimeArray         `gorm:"type:timetz[]"`
 	StartDate        *time.Time         `gorm:"default:null"`
 	EndDate          *time.Time         `gorm:"default:null"`
 	DaysInterval     *uint              `gorm:"default:null"`

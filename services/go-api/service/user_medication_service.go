@@ -116,3 +116,23 @@ func (s *UserMedicationServiceImpl) UpdateUserMedicationTagLinked(userId string,
 
 	return true, nil
 }
+
+func (s *UserMedicationServiceImpl) OnTagScanned(userId string, medicationId string) (bool, error) {
+	userMed, err := s.repo.FetchUserMedicationByID(medicationId)
+
+	if err != nil {
+		return false, err
+	}
+
+	if(userMed.Schedule.DosesAmount != nil) {
+		*userMed.Schedule.DosesAmount--
+	} 
+
+	_, err = s.repo.UpdateSchedule(userMed.Schedule)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}

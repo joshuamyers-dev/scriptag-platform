@@ -30,6 +30,8 @@ interface GlobalState {
   toastType: ToastType | null;
   showToast(title: string, message: string, type: ToastType): void;
   hideToast(): void;
+  setTagScanned: (medicationId: string | null) => void;
+  tagScanned: string | null;
 }
 
 export const useGlobalStore = create<GlobalState>()(
@@ -37,6 +39,10 @@ export const useGlobalStore = create<GlobalState>()(
     (set, get) => ({
       authToken: null,
       setAuthToken: token => set({authToken: token}),
+      tagScanned: null,
+      setTagScanned: medicationId => {
+        set({tagScanned: medicationId});
+      },
       toastVisible: false,
       toastTitle: null,
       toastMessage: null,

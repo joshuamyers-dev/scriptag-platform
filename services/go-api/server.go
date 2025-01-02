@@ -39,7 +39,7 @@ func main() {
 	userMedRepo := repository.NewUserMedicationRepository(db)
 	userMedService := service.NewUserMedicationService(userMedRepo)
 
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
+	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		MedicationService: medService,
 		UserService: userService,
 		UserMedicationService: userMedService,

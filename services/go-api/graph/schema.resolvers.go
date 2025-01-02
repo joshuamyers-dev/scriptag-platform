@@ -81,6 +81,13 @@ func (r *mutationResolver) UpdateMedicationTagLinked(ctx context.Context, input 
 	return r.UserMedicationService.UpdateUserMedicationTagLinked(user.ID, input.MyMedicationID, input.IsTagLinked)
 }
 
+// TagScanned is the resolver for the tagScanned field.
+func (r *mutationResolver) TagScanned(ctx context.Context, input model.TagScannedInput) (bool, error) {
+	user := auth.ForContext(ctx)
+
+	return r.UserMedicationService.OnTagScanned(user.ID, input.MedicationID)
+}
+
 // Schedule is the resolver for the schedule field.
 func (r *myMedicationResolver) Schedule(ctx context.Context, obj *model.MyMedication) (*model.MyMedicationSchedule, error) {
 	return loaders.GetMedicationSchedule(ctx, obj.ID)

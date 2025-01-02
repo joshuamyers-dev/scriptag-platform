@@ -114,6 +114,10 @@ input UpdateMedicationTagLinkedInput {
   isTagLinked: Boolean!
 }
 
+input TagScannedInput {
+  medicationId: ID!
+}
+
 type MyMedicationsConnection {
   edges: [MyMedicationEdge!]!
   pageInfo: PageInfo!
@@ -157,4 +161,5 @@ type Mutation {
   addFcmToken(token: String!): Boolean!
   createMedicationSchedule(input: AddMedicationScheduleInput!): Boolean!
   updateMedicationTagLinked(input: UpdateMedicationTagLinkedInput!): Boolean!
+  tagScanned(input: TagScannedInput!): Boolean!
 }

@@ -38,7 +38,7 @@ func (r *UserMedicationRepository) Create(userMedication *core.UserMedication) (
 }
 
 func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.MedicationSchedule) (*core.MedicationSchedule, error) {
-	var timeSlots adapters.TimestamptzArray
+	var timeSlots adapters.TimeArray
 	for _, t := range medicationSchedule.TimeSlots {
 		timeSlots = append(timeSlots, t)
 	}
@@ -70,7 +70,7 @@ func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.Medic
 func (r *UserMedicationRepository) FetchUserMedicationByID(id string) (*core.UserMedication, error) {
 	var userMed adapters.GormUserMedication
 
-	if err := r.DB.First(&userMed, "id = ?", id).Error; err != nil {
+	if err := r.DB.Preload("Schedule").First(&userMed, "id = ?", id).Error; err != nil {
 		return &core.UserMedication{}, err
 	}
 
@@ -150,4 +150,20 @@ func (r *UserMedicationRepository) UpdateUserMedication(userMedication *core.Use
 	}
 
 	return mappers.ToCoreUserMedication(&gormUserMed), nil
+}
+
+func (r *UserMedicationRepository) UpdateSchedule(medicationSchedule *core.MedicationSchedule) (*core.MedicationSchedule, error) {
+	var gormSchedule adapters.GormUserMedicationSchedule
+
+	if err := r.DB.First(&gormSchedule, "id = ?", medicationSchedule.ID).Error; err != nil {
+		return &core.MedicationSchedule{}, err
+	}
+
+	gormSchedule.DosesAmount = utils.ConvertUintPointer(medicationSchedule.DosesAmount)
+
+	if err := r.DB.Save(&gormSchedule).Error; err != nil {
+		return &core.MedicationSchedule{}, err
+	}
+
+	return mappers.ToCoreMedicationSchedule(&gormSchedule), nil
 }

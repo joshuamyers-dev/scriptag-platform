@@ -1,0 +1,3 @@
+mutation onTagScanned($input: TagScannedInput!) {
+  tagScanned(input: $input)
+}

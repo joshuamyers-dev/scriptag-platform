@@ -15,8 +15,9 @@ type Base struct {
 
 type GormUser struct {
 	Base
-	Email    string `gorm:"unique;type:varchar(255)"`
-	Password string `gorm:"type:varchar(255)"`
+	Email     string              `gorm:"unique;type:varchar(255)"`
+	Password  string              `gorm:"type:varchar(255)"`
+	FCMTokens []*GormUserFCMToken `gorm:"foreignKey:UserID"`
 }
 
 func (GormUser) TableName() string {

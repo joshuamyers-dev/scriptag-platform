@@ -110,6 +110,10 @@ type Session struct {
 	User  *User   `json:"user,omitempty"`
 }
 
+type TagScannedInput struct {
+	MedicationID string `json:"medicationId"`
+}
+
 type UpdateMedicationTagLinkedInput struct {
 	MyMedicationID string `json:"myMedicationId"`
 	IsTagLinked    bool   `json:"isTagLinked"`

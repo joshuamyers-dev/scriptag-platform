@@ -15,6 +15,7 @@ type UserMedication struct {
 	ActiveIngredient string
 	Strength         string
 	TagLinked        bool
+	Schedule 	     *MedicationSchedule
 }
 
 type UserMedicationEdge struct {
@@ -56,6 +57,7 @@ type MyMedicationSchedule struct {
 type UserMedicationRepository interface {
 	Create(userMedication *UserMedication) (*UserMedication, error)
 	CreateSchedule(userMedicationSchedule *MedicationSchedule) (*MedicationSchedule, error)
+	UpdateSchedule(userMedicationSchedule *MedicationSchedule) (*MedicationSchedule, error)
 	FetchScheduleByUserMedicationID(id string) (*MedicationSchedule, error)
 	FetchUserMedicationByID(id string) (*UserMedication, error)
 	FetchPaginated(userId string, afterCursor *string) (*UserMedicationConnection, error)
@@ -67,4 +69,5 @@ type UserMedicationService interface {
 	CreateUserMedicationSchedule(userMedicationSchedule *MedicationSchedule, userId string) (bool, error)
 	FetchUserMedications(userId string, afterCursor *string) (*model.MyMedicationsConnection, error)
 	UpdateUserMedicationTagLinked(userId string, userMedicationId string, tagLinked bool) (bool, error)
+	OnTagScanned(userId string, medicationId string) (bool, error)
 }

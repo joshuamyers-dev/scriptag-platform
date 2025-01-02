@@ -16,13 +16,27 @@ import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import MedicationCard from '../components/MedicationCard';
 
 const StockContainer = ({navigation}) => {
-  const {data: myMedicationsData, loading} = useMyMedicationsQuery({
+  const {
+    data: myMedicationsData,
+    loading,
+    fetchMore,
+  } = useMyMedicationsQuery({
     fetchPolicy: 'cache-and-network',
   });
 
   const onPressLinkTag = useCallback((medication: MyMedication) => {
     navigation.navigate(SCAN_TAG_SCREEN, {medicationId: medication.id});
   }, []);
+
+  const onEndReached = useCallback(() => {
+    if (myMedicationsData?.myMedications.pageInfo.hasNextPage) {
+      fetchMore({
+        variables: {
+          after: myMedicationsData?.myMedications.pageInfo.endCursor,
+        },
+      });
+    }
+  }, [myMedicationsData?.myMedications?.pageInfo]);
 
   return (
     <View
@@ -52,6 +66,7 @@ const StockContainer = ({navigation}) => {
         keyExtractor={item => item.node.id}
         contentContainerStyle={{paddingTop: 24}}
         showsVerticalScrollIndicator={false}
+        onEndReached={onEndReached}
       />
       <CustomButton
         title="New Medication"

@@ -63,3 +63,13 @@ export const parseIntOrNull = (
 
   return null;
 };
+
+export const extractMedicationIdFromUrl = (url: string): string => {
+  try {
+    const split = url.split('/medication/');
+
+    return split[1];
+  } catch (error) {
+    return '';
+  }
+};

@@ -72,6 +72,7 @@ type ComplexityRoot struct {
 		CreateAccount             func(childComplexity int, input model.CreateAccountInput) int
 		CreateMedicationSchedule  func(childComplexity int, input model.AddMedicationScheduleInput) int
 		Login                     func(childComplexity int, input model.LoginInput) int
+		TagScanned                func(childComplexity int, input model.TagScannedInput) int
 		UpdateMedicationTagLinked func(childComplexity int, input model.UpdateMedicationTagLinkedInput) int
 	}
 
@@ -131,6 +132,7 @@ type MutationResolver interface {
 	AddFcmToken(ctx context.Context, token string) (bool, error)
 	CreateMedicationSchedule(ctx context.Context, input model.AddMedicationScheduleInput) (bool, error)
 	UpdateMedicationTagLinked(ctx context.Context, input model.UpdateMedicationTagLinkedInput) (bool, error)
+	TagScanned(ctx context.Context, input model.TagScannedInput) (bool, error)
 }
 type MyMedicationResolver interface {
 	Schedule(ctx context.Context, obj *model.MyMedication) (*model.MyMedicationSchedule, error)
@@ -274,6 +276,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.Login(childComplexity, args["input"].(model.LoginInput)), true
+
+	case "Mutation.tagScanned":
+		if e.complexity.Mutation.TagScanned == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_tagScanned_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.TagScanned(childComplexity, args["input"].(model.TagScannedInput)), true
 
 	case "Mutation.updateMedicationTagLinked":
 		if e.complexity.Mutation.UpdateMedicationTagLinked == nil {
@@ -477,6 +491,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputAddMyMedicationInput,
 		ec.unmarshalInputCreateAccountInput,
 		ec.unmarshalInputLoginInput,
+		ec.unmarshalInputTagScannedInput,
 		ec.unmarshalInputUpdateMedicationTagLinkedInput,
 	)
 	first := true
@@ -706,6 +721,29 @@ func (ec *executionContext) field_Mutation_login_argsInput(
 	}
 
 	var zeroVal model.LoginInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_tagScanned_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	arg0, err := ec.field_Mutation_tagScanned_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_tagScanned_argsInput(
+	ctx context.Context,
+	rawArgs map[string]interface{},
+) (model.TagScannedInput, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNTagScannedInput2goᚑapiᚋgraphᚋmodelᚐTagScannedInput(ctx, tmp)
+	}
+
+	var zeroVal model.TagScannedInput
 	return zeroVal, nil
 }
 
@@ -1598,6 +1636,61 @@ func (ec *executionContext) fieldContext_Mutation_updateMedicationTagLinked(ctx 
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_updateMedicationTagLinked_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_tagScanned(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_tagScanned(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().TagScanned(rctx, fc.Args["input"].(model.TagScannedInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_tagScanned(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_tagScanned_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -4862,6 +4955,33 @@ func (ec *executionContext) unmarshalInputLoginInput(ctx context.Context, obj in
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputTagScannedInput(ctx context.Context, obj interface{}) (model.TagScannedInput, error) {
+	var it model.TagScannedInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"medicationId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "medicationId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("medicationId"))
+			data, err := ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MedicationID = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateMedicationTagLinkedInput(ctx context.Context, obj interface{}) (model.UpdateMedicationTagLinkedInput, error) {
 	var it model.UpdateMedicationTagLinkedInput
 	asMap := map[string]interface{}{}
@@ -5100,6 +5220,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "updateMedicationTagLinked":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateMedicationTagLinked(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "tagScanned":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_tagScanned(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -6146,6 +6273,11 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNTagScannedInput2goᚑapiᚋgraphᚋmodelᚐTagScannedInput(ctx context.Context, v interface{}) (model.TagScannedInput, error) {
+	res, err := ec.unmarshalInputTagScannedInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNUpdateMedicationTagLinkedInput2goᚑapiᚋgraphᚋmodelᚐUpdateMedicationTagLinkedInput(ctx context.Context, v interface{}) (model.UpdateMedicationTagLinkedInput, error) {

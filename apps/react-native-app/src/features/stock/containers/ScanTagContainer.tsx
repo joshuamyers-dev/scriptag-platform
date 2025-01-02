@@ -43,8 +43,6 @@ const ScanTagContainer = ({navigation, route}) => {
     try {
       await NfcManager.requestTechnology(NfcTech.Ndef);
 
-      const tag = await NfcManager.getTag();
-
       const bytes = Ndef.encodeMessage([
         Ndef.uriRecord(
           `https://scriptag.com.au/medication/${params.medicationId}`,
@@ -57,7 +55,11 @@ const ScanTagContainer = ({navigation, route}) => {
       }
     } catch (ex) {
       console.log(JSON.stringify(ex));
-      // showToast('Something went wrong.', ex as string, ToastType.ERROR);
+      showToast(
+        'Something went wrong.',
+        'Please try scan your tag again.',
+        ToastType.ERROR,
+      );
     } finally {
       NfcManager.cancelTechnologyRequest();
     }

@@ -15,6 +15,9 @@ import {
   enableScreens,
   FullWindowOverlay,
 } from 'react-native-screens';
+import {useGlobalStore} from '@store';
+import {extractMedicationIdFromUrl} from '@utils/Helpers';
+import TagScannedModal from '@components/TagScannedModal';
 
 enableScreens(true);
 enableFreeze(true);
@@ -22,6 +25,7 @@ enableLayoutAnimations(true);
 
 function App() {
   const [apolloClient, setApolloClient] = useState<ApolloClient<any>>();
+  const {setTagScanned, tagScanned} = useGlobalStore(state => state);
 
   useEffect(() => {
     const createClient = async () => {
@@ -36,13 +40,27 @@ function App() {
     const getUrlAsync = async () => {
       const initialUrl = await Linking.getInitialURL();
 
-      console.log(initialUrl);
+      if (initialUrl) {
+        const medicationId = extractMedicationIdFromUrl(initialUrl);
+
+        if (medicationId !== '') {
+          setTagScanned(medicationId);
+        }
+      }
     };
 
     getUrlAsync();
 
     Linking.addEventListener('url', event => {
-      console.log(event);
+      if (event.url) {
+        const medicationId = extractMedicationIdFromUrl(event.url);
+
+        console.log(medicationId);
+
+        if (medicationId !== '') {
+          setTagScanned(extractMedicationIdFromUrl(event.url));
+        }
+      }
     });
   }, []);
 
@@ -61,6 +79,7 @@ function App() {
                 <FullWindowOverlay>
                   <ToastMessage />
                 </FullWindowOverlay>
+                {tagScanned && <TagScannedModal />}
               </BottomSheetModalProvider>
             </PortalProvider>
           </GestureHandlerRootView>

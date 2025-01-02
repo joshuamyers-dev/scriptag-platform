@@ -90,6 +90,7 @@ export type Mutation = {
   createAccount: Session;
   createMedicationSchedule: Scalars['Boolean'];
   login: Session;
+  tagScanned: Scalars['Boolean'];
   updateMedicationTagLinked: Scalars['Boolean'];
 };
 
@@ -116,6 +117,11 @@ export type MutationCreateMedicationScheduleArgs = {
 
 export type MutationLoginArgs = {
   input: LoginInput;
+};
+
+
+export type MutationTagScannedArgs = {
+  input: TagScannedInput;
 };
 
 
@@ -196,6 +202,10 @@ export type Session = {
   user?: Maybe<User>;
 };
 
+export type TagScannedInput = {
+  medicationId: Scalars['ID'];
+};
+
 export type UpdateMedicationTagLinkedInput = {
   isTagLinked: Scalars['Boolean'];
   myMedicationId: Scalars['ID'];
@@ -256,6 +266,13 @@ export type MyMedicationsQueryVariables = Exact<{
 
 
 export type MyMedicationsQuery = { __typename?: 'Query', myMedications: { __typename?: 'MyMedicationsConnection', edges: Array<{ __typename?: 'MyMedicationEdge', node: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, schedule?: { __typename?: 'MyMedicationSchedule', id: string, scheduledDays?: string | null, timesPerDay?: number | null, dosesRemaining?: number | null } | null, user: { __typename?: 'User', id: string } } }>, pageInfo: { __typename?: 'PageInfo', endCursor: string, hasNextPage?: boolean | null } } };
+
+export type OnTagScannedMutationVariables = Exact<{
+  input: TagScannedInput;
+}>;
+
+
+export type OnTagScannedMutation = { __typename?: 'Mutation', tagScanned: boolean };
 
 export type UpdateMedicationTagLinkedMutationVariables = Exact<{
   input: UpdateMedicationTagLinkedInput;
@@ -543,6 +560,37 @@ export function useMyMedicationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type MyMedicationsQueryHookResult = ReturnType<typeof useMyMedicationsQuery>;
 export type MyMedicationsLazyQueryHookResult = ReturnType<typeof useMyMedicationsLazyQuery>;
 export type MyMedicationsQueryResult = ApolloReactCommon.QueryResult<MyMedicationsQuery, MyMedicationsQueryVariables>;
+export const OnTagScannedDocument = gql`
+    mutation onTagScanned($input: TagScannedInput!) {
+  tagScanned(input: $input)
+}
+    `;
+export type OnTagScannedMutationFn = ApolloReactCommon.MutationFunction<OnTagScannedMutation, OnTagScannedMutationVariables>;
+
+/**
+ * __useOnTagScannedMutation__
+ *
+ * To run a mutation, you first call `useOnTagScannedMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOnTagScannedMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [onTagScannedMutation, { data, loading, error }] = useOnTagScannedMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useOnTagScannedMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<OnTagScannedMutation, OnTagScannedMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<OnTagScannedMutation, OnTagScannedMutationVariables>(OnTagScannedDocument, options);
+      }
+export type OnTagScannedMutationHookResult = ReturnType<typeof useOnTagScannedMutation>;
+export type OnTagScannedMutationResult = ApolloReactCommon.MutationResult<OnTagScannedMutation>;
+export type OnTagScannedMutationOptions = ApolloReactCommon.BaseMutationOptions<OnTagScannedMutation, OnTagScannedMutationVariables>;
 export const UpdateMedicationTagLinkedDocument = gql`
     mutation updateMedicationTagLinked($input: UpdateMedicationTagLinkedInput!) {
   updateMedicationTagLinked(input: $input)

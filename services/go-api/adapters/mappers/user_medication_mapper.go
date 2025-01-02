@@ -9,6 +9,12 @@ import (
 )
 
 func ToCoreUserMedication(gormUserMed *adapters.GormUserMedication) *core.UserMedication {
+	var schedule *core.MedicationSchedule
+
+	if gormUserMed.Schedule != nil {
+		schedule = ToCoreMedicationSchedule(gormUserMed.Schedule)
+	}
+
 	coreUserMed := core.UserMedication{
 		ID: gormUserMed.ID,
 		User: core.User{
@@ -18,6 +24,7 @@ func ToCoreUserMedication(gormUserMed *adapters.GormUserMedication) *core.UserMe
 		BrandName: *gormUserMed.Name,
 		TagLinked: *gormUserMed.TagLinked,
 		Strength:  *gormUserMed.Strength,
+		Schedule:  schedule,
 	}
 
 	if gormUserMed.Medication != nil {
