@@ -71,7 +71,7 @@ func (r *mutationResolver) CreateMedicationSchedule(ctx context.Context, input m
 		PauseForHours:    input.PauseForHours,
 		RefillsAmount:    input.RefillsRemaining,
 		DosesAmount:      input.DosesRemaining,
-	}, user.ID)
+	}, user.ID, r.GormDB)
 }
 
 // UpdateMedicationTagLinked is the resolver for the updateMedicationTagLinked field.

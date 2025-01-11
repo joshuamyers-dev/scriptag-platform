@@ -4,6 +4,8 @@ import (
 	adapters "go-api/adapters/models"
 	"go-api/graph/model"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type UserMedication struct {
@@ -66,7 +68,7 @@ type UserMedicationRepository interface {
 
 type UserMedicationService interface {
 	CreateUserMedication(userMedication *UserMedication) (*model.MyMedication, error)
-	CreateUserMedicationSchedule(userMedicationSchedule *MedicationSchedule, userId string) (bool, error)
+	CreateUserMedicationSchedule(userMedicationSchedule *MedicationSchedule, userId string, db *gorm.DB) (bool, error)
 	FetchUserMedications(userId string, afterCursor *string) (*model.MyMedicationsConnection, error)
 	UpdateUserMedicationTagLinked(userId string, userMedicationId string, tagLinked bool) (bool, error)
 	OnTagScanned(userId string, medicationId string) (bool, error)

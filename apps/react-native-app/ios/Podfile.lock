@@ -1722,6 +1722,27 @@ PODS:
     - React-utils (= 0.76.1)
   - RNAppleAuthentication (2.4.0):
     - React-Core
+  - RNBootSplash (6.3.2):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNFBApp (21.4.1):
     - Firebase/CoreOnly (= 11.5.0)
     - React-Core
@@ -2001,6 +2022,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
+  - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -2169,6 +2191,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
+  RNBootSplash:
+    :path: "../node_modules/react-native-bootsplash"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -2271,6 +2295,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 8166770510c0d733a8295cd270466528ab10a6ba
   ReactCommon: 01dbd496bc7fc78fc5b1f7de4f4d9f32c8c41858
   RNAppleAuthentication: 8d313d93fe2238d6b7ff0a39c67ebcf298d96653
+  RNBootSplash: ac2c99d7c906ca925afaee0a105fc76b36928274
   RNFBApp: 8593617fc2b1f7d24006859a7c173b7bfd1f7cf7
   RNFBMessaging: 2c8de4d7d5b50c1a6178e67e641741d9ae4057eb
   RNGestureHandler: 6ed7a8577dcd747639e1868316b2a12399ce56cc

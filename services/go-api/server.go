@@ -13,6 +13,7 @@ import (
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 )
 
@@ -40,10 +41,15 @@ func main() {
 	userMedService := service.NewUserMedicationService(userMedRepo)
 
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
+		GormDB: db,
 		MedicationService: medService,
 		UserService: userService,
 		UserMedicationService: userMedService,
 	}}))
+
+    srv.AddTransport(transport.POST{})
+    srv.AddTransport(transport.Options{})
+    srv.AddTransport(transport.GET{})
 
 	loaderMiddleware := loaders.Middleware(db, srv)
 

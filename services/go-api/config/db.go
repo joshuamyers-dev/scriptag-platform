@@ -57,6 +57,7 @@ func InitDB() (*gorm.DB, error) {
 		&adapters.GormUserMedication{},
 		&adapters.GormUserFCMToken{},
 		&adapters.GormUserMedicationSchedule{},
+		&adapters.GormNotificationDelivery{},
 	)
 
 	if err != nil {
@@ -129,6 +130,17 @@ func createMedicationScheduleTypes(db *gorm.DB) {
 	// 	'INTERVALS',
 	// 	'PERIODS',
 	// 	'WHEN_NEEDED');
+	// 	`
+
+	// if err := db.Exec(sql).Error; err != nil {
+	// 	log.Fatalf("Error creating GIN index: %v", err)
+	// }
+
+
+	// sql := `CREATE TYPE notification_status AS ENUM (
+	// 	'PENDING',
+	// 	'SENT',
+	// 	'FAILED');
 	// 	`
 
 	// if err := db.Exec(sql).Error; err != nil {

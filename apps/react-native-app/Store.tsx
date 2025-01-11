@@ -32,12 +32,16 @@ interface GlobalState {
   hideToast(): void;
   setTagScanned: (medicationId: string | null) => void;
   tagScanned: string | null;
+  appReady: boolean;
+  setAppReady: (ready: boolean) => void;
 }
 
 export const useGlobalStore = create<GlobalState>()(
   persist(
     (set, get) => ({
       authToken: null,
+      appReady: false,
+      setAppReady: ready => set({appReady: ready}),
       setAuthToken: token => set({authToken: token}),
       tagScanned: null,
       setTagScanned: medicationId => {

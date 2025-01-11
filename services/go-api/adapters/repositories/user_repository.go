@@ -18,7 +18,7 @@ func NewUserRepository(db *gorm.DB) core.UserRepository {
 
 func (r *UserRepository) FindByID(id string) (*core.User, error) {
 	var user adapters.GormUser
-	if err := r.DB.Where("id = ?", id).First(&user).Error; err != nil {
+	if err := r.DB.Where("id = ?", id).Preload("FCMTokens").First(&user).Error; err != nil {
 		return &core.User{}, err
 	}
 	return mappers.MapUserToCoreUser(&user), nil

@@ -4,11 +4,11 @@ import (
 	"context"
 	"database/sql"
 	adapters "go-api/adapters/models"
+	"go-api/notifications"
 	"log"
 	"time"
 
 	firebase "firebase.google.com/go"
-	"firebase.google.com/go/messaging"
 	"github.com/riverqueue/river"
 	"github.com/riverqueue/river/riverdriver/riverdatabasesql"
 	"gorm.io/gorm"
@@ -20,12 +20,12 @@ func (MedicationScheduleWorkerArgs) Kind() string { return "medication_schedule_
 
 type MedicationScheduleWorker struct {
 	river.WorkerDefaults[MedicationScheduleWorkerArgs]
-	DB *gorm.DB
+	DB          *gorm.DB
 	firebaseApp *firebase.App
 }
 
 func (w *MedicationScheduleWorker) Work(ctx context.Context, job *river.Job[MedicationScheduleWorkerArgs]) error {
-	var results []*adapters.GormUserMedication
+	var results []*adapters.GormNotificationDelivery
 	var now = time.Now()
 	fcmClient, err := w.firebaseApp.Messaging(ctx)
 
@@ -33,40 +33,22 @@ func (w *MedicationScheduleWorker) Work(ctx context.Context, job *river.Job[Medi
 		log.Fatalf("Failed to create Firebase Messaging client: %v\n", err)
 	}
 
-	_ = w.DB.Preload("Schedule", w.DB.Where("? >= start_date", now)).
-		Preload("User.FCMTokens").
+	_ = w.DB.
+		Where("DATE_TRUNC('minute', notification_date::timestamp) = DATE_TRUNC('minute', ?::timestamp)", now).
+		Preload("UserMedicationSchedule.UserMedication.User.FCMTokens").
+		Preload("UserMedicationSchedule.UserMedication.Medication").
 		FindInBatches(&results, 100, func(tx *gorm.DB, batch int) error {
 			for _, result := range results {
-				switch result.Schedule.RecurringType {
-				case adapters.RECURRING_TYPE_TIME:
-					for _, slot := range *result.Schedule.TimeSlots {
-						if slot.Hour() == now.Hour() && slot.Minute() == now.Minute() {
-							for _, fcmToken := range result.User.FCMTokens {
-								_, sendErr := fcmClient.Send(ctx, &messaging.Message{
-									Notification: &messaging.Notification{
-										Title: "Medication Reminder",
-										Body:  "It's time to take your medication!",
-									},
-									Token: fcmToken.Token,
-								})
+				log.Printf("Sending notification for user medication schedule %s\n", result.UserMedicationScheduleID)
 
-								if sendErr != nil {
-									log.Printf("Failed to send message: %v\n", sendErr)
-								}
-							}
+				for _, token := range result.UserMedicationSchedule.UserMedication.User.FCMTokens {
+					notifications.SendFCMMessage(fcmClient, ctx, w.DB, token.Token, "Medication Reminder", "It's time to take your "+result.UserMedicationSchedule.UserMedication.Medication.BrandName+". Tap your NFC tag before taking your medication.")
 
-							if err != nil {
-								log.Printf("Failed to send message: %v\n", err)
-							}
-						}
-					}
 				}
 			}
 
 			return nil
 		})
-
-
 
 	return nil
 }

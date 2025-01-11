@@ -18,6 +18,7 @@ import {
 import {useGlobalStore} from '@store';
 import {extractMedicationIdFromUrl} from '@utils/Helpers';
 import TagScannedModal from '@components/TagScannedModal';
+import BootSplash from 'react-native-bootsplash';
 
 enableScreens(true);
 enableFreeze(true);
@@ -25,7 +26,9 @@ enableLayoutAnimations(true);
 
 function App() {
   const [apolloClient, setApolloClient] = useState<ApolloClient<any>>();
-  const {setTagScanned, tagScanned} = useGlobalStore(state => state);
+  const {setTagScanned, tagScanned, appReady, setAppReady} = useGlobalStore(
+    state => state,
+  );
 
   useEffect(() => {
     const createClient = async () => {
@@ -33,6 +36,7 @@ function App() {
       setApolloClient(client);
     };
 
+    setAppReady(false);
     createClient();
   }, []);
 
@@ -58,7 +62,7 @@ function App() {
         console.log(medicationId);
 
         if (medicationId !== '') {
-          setTagScanned(extractMedicationIdFromUrl(event.url));
+          setTagScanned(medicationId);
         }
       }
     });
@@ -79,7 +83,7 @@ function App() {
                 <FullWindowOverlay>
                   <ToastMessage />
                 </FullWindowOverlay>
-                {tagScanned && <TagScannedModal />}
+                {tagScanned && appReady && <TagScannedModal />}
               </BottomSheetModalProvider>
             </PortalProvider>
           </GestureHandlerRootView>

@@ -1,355 +1,410 @@
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[16.475ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND table_type = 'BASE TABLE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[10.818ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND table_type = 'BASE TABLE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.749ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.617ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[15.649ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'users'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[7.784ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'users'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.728ms] [34;1m[rows:-][0m SELECT * FROM "users" LIMIT 1
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.612ms] [34;1m[rows:-][0m SELECT * FROM "users" LIMIT 1
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[9.990ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'users' AND constraint_type = 'UNIQUE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[7.800ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'users' AND constraint_type = 'UNIQUE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[6.695ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'users'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[5.862ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'users'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.823ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.762ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
 		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
 		WHERE a.attnum > 0 -- hide internal columns
 		AND NOT a.attisdropped -- hide deleted columns
 		AND b.relname = 'users'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[2.169ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[2.494ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[2.120ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.479ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.805ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.314ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.441ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.935ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.546ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'email') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.446ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'email') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.487ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'password') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.394ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users' AND column_name = 'password') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'users' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.564ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'users' AND indexname = 'idx_users_deleted_at' AND schemaname = CURRENT_SCHEMA()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.415ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'users' AND indexname = 'idx_users_deleted_at' AND schemaname = CURRENT_SCHEMA()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.509ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND table_type = 'BASE TABLE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.571ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND table_type = 'BASE TABLE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.109ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.202ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[4.219ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'medications'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[3.851ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'medications'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.652ms] [34;1m[rows:-][0m SELECT * FROM "medications" LIMIT 1
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.724ms] [34;1m[rows:-][0m SELECT * FROM "medications" LIMIT 1
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[5.603ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'medications' AND constraint_type = 'UNIQUE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[5.114ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'medications' AND constraint_type = 'UNIQUE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[5.131ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'medications'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[5.005ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'medications'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.451ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.445ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
 		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
 		WHERE a.attnum > 0 -- hide internal columns
 		AND NOT a.attisdropped -- hide deleted columns
 		AND b.relname = 'medications'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.287ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.529ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.234ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.439ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.232ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.468ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.236ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.287ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.227ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'brand_name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.277ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'brand_name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.214ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'active_ingredient') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.279ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'active_ingredient') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.236ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'strength') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.239ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'medications' AND column_name = 'strength') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.580ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'medications' AND indexname = 'idx_medications_deleted_at' AND schemaname = CURRENT_SCHEMA()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.556ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'medications' AND indexname = 'idx_medications_deleted_at' AND schemaname = CURRENT_SCHEMA()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.407ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND table_type = 'BASE TABLE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.502ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND table_type = 'BASE TABLE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.094ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.166ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[3.975ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[5.341ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.644ms] [34;1m[rows:-][0m SELECT * FROM "user_medications" LIMIT 1
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.704ms] [34;1m[rows:-][0m SELECT * FROM "user_medications" LIMIT 1
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[5.754ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medications' AND constraint_type = 'UNIQUE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[5.867ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medications' AND constraint_type = 'UNIQUE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[6.650ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medications'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[5.355ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medications'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.471ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.466ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
 		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
 		WHERE a.attnum > 0 -- hide internal columns
 		AND NOT a.attisdropped -- hide deleted columns
 		AND b.relname = 'user_medications'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.289ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.423ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.351ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.291ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.271ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.323ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.244ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.313ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.237ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'user_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.253ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'user_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.233ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'medication_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.346ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'medication_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.311ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.282ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'name') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.905ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'strength') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.252ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'strength') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.284ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'tag_linked') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.217ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND column_name = 'tag_linked') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medications' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.145ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND constraint_name = 'fk_user_medications_user'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.538ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND constraint_name = 'fk_user_medications_user'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.803ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND constraint_name = 'fk_user_medications_medication'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.814ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medications' AND constraint_name = 'fk_user_medications_medication'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.682ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_medications' AND indexname = 'idx_user_medications_deleted_at' AND schemaname = CURRENT_SCHEMA()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.648ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_medications' AND indexname = 'idx_user_medications_deleted_at' AND schemaname = CURRENT_SCHEMA()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.592ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_medications' AND indexname = 'idx_user_medications_medication_id' AND schemaname = CURRENT_SCHEMA()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.574ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_medications' AND indexname = 'idx_user_medications_medication_id' AND schemaname = CURRENT_SCHEMA()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.513ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND table_type = 'BASE TABLE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.481ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND table_type = 'BASE TABLE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.121ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.207ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[3.839ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[3.874ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.545ms] [34;1m[rows:-][0m SELECT * FROM "user_fcm_tokens" LIMIT 1
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.601ms] [34;1m[rows:-][0m SELECT * FROM "user_fcm_tokens" LIMIT 1
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[5.423ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_fcm_tokens' AND constraint_type = 'UNIQUE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[4.864ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_fcm_tokens' AND constraint_type = 'UNIQUE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[5.188ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_fcm_tokens'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[5.109ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_fcm_tokens'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.329ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.374ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
 		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
 		WHERE a.attnum > 0 -- hide internal columns
 		AND NOT a.attisdropped -- hide deleted columns
 		AND b.relname = 'user_fcm_tokens'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.275ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.368ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.246ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.259ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.266ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.275ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.266ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.299ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.299ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'token') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.274ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'token') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.239ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'user_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.227ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND column_name = 'user_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_fcm_tokens' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.012ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND constraint_name = 'fk_users_fcm_tokens'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.728ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_fcm_tokens' AND constraint_name = 'fk_users_fcm_tokens'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.508ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_fcm_tokens' AND indexname = 'idx_user_fcm_tokens_deleted_at' AND schemaname = CURRENT_SCHEMA()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.472ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_fcm_tokens' AND indexname = 'idx_user_fcm_tokens_deleted_at' AND schemaname = CURRENT_SCHEMA()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.632ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND table_type = 'BASE TABLE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.510ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND table_type = 'BASE TABLE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.142ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.226ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[4.732ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[3.916ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.804ms] [34;1m[rows:-][0m SELECT * FROM "user_medication_schedules" LIMIT 1
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.818ms] [34;1m[rows:-][0m SELECT * FROM "user_medication_schedules" LIMIT 1
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[6.578ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules' AND constraint_type = 'UNIQUE'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[5.968ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules' AND constraint_type = 'UNIQUE'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[6.248ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[6.452ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.382ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.369ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
 		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
 		WHERE a.attnum > 0 -- hide internal columns
 		AND NOT a.attisdropped -- hide deleted columns
 		AND b.relname = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.285ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.371ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.257ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.272ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.249ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.325ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.272ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.191ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.232ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'user_medication_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.316ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'user_medication_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.268ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'method_type') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.234ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'method_type') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.228ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'recurring_type') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.238ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'recurring_type') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.159ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+2025/01/12 01:08:50 [32m
+[0m[33m[0.126ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
 
-2025/01/03 00:15:17 [32m
-[0m[33m[5.184ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules'
+2025/01/12 01:08:50 [32m
+[0m[33m[3.835ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.243ms] [34;1m[rows:-][0m SELECT * FROM "user_medication_schedules" LIMIT 1
+2025/01/12 01:08:50 [32m
+[0m[33m[0.289ms] [34;1m[rows:-][0m SELECT * FROM "user_medication_schedules" LIMIT 1
 
-2025/01/03 00:15:17 [32m
-[0m[33m[6.611ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules' AND constraint_type = 'UNIQUE'
+2025/01/12 01:08:50 [32m
+[0m[33m[5.524ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules' AND constraint_type = 'UNIQUE'
 
-2025/01/03 00:15:17 [32m
-[0m[33m[5.457ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules'
+2025/01/12 01:08:50 [32m
+[0m[33m[5.668ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.506ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+2025/01/12 01:08:50 [32m
+[0m[33m[0.435ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
 		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
 		WHERE a.attnum > 0 -- hide internal columns
 		AND NOT a.attisdropped -- hide deleted columns
 		AND b.relname = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.414ms] [34;1m[rows:0][0m ALTER TABLE "user_medication_schedules" ALTER COLUMN "days_of_week" TYPE varchar(10)[] USING "days_of_week"::varchar(10)[]
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[2.244ms] [34;1m[rows:0][0m ALTER TABLE "user_medication_schedules" ALTER COLUMN "days_of_week" TYPE varchar(10)[] USING "days_of_week"::varchar(10)[]
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.425ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'days_of_week') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.827ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'days_of_week') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.285ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+2025/01/12 01:08:50 [32m
+[0m[33m[0.414ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
 
-2025/01/03 00:15:17 [32m
-[0m[33m[4.880ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules'
+2025/01/12 01:08:50 [32m
+[0m[33m[4.919ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.418ms] [34;1m[rows:-][0m SELECT * FROM "user_medication_schedules" LIMIT 1
+2025/01/12 01:08:50 [32m
+[0m[33m[0.791ms] [34;1m[rows:-][0m SELECT * FROM "user_medication_schedules" LIMIT 1
 
-2025/01/03 00:15:17 [32m
-[0m[33m[6.180ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules' AND constraint_type = 'UNIQUE'
+2025/01/12 01:08:50 [32m
+[0m[33m[6.874ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules' AND constraint_type = 'UNIQUE'
 
-2025/01/03 00:15:17 [32m
-[0m[33m[5.981ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules'
+2025/01/12 01:08:50 [32m
+[0m[33m[7.253ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.729ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+2025/01/12 01:08:50 [32m
+[0m[33m[0.750ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
 		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
 		WHERE a.attnum > 0 -- hide internal columns
 		AND NOT a.attisdropped -- hide deleted columns
 		AND b.relname = 'user_medication_schedules'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.596ms] [34;1m[rows:0][0m ALTER TABLE "user_medication_schedules" ALTER COLUMN "time_slots" TYPE timetz[] USING "time_slots"::timetz[]
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.628ms] [34;1m[rows:0][0m ALTER TABLE "user_medication_schedules" ALTER COLUMN "time_slots" TYPE timetz[] USING "time_slots"::timetz[]
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[3.084ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'time_slots') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[3.043ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'time_slots') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.375ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'start_date') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.766ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'start_date') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.379ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'end_date') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.463ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'end_date') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.320ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'days_interval') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.554ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'days_interval') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.247ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'hours_interval') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.663ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'hours_interval') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.234ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'use_for_days') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.376ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'use_for_days') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.306ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'pause_for_days') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.394ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'pause_for_days') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.239ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'use_for_hours') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.437ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'use_for_hours') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.244ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'pause_for_hours') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.329ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'pause_for_hours') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.356ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'refills_amount') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.274ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'refills_amount') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.290ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'doses_amount') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.282ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND column_name = 'doses_amount') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'user_medication_schedules' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[1.041ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND constraint_name = 'fk_user_medications_schedule'
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[1.005ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'user_medication_schedules' AND constraint_name = 'fk_user_medications_schedule'
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.789ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_medication_schedules' AND indexname = 'idx_user_medication_schedules_deleted_at' AND schemaname = CURRENT_SCHEMA()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.741ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_medication_schedules' AND indexname = 'idx_user_medication_schedules_deleted_at' AND schemaname = CURRENT_SCHEMA()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
-[0m[33m[0.514ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_medication_schedules' AND indexname = 'idx_user_medication_schedules_user_medication_id' AND schemaname = CURRENT_SCHEMA()
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.577ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'user_medication_schedules' AND indexname = 'idx_user_medication_schedules_user_medication_id' AND schemaname = CURRENT_SCHEMA()
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:104
-[0m[33m[0.572ms] [34;1m[rows:0][0m 
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.792ms] [34;1m[rows:1][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND table_type = 'BASE TABLE'
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.274ms] [34;1m[rows:1][0m SELECT CURRENT_DATABASE()
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[4.192ms] [34;1m[rows:-][0m SELECT c.column_name, c.is_nullable = 'YES', c.udt_name, c.character_maximum_length, c.numeric_precision, c.numeric_precision_radix, c.numeric_scale, c.datetime_precision, 8 * typlen, c.column_default, pd.description, c.identity_increment FROM information_schema.columns AS c JOIN pg_type AS pgt ON c.udt_name = pgt.typname LEFT JOIN pg_catalog.pg_description as pd ON pd.objsubid = c.ordinal_position AND pd.objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = c.table_name AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = c.table_schema)) where table_catalog = 'toxitrak_dev' AND table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries'
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.710ms] [34;1m[rows:-][0m SELECT * FROM "notification_deliveries" LIMIT 1
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[6.008ms] [34;1m[rows:-][0m SELECT constraint_name FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'notification_deliveries' AND constraint_type = 'UNIQUE'
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[6.197ms] [34;1m[rows:-][0m SELECT c.column_name, constraint_name, constraint_type FROM information_schema.table_constraints tc JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_catalog, table_name, constraint_name) JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name WHERE constraint_type IN ('PRIMARY KEY', 'UNIQUE') AND c.table_catalog = 'toxitrak_dev' AND c.table_schema = CURRENT_SCHEMA() AND c.table_name = 'notification_deliveries'
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.741ms] [34;1m[rows:-][0m SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type
+		FROM pg_attribute a JOIN pg_class b ON a.attrelid = b.oid AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA())
+		WHERE a.attnum > 0 -- hide internal columns
+		AND NOT a.attisdropped -- hide deleted columns
+		AND b.relname = 'notification_deliveries'
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.311ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND column_name = 'id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'notification_deliveries' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.337ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND column_name = 'created_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'notification_deliveries' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.341ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND column_name = 'updated_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'notification_deliveries' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.459ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND column_name = 'deleted_at') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'notification_deliveries' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.322ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND column_name = 'user_medication_schedule_id') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'notification_deliveries' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.349ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND column_name = 'notification_date') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'notification_deliveries' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.291ms] [34;1m[rows:0][0m SELECT description FROM pg_catalog.pg_description WHERE objsubid = (SELECT ordinal_position FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND column_name = 'status') AND objoid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = 'notification_deliveries' AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = CURRENT_SCHEMA()))
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.887ms] [34;1m[rows:1][0m SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'notification_deliveries' AND constraint_name = 'fk_notification_deliveries_user_medication_schedule'
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.490ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'notification_deliveries' AND indexname = 'idx_notification_deliveries_user_medication_schedule_id' AND schemaname = CURRENT_SCHEMA()
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:55
+[0m[33m[0.476ms] [34;1m[rows:1][0m SELECT count(*) FROM pg_indexes WHERE tablename = 'notification_deliveries' AND indexname = 'idx_notification_deliveries_deleted_at' AND schemaname = CURRENT_SCHEMA()
+
+2025/01/12 01:08:50 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/db.go:105
+[0m[33m[0.471ms] [34;1m[rows:0][0m 
         CREATE INDEX IF NOT EXISTS idx_gin_brand_name_active_ingredient
         ON medications
         USING gin (
@@ -358,254 +413,62 @@
         );
     
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.600ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:17.784' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
+2025/01/12 01:09:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:40
+[0m[33m[2.905ms] [34;1m[rows:0][0m SELECT * FROM "notification_deliveries" WHERE DATE_TRUNC('minute', notification_date::timestamp) = DATE_TRUNC('minute', '2025-01-12 01:09:01.767'::timestamp) AND "notification_deliveries"."deleted_at" IS NULL ORDER BY "notification_deliveries"."id" LIMIT 100
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.287ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
+[0m[33m[0.628ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.680ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
+[0m[33m[1.968ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[2.087ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.096ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('94a04945-085e-4c15-b2f7-2e2e773aafed','126cd3a6-83e4-4408-b603-f0b538bffff0','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a','e23b8836-a6a4-49f5-be8a-6b16d6cf17e2') AND "medications"."deleted_at" IS NULL
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.802ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:17.882' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.824ms] [34;1m[rows:7][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.475ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:28
+[0m[33m[1.202ms] [34;1m[rows:7][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('16c5eb7a-19d8-476b-9006-b602a196013a','340f1622-b365-43d4-ab6c-e30ae35b2b47','e9ae9730-afae-4840-8701-f509a306ce6c','de889013-30ad-41f8-be8c-f2ee3f3d2cef','bfc9b3a0-993c-4ee0-9792-53ac21fe80bc','4708ab1a-5d62-4c8f-8cde-3fd2e8fe32d7','6c74d00e-1bc8-46eb-86e0-d1a9563d97bf') AND "user_medication_schedules"."deleted_at" IS NULL
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.097ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
+[0m[33m[0.308ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[2.999ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
+[0m[33m[0.954ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.750ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:17.984' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
+[0m[33m[0.263ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
 
-2025/01/03 00:15:17 [32m
-[0m[33m[0.372ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/01/12 01:09:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
+[0m[33m[0.690ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.783ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
+2025/01/12 01:10:01 [32m
+[0m[33m[1.123ms] [34;1m[rows:1][0m SELECT * FROM "medications" WHERE "medications"."id" = '94a04945-085e-4c15-b2f7-2e2e773aafed' AND "medications"."deleted_at" IS NULL
 
-2025/01/03 00:15:17 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[3.770ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
+2025/01/12 01:10:01 [32m
+[0m[33m[1.151ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
 
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.371ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:18.083' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
+2025/01/12 01:10:01 [32m
+[0m[33m[3.160ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
 
-2025/01/03 00:15:18 [32m
-[0m[33m[0.244ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/01/12 01:10:01 [32m
+[0m[33m[6.449ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."id" = 'de889013-30ad-41f8-be8c-f2ee3f3d2cef' AND "user_medications"."deleted_at" IS NULL
 
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.663ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
+2025/01/12 01:10:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:40
+[0m[33m[8.123ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."id" = '05d221e7-b38b-4420-8c86-c09f29947a3a' AND "user_medication_schedules"."deleted_at" IS NULL
 
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.698ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
+2025/01/12 01:10:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:40
+[0m[33m[10.118ms] [34;1m[rows:1][0m SELECT * FROM "notification_deliveries" WHERE DATE_TRUNC('minute', notification_date::timestamp) = DATE_TRUNC('minute', '2025-01-12 01:10:01.815'::timestamp) AND "notification_deliveries"."deleted_at" IS NULL ORDER BY "notification_deliveries"."id" LIMIT 100
 
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.073ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:18.183' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
+2025/01/12 01:11:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:40
+[0m[33m[0.471ms] [34;1m[rows:0][0m SELECT * FROM "notification_deliveries" WHERE DATE_TRUNC('minute', notification_date::timestamp) = DATE_TRUNC('minute', '2025-01-12 01:11:01.877'::timestamp) AND "notification_deliveries"."deleted_at" IS NULL ORDER BY "notification_deliveries"."id" LIMIT 100
 
-2025/01/03 00:15:18 [32m
-[0m[33m[0.271ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/01/12 01:12:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:40
+[0m[33m[1.220ms] [34;1m[rows:0][0m SELECT * FROM "notification_deliveries" WHERE DATE_TRUNC('minute', notification_date::timestamp) = DATE_TRUNC('minute', '2025-01-12 01:12:01.93'::timestamp) AND "notification_deliveries"."deleted_at" IS NULL ORDER BY "notification_deliveries"."id" LIMIT 100
 
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[2.322ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
+2025/01/12 01:13:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:40
+[0m[33m[1.371ms] [34;1m[rows:0][0m SELECT * FROM "notification_deliveries" WHERE DATE_TRUNC('minute', notification_date::timestamp) = DATE_TRUNC('minute', '2025-01-12 01:13:01.994'::timestamp) AND "notification_deliveries"."deleted_at" IS NULL ORDER BY "notification_deliveries"."id" LIMIT 100
 
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[4.163ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.333ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:18.282' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m
-[0m[33m[0.202ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.461ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.783ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.371ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:18.383' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m
-[0m[33m[0.251ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.547ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.528ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.627ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:18.787' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m
-[0m[33m[0.329ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.865ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[3.121ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.453ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:18.885' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m
-[0m[33m[0.663ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.179ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[3.013ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:25 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.373ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:25.786' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:25 [32m
-[0m[33m[0.452ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:25 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.797ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:25 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.719ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:27 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.314ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:27.787' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:27 [32m
-[0m[33m[0.175ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:27 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.482ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:27 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.293ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:32 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.600ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:32.803' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:32 [32m
-[0m[33m[0.721ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:32 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.647ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:32 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[5.051ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:39 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.653ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:39.802' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:39 [32m
-[0m[33m[0.334ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:39 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.768ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:39 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[3.154ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.300ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:45.809' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:45 [32m
-[0m[33m[0.853ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[2.223ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:45 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[5.584ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:15:56 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.548ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:15:56.819' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:15:56 [32m
-[0m[33m[0.305ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:15:56 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.843ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:15:56 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[2.729ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:16:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.155ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:16:01.826' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:16:01 [32m
-[0m[33m[1.007ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:16:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.959ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:16:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[5.446ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:16:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.968ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:16:18.834' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:16:18 [32m
-[0m[33m[0.741ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:16:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[1.574ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:16:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[4.361ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:16:20 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.606ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:16:20.839' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:16:20 [32m
-[0m[33m[0.369ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:16:20 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.920ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:16:20 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[3.155ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:16:24 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.518ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:16:24.84' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:16:24 [32m
-[0m[33m[0.265ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:16:24 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.624ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:16:24 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[2.388ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:16:32 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.491ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:16:32.848' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:16:32 [32m
-[0m[33m[0.330ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:16:32 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.944ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:16:32 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[2.710ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
-
-2025/01/03 00:17:04 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.374ms] [34;1m[rows:1][0m SELECT * FROM "user_medication_schedules" WHERE "user_medication_schedules"."user_medication_id" = 'b1a17ccf-5d40-416c-af22-8e28ebdd36ce' AND '2025-01-03 00:17:04.88' >= start_date AND "user_medication_schedules"."deleted_at" IS NULL
-
-2025/01/03 00:17:04 [32m
-[0m[33m[0.249ms] [34;1m[rows:1][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/01/03 00:17:04 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[0.522ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL
-
-2025/01/03 00:17:04 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:38
-[0m[33m[2.617ms] [34;1m[rows:1][0m SELECT * FROM "user_medications" WHERE "user_medications"."deleted_at" IS NULL ORDER BY "user_medications"."id" LIMIT 100
+2025/01/12 01:14:02 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/config/workers.go:40
+[0m[33m[1.171ms] [34;1m[rows:0][0m SELECT * FROM "notification_deliveries" WHERE DATE_TRUNC('minute', notification_date::timestamp) = DATE_TRUNC('minute', '2025-01-12 01:14:02.048'::timestamp) AND "notification_deliveries"."deleted_at" IS NULL ORDER BY "notification_deliveries"."id" LIMIT 100

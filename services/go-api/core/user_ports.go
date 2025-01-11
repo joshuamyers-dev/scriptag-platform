@@ -6,14 +6,15 @@ import (
 )
 
 type User struct {
-	ID    string
-	Email string
-	Password string
+	ID         string
+	Email      string
+	Password   string
+	PushTokens []string
 }
 
 type Session struct {
 	Token string
-	User User
+	User  User
 }
 
 type UserService interface {

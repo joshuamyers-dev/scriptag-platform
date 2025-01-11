@@ -54,9 +54,9 @@ func (s *UserServiceImpl) CreateUser(context context.Context, user *core.User) (
 	}
 
 	return &model.Session{
-        Token: &tokenString,
-        User:  mappers.MapCoreUserToGraphQL(user),
-    }, nil
+		Token: &tokenString,
+		User:  mappers.MapCoreUserToGraphQL(user),
+	}, nil
 }
 
 func (s *UserServiceImpl) LoginUser(context context.Context, email string, password string) (*model.Session, error) {
@@ -86,9 +86,9 @@ func (s *UserServiceImpl) LoginUser(context context.Context, email string, passw
 	}
 
 	return &model.Session{
-        Token: &tokenString,
-        User:  mappers.MapCoreUserToGraphQL(user),
-    }, nil
+		Token: &tokenString,
+		User:  mappers.MapCoreUserToGraphQL(user),
+	}, nil
 }
 
 func (s *UserServiceImpl) GetUserByID(id string) (*core.User, error) {
@@ -102,7 +102,24 @@ func (s *UserServiceImpl) GetUserByID(id string) (*core.User, error) {
 }
 
 func (s *UserServiceImpl) AddFCMToken(context context.Context, user *core.User, token string) error {
-	err := s.repo.AddFCMToken(user, token)
+	user, err := s.repo.FindByID(user.ID)
+
+	if err != nil {
+		graphql.AddErrorf(context, "User not found.")
+		return nil
+	}
+
+	if len(user.PushTokens) == 0 {
+		user.PushTokens = []string{token}
+	} else {
+		for _, pushToken := range user.PushTokens {
+			if pushToken == token {
+				return nil
+			}
+		}
+	}
+
+	err = s.repo.AddFCMToken(user, token)
 
 	if err != nil {
 		return err

@@ -14,12 +14,13 @@ import Animated, {
   FadeOutUp,
 } from 'react-native-reanimated';
 import {FullWindowOverlay} from 'react-native-screens';
+import BootSplash from 'react-native-bootsplash';
 
 import {
   MyMedicationsDocument,
   useOnTagScannedMutation,
 } from '@graphql/generated';
-import {useGlobalStore} from '@store';
+import {ToastType, useGlobalStore} from '@store';
 import LottieView from 'lottie-react-native';
 import {useEffect, useState} from 'react';
 
@@ -27,13 +28,17 @@ const TagScannedModal: React.FC = () => {
   const [tagScannedMutation, {loading, data, error}] =
     useOnTagScannedMutation();
 
-  const {tagScanned: medicationId, setTagScanned} = useGlobalStore(
-    state => state,
-  );
+  const {
+    tagScanned: medicationId,
+    setTagScanned,
+    showToast,
+  } = useGlobalStore(state => state);
 
   useEffect(() => {
     if (medicationId) {
       const scanTag = async () => {
+        console.log(medicationId);
+
         await tagScannedMutation({
           variables: {
             input: {
@@ -55,6 +60,13 @@ const TagScannedModal: React.FC = () => {
       }, 1500);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      showToast('Error scanning tag', error.message, ToastType.ERROR);
+      setTagScanned(null);
+    }
+  }, [error]);
 
   return (
     <Portal>

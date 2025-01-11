@@ -4,6 +4,7 @@
 #import <React/RCTLinkingManager.h>
 
 #import <Firebase.h>
+#import "RNBootSplash.h"
 
 @implementation AppDelegate
 
@@ -32,6 +33,12 @@
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
+- (void)customizeRootView:(RCTRootView *)rootView {
+  [super customizeRootView:rootView];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+}
+
 
 - (BOOL)application:(UIApplication *)application
    openURL:(NSURL *)url

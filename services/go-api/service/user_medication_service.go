@@ -4,6 +4,9 @@ import (
 	"go-api/adapters/mappers"
 	"go-api/core"
 	"go-api/graph/model"
+	"go-api/notifications"
+
+	"gorm.io/gorm"
 )
 
 type UserMedicationServiceImpl struct {
@@ -24,7 +27,7 @@ func (s *UserMedicationServiceImpl) CreateUserMedication(userMed *core.UserMedic
 	return mappers.ToGraphQLMyMedication(userMedication), nil
 }
 
-func (s *UserMedicationServiceImpl) CreateUserMedicationSchedule(medicationSchedule *core.MedicationSchedule, userId string) (bool, error) {
+func (s *UserMedicationServiceImpl) CreateUserMedicationSchedule(medicationSchedule *core.MedicationSchedule, userId string, db *gorm.DB) (bool, error) {
 	var userMed *core.UserMedication
 	var err error
 
@@ -45,7 +48,7 @@ func (s *UserMedicationServiceImpl) CreateUserMedicationSchedule(medicationSched
 		}
 	}
 
-	_, err = s.repo.CreateSchedule(&core.MedicationSchedule{
+	schedule, err := s.repo.CreateSchedule(&core.MedicationSchedule{
 		UserMedicationID: &userMed.ID,
 		MedicationID:     userMed.MedicationID,
 		MethodType:       medicationSchedule.MethodType,
@@ -63,6 +66,12 @@ func (s *UserMedicationServiceImpl) CreateUserMedicationSchedule(medicationSched
 		RefillsAmount:    medicationSchedule.RefillsAmount,
 		DosesAmount:      medicationSchedule.DosesAmount,
 	})
+
+	if err != nil {
+		return false, err
+	}
+
+	err = notifications.QueueNotifications(schedule, db)
 
 	if err != nil {
 		return false, err

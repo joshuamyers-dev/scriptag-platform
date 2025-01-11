@@ -5,15 +5,20 @@ import BottomSheet, {
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
 import {Portal} from '@gorhom/portal';
-import {MyMedication, useMyMedicationsQuery} from '@graphql/generated';
+import {
+  MyMedication,
+  useAddFcmTokenMutation,
+  useMyMedicationsQuery,
+} from '@graphql/generated';
 import {
   ADD_MEDICATION_STACK,
   SCAN_TAG_SCREEN,
 } from '@navigators/ScreenConstants';
 import {Spacing16, Spacing24} from '@utils/tokens';
-import {useCallback, useRef} from 'react';
+import {useCallback, useEffect, useRef} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import MedicationCard from '../components/MedicationCard';
+import {firebase} from '@react-native-firebase/messaging';
 
 const StockContainer = ({navigation}) => {
   const {
@@ -23,6 +28,23 @@ const StockContainer = ({navigation}) => {
   } = useMyMedicationsQuery({
     fetchPolicy: 'cache-and-network',
   });
+
+  const [addFcmTokenMutation] = useAddFcmTokenMutation();
+
+  useEffect(() => {
+    firebase.messaging().requestPermission();
+
+    firebase
+      .messaging()
+      .getToken()
+      .then(token => {
+        addFcmTokenMutation({
+          variables: {
+            token,
+          },
+        });
+      });
+  }, []);
 
   const onPressLinkTag = useCallback((medication: MyMedication) => {
     navigation.navigate(SCAN_TAG_SCREEN, {medicationId: medication.id});

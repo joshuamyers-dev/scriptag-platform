@@ -1,9 +1,11 @@
 package utils
 
 import (
+	"fmt"
 	adapters "go-api/adapters/models"
 	"go-api/graph/model"
 	"strings"
+	"time"
 
 	"github.com/lib/pq"
 )
@@ -98,4 +100,29 @@ func ConvertShortDayToMid(day string) string {
     default:
         return ""
     }
+}
+
+func ConvertShortDayToTime(day string) (*time.Weekday, error) {
+    var targetDay time.Weekday
+
+    switch day {
+    case "M":
+        targetDay = time.Monday
+    case "Tu":
+        targetDay = time.Tuesday
+    case "W":
+        targetDay = time.Wednesday
+    case "Th":
+        targetDay = time.Thursday
+    case "F":
+        targetDay = time.Friday
+    case "Sa":
+        targetDay = time.Saturday
+    case "Su":
+        targetDay = time.Sunday
+    default:
+        return nil, fmt.Errorf("invalid day of the week: %s", day)
+    }
+
+    return &targetDay, nil
 }
