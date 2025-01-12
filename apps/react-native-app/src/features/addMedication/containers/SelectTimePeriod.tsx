@@ -2,6 +2,7 @@ import CustomButton from '@components/CustomButton';
 import InputLabel from '@components/InputLabel';
 import InputMultipleSelect from '@components/InputMultipleSelect';
 import {
+  DEVICE_TIMEZONE,
   MEDICATION_END_TYPE_DOSES_FINISHED,
   MEDICATION_END_TYPE_PRESCRIPTION_REPEATS,
   MEDICATION_END_TYPE_SPECIFIC_DATE,
@@ -16,7 +17,6 @@ import {
   fontLabelS,
   Spacing16,
 } from '@utils/tokens';
-import dayjs from 'dayjs';
 import {useCallback, useContext, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TextStyle, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
@@ -30,6 +30,7 @@ import {
 } from '@graphql/generated';
 import {parseIntOrNull} from '@utils/Helpers';
 import {ToastType, useGlobalStore} from '@store';
+import dayjs from '@utils/Dayjs';
 
 const SelectTimePeriod = () => {
   const context = useContext(AddMedicationContext);
@@ -54,20 +55,30 @@ const SelectTimePeriod = () => {
     if (!context?.takenWhenNeeded) {
       if (context?.scheduledDays && context.scheduledDays.length > 0) {
         methodType = MethodScheduleType.Days;
-      } else if (context?.daysInterval) {
+      }
+
+      if (context?.daysInterval) {
         methodType = MethodScheduleType.Intervals;
-      } else if (context?.useForDays && context?.useForHours) {
+      }
+
+      if (context?.useForDays && context?.pauseForDays) {
         methodType = MethodScheduleType.Periods;
       }
 
       if (context?.timeSlots && context.timeSlots.length > 0) {
         recurringType = RecurringScheduleType.Time;
-      } else if (context?.hoursInterval) {
+      }
+
+      if (context?.hoursInterval) {
         recurringType = RecurringScheduleType.Intervals;
-      } else if (context?.useForHours && context?.useForDays) {
+      }
+
+      if (context?.useForHours && context?.pauseForHours) {
         recurringType = RecurringScheduleType.Periods;
       }
     }
+
+    console.log(dayjs(context?.timeSlots[0]).tz(DEVICE_TIMEZONE).toISOString());
 
     await addMedicationScheduleMutation({
       variables: {
@@ -86,7 +97,9 @@ const SelectTimePeriod = () => {
           pauseForHours: parseIntOrNull(context?.pauseForHours),
           timeSlots:
             recurringType === RecurringScheduleType.Time
-              ? context?.timeSlots?.map(slot => slot.toISOString())
+              ? context?.timeSlots?.map(slot =>
+                  dayjs(slot).tz(DEVICE_TIMEZONE, true).toISOString(),
+                )
               : [],
           daysOfWeek: context?.scheduledDays,
           methodType,

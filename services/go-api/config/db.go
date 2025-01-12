@@ -23,7 +23,7 @@ func GetDB() *gorm.DB {
 	return db
 }
 
-func InitDB() (*gorm.DB, error) {
+func InitDB() (*gorm.DB, *sql.DB, error) {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -39,7 +39,7 @@ func InitDB() (*gorm.DB, error) {
 	sqlDB, err := sql.Open("pgx", dsn)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
@@ -47,7 +47,7 @@ func InitDB() (*gorm.DB, error) {
 	}), initConfig())
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	createMedicationScheduleTypes(db)
@@ -66,13 +66,12 @@ func InitDB() (*gorm.DB, error) {
 
 	createSearchIndex(db)
 	
-	err = SetupWorkers(sqlDB, db)
 
 	if err != nil {
 		log.Panicf("Failed to setup workers: %v", err)
 	}
 
-	return db, nil
+	return db, sqlDB, nil
 }
 
 func initConfig() *gorm.Config {

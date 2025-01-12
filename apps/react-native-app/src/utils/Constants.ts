@@ -1,7 +1,10 @@
 import {Dimensions} from 'react-native';
+import {getTimeZone} from 'react-native-localize';
+
 
 export const SCREEN_HEIGHT = Dimensions.get('screen').height;
 export const SCREEN_WIDTH = Dimensions.get('screen').width;
+export const DEVICE_TIMEZONE = getTimeZone();
 export const UNIT_MEASUREMENTS = [
   {
     title: 'Milligrams (mg)',

@@ -12,6 +12,7 @@ require (
 	github.com/riverqueue/river v0.15.0
 	github.com/riverqueue/river/riverdriver/riverdatabasesql v0.15.0
 	github.com/riverqueue/river/riverdriver/riverpgxv5 v0.15.0
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/vektah/gqlparser/v2 v2.5.21
 	github.com/vikstrous/dataloadgen v0.0.6
 	golang.org/x/crypto v0.31.0

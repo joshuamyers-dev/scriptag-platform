@@ -38,27 +38,25 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 
 	case adapters.METHOD_TYPE_INTERVALS:
 		// Handle "Use for every X days" scenario
-		if schedule.HoursInterval != nil {
-			elapsedHours := int(time.Since(*schedule.StartDate).Hours())
+		if schedule.DaysInterval != nil {
+			elapsedDays := int(time.Since(*schedule.StartDate).Hours() / 24)
+			intervalDays := int(*schedule.DaysInterval)
 
-			intervalHours := int(*schedule.HoursInterval)
-
-			if intervalHours == 0 {
+			if intervalDays == 0 {
 				break
 			}
-
-			cyclesCompleted := elapsedHours / intervalHours
-
-			nextCycleStart := schedule.StartDate.Add(
-				time.Duration(cyclesCompleted+1) * time.Duration(intervalHours) * time.Hour,
-			)
-
+	
+			cyclesCompleted := elapsedDays / intervalDays
+			nextCycleStart := schedule.StartDate.AddDate(0, 0, (cyclesCompleted+1)*intervalDays)
 			notifications = append(notifications, nextCycleStart)
 		}
 
 	case adapters.METHOD_TYPE_DAYS:
 		// Handle "Use for every X days" scenario
 		if schedule.DaysOfWeek != nil {
+			today := time.Now().Weekday()
+			nextDay := time.Now().AddDate(0, 0, 1).Weekday()
+
 			for _, day := range schedule.DaysOfWeek {
 				// Calculate the next occurrence of the specified day
 				timeWeekday, err := utils.ConvertShortDayToTime(*day)
@@ -67,7 +65,14 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 					return err
 				}
 
-				notifications = append(notifications, getNextDayOfWeek(*timeWeekday, schedule.TimeSlots))
+				if timeWeekday.String() == today.String() {
+					notifications = append(notifications, time.Now())
+				}
+
+				if timeWeekday.String() == nextDay.String() {
+					nextOccurrence := nextWeekdayFromStart(*schedule.StartDate, *timeWeekday)
+					notifications = append(notifications, nextOccurrence)
+				}
 			}
 		}
 	}
@@ -77,47 +82,53 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 	case adapters.RECURRING_TYPE_TIME:
 		// Handle time-based recurring schedule
 		if schedule.TimeSlots != nil {
-			for _, slot := range schedule.TimeSlots {
-				notifications = append(notifications, *slot)
-			}
-		}
+			var updatedNotifications []time.Time
 
+			for _, notification := range notifications {
+				for _, slot := range schedule.TimeSlots {
+					notificationDate := time.Date(notification.Year(), notification.Month(), notification.Day(), slot.Hour(), slot.Minute(), 0, 0, notification.Location())
+					updatedNotifications = append(updatedNotifications, notificationDate)
+				}
+			}
+			notifications = updatedNotifications
+		}
+	
 	case adapters.RECURRING_TYPE_INTERVALS:
 		// Handle intervals-based recurring schedule
-		if schedule.UseForHours != nil && schedule.PauseForHours != nil {
-			totalCycleHours := *schedule.UseForHours + *schedule.PauseForHours
-			elapsedHours := int(time.Since(*schedule.StartDate).Hours())
-			cyclePosition := elapsedHours % totalCycleHours
-
-			if cyclePosition < int(*schedule.UseForHours) {
-				for i, notification := range notifications {
-					notifications[i] = notification.Add(time.Duration(*schedule.UseForHours) * time.Hour)
-				}
-			} else {
-				for i, notification := range notifications {
-					nextUsePeriodStart := notification.Add(time.Duration(totalCycleHours-cyclePosition) * time.Hour)
-					notifications[i] = nextUsePeriodStart
+		if schedule.HoursInterval != nil {
+			var updatedNotifications []time.Time
+			for _, notification := range notifications {
+				// Start from the beginning of the next day
+				startOfNextDay := time.Date(notification.Year(), notification.Month(), notification.Day(), 0, 0, 0, 0, notification.Location())
+				// Calculate notifications for the entire next day
+				for i := 0; i < 24/int(*schedule.HoursInterval); i++ {
+					notificationDate := startOfNextDay.Add(time.Duration(i*int(*schedule.HoursInterval)) * time.Hour)
+					updatedNotifications = append(updatedNotifications, notificationDate)
 				}
 			}
+			notifications = updatedNotifications
 		}
-
+	
 	case adapters.RECURRING_TYPE_PERIODS:
 		// Handle periods-based recurring schedule
 		if schedule.UseForHours != nil && schedule.PauseForHours != nil {
+			var updatedNotifications []time.Time
 			totalCycleHours := *schedule.UseForHours + *schedule.PauseForHours
-			elapsedHours := int(time.Since(*schedule.StartDate).Hours())
-			cyclePosition := elapsedHours % totalCycleHours
 
-			if cyclePosition < int(*schedule.UseForHours) {
-				for i, notification := range notifications {
-					notifications[i] = notification.Add(time.Duration(*schedule.UseForHours) * time.Hour)
-				}
-			} else {
-				for i, notification := range notifications {
-					nextUsePeriodStart := notification.Add(time.Duration(totalCycleHours-cyclePosition) * time.Hour)
-					notifications[i] = nextUsePeriodStart.Add(time.Duration(*schedule.UseForHours) * time.Hour)
+			for _, notification := range notifications {
+				elapsedHours := int(time.Since(notification).Hours())
+				cyclePosition := elapsedHours % totalCycleHours
+	
+				if cyclePosition < int(*schedule.UseForHours) {
+					notificationDate := notification.Add(time.Duration(*schedule.UseForHours) * time.Hour)
+					updatedNotifications = append(updatedNotifications, notificationDate)
+				} else {
+					nextUsePeriodStart := notification.Add(time.Duration(totalCycleHours - cyclePosition) * time.Hour)
+					notificationDate := nextUsePeriodStart.Add(time.Duration(*schedule.UseForHours) * time.Hour)
+					updatedNotifications = append(updatedNotifications, notificationDate)
 				}
 			}
+			notifications = updatedNotifications
 		}
 	}
 
@@ -143,6 +154,14 @@ func getNextDayOfWeek(targetDay time.Weekday) time.Time {
 	nextOccurrence := now.AddDate(0, 0, daysUntilTarget)
 
 	return nextOccurrence
+}
+
+func nextWeekdayFromStart(startDate time.Time, weekday time.Weekday) time.Time {
+    daysUntilTarget := (int(weekday) - int(startDate.Weekday()) + 7) % 7
+    if daysUntilTarget == 0 {
+        daysUntilTarget = 7
+    }
+    return startDate.AddDate(0, 0, daysUntilTarget)
 }
 
 func createNotification(scheduleID string, notificationDate time.Time, db *gorm.DB) error {

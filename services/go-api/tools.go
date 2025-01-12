@@ -11,6 +11,7 @@ import (
 	_ "github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 	_ "github.com/riverqueue/river"
 	_ "github.com/riverqueue/river/riverdriver/riverpgxv5"
+	_ "github.com/robfig/cron/v3"
 	_ "github.com/vikstrous/dataloadgen"
 	_ "golang.org/x/crypto/bcrypt"
 	_ "gorm.io/driver/postgres"

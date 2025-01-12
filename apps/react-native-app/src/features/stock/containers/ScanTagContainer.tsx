@@ -50,7 +50,9 @@ const ScanTagContainer = ({navigation, route}) => {
       ]);
 
       if (bytes) {
-        await NfcManager.ndefHandler.writeNdefMessage(bytes);
+        await NfcManager.ndefHandler.writeNdefMessage(bytes, {
+          reconnectAfterWrite: false,
+        });
         result = true;
       }
     } catch (ex) {

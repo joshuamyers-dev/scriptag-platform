@@ -22,7 +22,6 @@ import BootSplash from 'react-native-bootsplash';
 
 enableScreens(true);
 enableFreeze(true);
-enableLayoutAnimations(true);
 
 function App() {
   const [apolloClient, setApolloClient] = useState<ApolloClient<any>>();
