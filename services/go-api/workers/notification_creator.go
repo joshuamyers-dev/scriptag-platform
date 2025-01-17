@@ -6,6 +6,7 @@ import (
 	adapters "go-api/adapters/models"
 	"go-api/notifications"
 	"log"
+	"time"
 
 	"github.com/riverqueue/river"
 	"gorm.io/gorm"
@@ -23,17 +24,22 @@ type NotificationCreatorWorker struct {
 func (w *NotificationCreatorWorker) Work(ctx context.Context, job *river.Job[NotificationCreatorWorkerArgs]) error {
 	var results []*adapters.GormUserMedicationSchedule
 
-	_ = w.DB.FindInBatches(&results, 100, func(tx *gorm.DB, batch int) error {
-		for _, result := range results {
-			err := notifications.QueueNotifications(mappers.ToCoreMedicationSchedule(result), w.DB)
+	today := time.Now().Format("2006-01-02")
+	tomorrow := time.Now().AddDate(0, 0, 1).Format("2006-01-02")
 
-			if err != nil {
-				log.Printf("Failed to queue notifications for user medication schedule %s\n", result.ID)
+	_ = w.DB.Joins("LEFT JOIN notification_deliveries AS notifications ON user_medication_schedules.id = notifications.user_medication_schedule_id AND DATE(notifications.notification_date) IN (?, ?)", today, tomorrow).
+		Where("notifications.id IS NULL").
+		FindInBatches(&results, 100, func(tx *gorm.DB, batch int) error {
+			for _, result := range results {
+				err := notifications.QueueNotifications(mappers.ToCoreMedicationSchedule(result), w.DB)
+
+				if err != nil {
+					log.Printf("Failed to queue notifications for user medication schedule %s\n", result.ID)
+				}
 			}
-		}
 
-		return nil
-	})
+			return nil
+		})
 
 	return nil
 }

@@ -29,7 +29,7 @@ func SendFCMMessage(fcmClient *messaging.Client, ctx context.Context, db *gorm.D
 
 		if messaging.IsRegistrationTokenNotRegistered(sendErr) {
 			log.Printf("Removing invalid token: %v\n", fcmToken)
-			db.Delete(&fcmToken, "token = ?", fcmToken)
+			db.Unscoped().Delete(&fcmToken, "token = ?", fcmToken)
 		}
 
 		return sendErr

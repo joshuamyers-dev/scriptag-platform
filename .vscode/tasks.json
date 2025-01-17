@@ -20,7 +20,7 @@
       {
         "label": "React Native App - Start Metro",
         "type": "shell",
-        "command": "cd apps/react-native-app && npm run start",
+        "command": "cd apps/react-native-app && npm run start --reset-cache",
         "group": "build",
         "problemMatcher": [],
         "detail": "Run codegen for React Native App"

@@ -96,33 +96,26 @@ const ScheduleContainer = () => {
           containerStyle={{marginTop: 16}}
         />
 
-        {howOftenSectionVisible && (
-          <Animated.View
-            entering={FadeIn}
-            exiting={FadeOut}
-            style={styles.secondContainer}>
-            <Animated.View
-              style={animatedOpacityStyle}
-              pointerEvents={context?.takenWhenNeeded ? 'none' : 'auto'}>
-              <Text style={styles.titleText}>And how often?</Text>
-              <Text style={styles.subTitleText}>
-                Indicate how you’ll take your medication on the days or periods
-                of time you selected.
-              </Text>
+        <Animated.View
+          style={[animatedOpacityStyle, {marginTop: 32}]}
+          pointerEvents={context?.takenWhenNeeded ? 'none' : 'auto'}>
+          <Text style={styles.titleText}>And how often?</Text>
+          <Text style={styles.subTitleText}>
+            Indicate how you’ll take your medication on the days or periods of
+            time you selected.
+          </Text>
 
-              <View style={{marginTop: 8}}>
-                <IntervalSelector
-                  shouldUseTimeSelector
-                  resetOpenState={context?.takenWhenNeeded}
-                  onSetDaysInterval={context?.setHoursInterval}
-                  onSetPauseFor={context?.setPauseForHours}
-                  onSetUseFor={context?.setUseForHours}
-                  onSetTimeSlots={context?.setTimeSlots}
-                />
-              </View>
-            </Animated.View>
-          </Animated.View>
-        )}
+          <View style={{marginTop: 8}}>
+            <IntervalSelector
+              shouldUseTimeSelector
+              resetOpenState={context?.takenWhenNeeded}
+              onSetDaysInterval={context?.setHoursInterval}
+              onSetPauseFor={context?.setPauseForHours}
+              onSetUseFor={context?.setUseForHours}
+              onSetTimeSlots={context?.setTimeSlots}
+            />
+          </View>
+        </Animated.View>
       </KeyboardAwareScrollView>
       <View style={styles.footerContainer}>
         <CustomButton title="Continue" onPress={onPressContinue} />

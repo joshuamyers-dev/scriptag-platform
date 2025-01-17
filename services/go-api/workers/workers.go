@@ -14,6 +14,12 @@ import (
 )
 
 func SetupWorkers(db *sql.DB, gormDB *gorm.DB) error {
+	schedule, err := cron.ParseStandard("0 1 * * *")
+
+	if err != nil {
+		panic("invalid cron schedule")
+	}
+
 	periodicJobs := []*river.PeriodicJob{
 		river.NewPeriodicJob(
 			river.PeriodicInterval(1*time.Minute),
@@ -22,21 +28,14 @@ func SetupWorkers(db *sql.DB, gormDB *gorm.DB) error {
 			},
 			&river.PeriodicJobOpts{RunOnStart: true},
 		),
+		river.NewPeriodicJob(
+			schedule,
+			func() (river.JobArgs, *river.InsertOpts) {
+				return NotificationCreatorWorkerArgs{}, nil
+			},
+			&river.PeriodicJobOpts{RunOnStart: false},
+		),
 	}
-
-	schedule, err := cron.ParseStandard("0 1 * * *")
-
-	if err != nil {
-		panic("invalid cron schedule")
-	}
-
-	periodicJobs = append(periodicJobs, river.NewPeriodicJob(
-		schedule,
-		func() (river.JobArgs, *river.InsertOpts) {
-			return NotificationCreatorWorkerArgs{}, nil
-		},
-		&river.PeriodicJobOpts{RunOnStart: false},
-	))
 
 	workers := river.NewWorkers()
 

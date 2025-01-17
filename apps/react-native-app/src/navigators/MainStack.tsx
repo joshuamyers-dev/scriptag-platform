@@ -39,6 +39,7 @@ import {
 } from './ScreenConstants';
 import LoginContainer from '@features/login/containers/LoginContainer';
 import AddMedicationContainer from '@features/addMedication/containers/AddMedicationContainer';
+import LogContainer from '@features/logHistory/containers/LogContainer';
 
 const NativeStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -201,7 +202,7 @@ const TabNavigatorStack = () => {
       />
       <Tab.Screen
         name="Log"
-        component={StockContainer}
+        component={LogContainer}
         options={{
           tabBarLabel: 'Log',
           tabBarActiveTintColor: ColourPurple50,

@@ -45,6 +45,10 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 			if intervalDays == 0 {
 				break
 			}
+
+			if time.Now().Year() == schedule.StartDate.Year() && time.Now().YearDay() == schedule.StartDate.YearDay() {
+				notifications = append(notifications, time.Now())
+			}
 	
 			cyclesCompleted := elapsedDays / intervalDays
 			nextCycleStart := schedule.StartDate.AddDate(0, 0, (cyclesCompleted+1)*intervalDays)
