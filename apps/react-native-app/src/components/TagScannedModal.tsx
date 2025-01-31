@@ -23,6 +23,7 @@ import {
 import {ToastType, useGlobalStore} from '@store';
 import LottieView from 'lottie-react-native';
 import {useEffect, useState} from 'react';
+import {triggerNotificationSuccessHaptic} from '@utils/Helpers';
 
 const TagScannedModal: React.FC = () => {
   const [tagScannedMutation, {loading, data, error}] =
@@ -55,6 +56,7 @@ const TagScannedModal: React.FC = () => {
 
   useEffect(() => {
     if (data?.tagScanned) {
+      triggerNotificationSuccessHaptic();
       setTimeout(() => {
         setTagScanned(null);
       }, 1500);

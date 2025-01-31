@@ -10,6 +10,13 @@ import (
 	"github.com/lib/pq"
 )
 
+func Pluralise(text string, count int) string {
+    if count == 1 {
+        return text
+    }
+    return text + "s"
+}
+
 func ConvertToTSQuery(searchText string) string {
 	words := strings.Fields(searchText)
 
@@ -125,4 +132,8 @@ func ConvertShortDayToTime(day string) (*time.Weekday, error) {
     }
 
     return &targetDay, nil
+}
+
+func IsSameDay(t1, t2 time.Time) bool {
+    return t1.Year() == t2.Year() && t1.Month() == t2.Month() && t1.Day() == t2.Day()
 }

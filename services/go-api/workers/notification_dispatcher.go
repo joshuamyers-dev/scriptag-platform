@@ -24,7 +24,7 @@ type MedicationScheduleWorker struct {
 
 func (w *MedicationScheduleWorker) Work(ctx context.Context, job *river.Job[MedicationScheduleWorkerArgs]) error {
 	var results []*adapters.GormNotificationDelivery
-	var now = time.Now()
+	var now = time.Now().UTC()
 	fcmClient, err := w.firebaseApp.Messaging(ctx)
 
 	if err != nil {

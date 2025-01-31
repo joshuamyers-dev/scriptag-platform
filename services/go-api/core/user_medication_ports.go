@@ -17,7 +17,7 @@ type UserMedication struct {
 	ActiveIngredient string
 	Strength         string
 	TagLinked        bool
-	Schedule 	     *MedicationSchedule
+	Schedule         *MedicationSchedule
 }
 
 type UserMedicationEdge struct {
@@ -34,6 +34,7 @@ type MedicationSchedule struct {
 	ID               string
 	UserMedicationID *string
 	MedicationID     *string
+	LogHistory       []*MedicationLogHistory
 	MethodType       adapters.MethodType
 	RecurringType    adapters.RecurringType
 	DaysOfWeek       []*string
@@ -56,20 +57,32 @@ type MyMedicationSchedule struct {
 	AmountRemaining     *int
 }
 
+type MedicationLogHistory struct {
+	ID               string
+	UserMedicationID string
+	UserMedication   UserMedication
+	DueTimestamp     time.Time
+	ActualTimestamp  *time.Time
+	Status           adapters.UserMedicationScheduleLogStatus
+}
+
 type UserMedicationRepository interface {
 	Create(userMedication *UserMedication) (*UserMedication, error)
 	CreateSchedule(userMedicationSchedule *MedicationSchedule) (*MedicationSchedule, error)
-	UpdateSchedule(userMedicationSchedule *MedicationSchedule) (*MedicationSchedule, error)
 	FetchScheduleByUserMedicationID(id string) (*MedicationSchedule, error)
 	FetchUserMedicationByID(id string) (*UserMedication, error)
+	FetchUserMedicationWithSchedule(id string) (*UserMedication, error)
 	FetchPaginated(userId string, afterCursor *string) (*UserMedicationConnection, error)
 	UpdateUserMedication(userMedication *UserMedication) (*UserMedication, error)
+	FetchLogHistoryByUserID(userId string, timestamp time.Time) ([]*MedicationLogHistory, error)
+	UpdateMedicationOnTagScan(userMedicationId string, timestamp time.Time) error
 }
 
 type UserMedicationService interface {
 	CreateUserMedication(userMedication *UserMedication) (*model.MyMedication, error)
 	CreateUserMedicationSchedule(userMedicationSchedule *MedicationSchedule, userId string, db *gorm.DB) (bool, error)
 	FetchUserMedications(userId string, afterCursor *string) (*model.MyMedicationsConnection, error)
+	FetchLogHistory(userId string, timestamp time.Time) ([]*model.MedicationLogEntry, error)
 	UpdateUserMedicationTagLinked(userId string, userMedicationId string, tagLinked bool) (bool, error)
 	OnTagScanned(userId string, medicationId string) (bool, error)
 }

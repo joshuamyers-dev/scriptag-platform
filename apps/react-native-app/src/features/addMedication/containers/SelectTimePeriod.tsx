@@ -78,15 +78,13 @@ const SelectTimePeriod = () => {
       }
     }
 
-    console.log(dayjs(context?.timeSlots[0]).tz(DEVICE_TIMEZONE).toISOString());
-
     await addMedicationScheduleMutation({
       variables: {
         input: {
           medicationId: context?.selectedMedication?.id,
           myMedicationId: context?.myMedicationId,
-          startDate: startDate?.toISOString(),
-          endDate: endDate?.toISOString(),
+          startDate: dayjs(startDate).utc().toISOString(),
+          endDate: endDate ? dayjs(endDate).utc().toISOString() : null,
           refillsRemaining: parseIntOrNull(context?.refillsRemaining),
           dosesRemaining: parseIntOrNull(context?.dosesRemaining),
           intervalsDays: parseIntOrNull(context?.daysInterval),
@@ -97,9 +95,7 @@ const SelectTimePeriod = () => {
           pauseForHours: parseIntOrNull(context?.pauseForHours),
           timeSlots:
             recurringType === RecurringScheduleType.Time
-              ? context?.timeSlots?.map(slot =>
-                  dayjs(slot).tz(DEVICE_TIMEZONE, true).toISOString(),
-                )
+              ? context?.timeSlots?.map(slot => dayjs(slot).utc().toISOString())
               : [],
           daysOfWeek: context?.scheduledDays,
           methodType,

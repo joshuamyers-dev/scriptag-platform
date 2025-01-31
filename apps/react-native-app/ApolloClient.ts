@@ -34,9 +34,13 @@ const authLink = setContext((_, {headers}) => {
 });
 
 const errorLink = onError(({graphQLErrors, networkError}) => {
-  // if (graphQLErrors) {
-  //   graphQLErrors.map(err => console.log(err));
-  // }
+  if (graphQLErrors) {
+    graphQLErrors.map(err => console.log(err));
+  }
+
+  if (networkError) {
+    console.log('Network error occurred', {networkError});
+  }
 
   if (graphQLErrors && graphQLErrors.length > 0) {
     const errorCode = graphQLErrors[0].message.toLowerCase();

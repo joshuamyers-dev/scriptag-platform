@@ -1,5 +1,8 @@
 import {ToastType, useGlobalStore} from '@store';
-import {triggerNotificationErrorHaptic} from '@utils/Helpers';
+import {
+  triggerNotificationErrorHaptic,
+  triggerNotificationSuccessHaptic,
+} from '@utils/Helpers';
 import {
   ColourGreen10,
   ColourGreen100,
@@ -50,7 +53,13 @@ const ToastMessage: React.FC = () => {
   useEffect(() => {
     if (toastVisible) {
       translateY.value = withSpring(0, {damping: 15});
-      triggerNotificationErrorHaptic();
+      
+      if (toastType === ToastType.ERROR) {
+        triggerNotificationErrorHaptic();
+      } else if (toastType === ToastType.SUCCESS) {
+        triggerNotificationSuccessHaptic();
+      }
+
       startTimer();
     }
   }, [toastVisible]);

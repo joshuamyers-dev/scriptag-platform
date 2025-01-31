@@ -54,7 +54,11 @@ func (m *medicationScheduleReader) getMedicationSchedules(ctx context.Context, u
 					}
 
 				case adapters.METHOD_TYPE_INTERVALS:
-					scheduledDays = "Every " + fmt.Sprint(*schedule.DaysInterval) + " days"
+					if *schedule.DaysInterval > 1 {
+						scheduledDays = fmt.Sprintf("Every %d days", *schedule.DaysInterval)
+					} else {
+						scheduledDays = "Daily"
+					}
 
 				case adapters.METHOD_TYPE_PERIODS:
 					scheduledDays = fmt.Sprintf("Every %d days with %d days break", *schedule.UseForDays, *schedule.PauseForDays)

@@ -1,0 +1,11 @@
+query MedicationLogHistory($date: Time!) {
+  medicationLogEntries(date: $date) {
+    id
+    myMedication {
+      ...MyMedicationBase
+    }
+    timestamp
+    dose
+    status
+  }
+}

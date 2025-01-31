@@ -14,6 +14,7 @@ import (
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 )
@@ -59,6 +60,10 @@ func main() {
     srv.AddTransport(transport.POST{})
     srv.AddTransport(transport.Options{})
     srv.AddTransport(transport.GET{})
+
+	if os.Getenv("ENVIRONMENT") == "development" {
+		srv.Use(extension.Introspection{})
+	}
 
 	loaderMiddleware := loaders.Middleware(db, srv)
 

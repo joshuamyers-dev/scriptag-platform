@@ -61,6 +61,14 @@ type ComplexityRoot struct {
 		Node   func(childComplexity int) int
 	}
 
+	MedicationLogEntry struct {
+		Dose         func(childComplexity int) int
+		ID           func(childComplexity int) int
+		MyMedication func(childComplexity int) int
+		Status       func(childComplexity int) int
+		Timestamp    func(childComplexity int) int
+	}
+
 	MedicationsConnection struct {
 		Edges    func(childComplexity int) int
 		PageInfo func(childComplexity int) int
@@ -110,8 +118,9 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		MyMedications     func(childComplexity int, after *string) int
-		SearchMedications func(childComplexity int, query string, after *string) int
+		MedicationLogEntries func(childComplexity int, date time.Time) int
+		MyMedications        func(childComplexity int, after *string) int
+		SearchMedications    func(childComplexity int, query string, after *string) int
 	}
 
 	Session struct {
@@ -140,6 +149,7 @@ type MyMedicationResolver interface {
 type QueryResolver interface {
 	SearchMedications(ctx context.Context, query string, after *string) (*model.MedicationsConnection, error)
 	MyMedications(ctx context.Context, after *string) (*model.MyMedicationsConnection, error)
+	MedicationLogEntries(ctx context.Context, date time.Time) ([]*model.MedicationLogEntry, error)
 }
 
 type executableSchema struct {
@@ -156,7 +166,7 @@ func (e *executableSchema) Schema() *ast.Schema {
 	return parsedSchema
 }
 
-func (e *executableSchema) Complexity(typeName, field string, childComplexity int, rawArgs map[string]interface{}) (int, bool) {
+func (e *executableSchema) Complexity(typeName, field string, childComplexity int, rawArgs map[string]any) (int, bool) {
 	ec := executionContext{nil, e, 0, 0, nil}
 	_ = ec
 	switch typeName + "." + field {
@@ -202,6 +212,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.MedicationEdge.Node(childComplexity), true
+
+	case "MedicationLogEntry.dose":
+		if e.complexity.MedicationLogEntry.Dose == nil {
+			break
+		}
+
+		return e.complexity.MedicationLogEntry.Dose(childComplexity), true
+
+	case "MedicationLogEntry.id":
+		if e.complexity.MedicationLogEntry.ID == nil {
+			break
+		}
+
+		return e.complexity.MedicationLogEntry.ID(childComplexity), true
+
+	case "MedicationLogEntry.myMedication":
+		if e.complexity.MedicationLogEntry.MyMedication == nil {
+			break
+		}
+
+		return e.complexity.MedicationLogEntry.MyMedication(childComplexity), true
+
+	case "MedicationLogEntry.status":
+		if e.complexity.MedicationLogEntry.Status == nil {
+			break
+		}
+
+		return e.complexity.MedicationLogEntry.Status(childComplexity), true
+
+	case "MedicationLogEntry.timestamp":
+		if e.complexity.MedicationLogEntry.Timestamp == nil {
+			break
+		}
+
+		return e.complexity.MedicationLogEntry.Timestamp(childComplexity), true
 
 	case "MedicationsConnection.edges":
 		if e.complexity.MedicationsConnection.Edges == nil {
@@ -427,6 +472,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.PageInfo.StartCursor(childComplexity), true
 
+	case "Query.medicationLogEntries":
+		if e.complexity.Query.MedicationLogEntries == nil {
+			break
+		}
+
+		args, err := ec.field_Query_medicationLogEntries_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MedicationLogEntries(childComplexity, args["date"].(time.Time)), true
+
 	case "Query.myMedications":
 		if e.complexity.Query.MyMedications == nil {
 			break
@@ -609,9 +666,9 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
-func (ec *executionContext) field_Mutation_addFcmToken_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_addFcmToken_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Mutation_addFcmToken_argsToken(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -621,7 +678,7 @@ func (ec *executionContext) field_Mutation_addFcmToken_args(ctx context.Context,
 }
 func (ec *executionContext) field_Mutation_addFcmToken_argsToken(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (string, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("token"))
 	if tmp, ok := rawArgs["token"]; ok {
@@ -632,9 +689,9 @@ func (ec *executionContext) field_Mutation_addFcmToken_argsToken(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_addMyMedication_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_addMyMedication_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Mutation_addMyMedication_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -644,7 +701,7 @@ func (ec *executionContext) field_Mutation_addMyMedication_args(ctx context.Cont
 }
 func (ec *executionContext) field_Mutation_addMyMedication_argsInput(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (model.AddMyMedicationInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
@@ -655,9 +712,9 @@ func (ec *executionContext) field_Mutation_addMyMedication_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_createAccount_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_createAccount_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Mutation_createAccount_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -667,7 +724,7 @@ func (ec *executionContext) field_Mutation_createAccount_args(ctx context.Contex
 }
 func (ec *executionContext) field_Mutation_createAccount_argsInput(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (model.CreateAccountInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
@@ -678,9 +735,9 @@ func (ec *executionContext) field_Mutation_createAccount_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_createMedicationSchedule_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_createMedicationSchedule_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Mutation_createMedicationSchedule_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -690,7 +747,7 @@ func (ec *executionContext) field_Mutation_createMedicationSchedule_args(ctx con
 }
 func (ec *executionContext) field_Mutation_createMedicationSchedule_argsInput(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (model.AddMedicationScheduleInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
@@ -701,9 +758,9 @@ func (ec *executionContext) field_Mutation_createMedicationSchedule_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Mutation_login_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -713,7 +770,7 @@ func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawAr
 }
 func (ec *executionContext) field_Mutation_login_argsInput(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (model.LoginInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
@@ -724,9 +781,9 @@ func (ec *executionContext) field_Mutation_login_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_tagScanned_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_tagScanned_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Mutation_tagScanned_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -736,7 +793,7 @@ func (ec *executionContext) field_Mutation_tagScanned_args(ctx context.Context, 
 }
 func (ec *executionContext) field_Mutation_tagScanned_argsInput(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (model.TagScannedInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
@@ -747,9 +804,9 @@ func (ec *executionContext) field_Mutation_tagScanned_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_updateMedicationTagLinked_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_updateMedicationTagLinked_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Mutation_updateMedicationTagLinked_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -759,7 +816,7 @@ func (ec *executionContext) field_Mutation_updateMedicationTagLinked_args(ctx co
 }
 func (ec *executionContext) field_Mutation_updateMedicationTagLinked_argsInput(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (model.UpdateMedicationTagLinkedInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
@@ -770,9 +827,9 @@ func (ec *executionContext) field_Mutation_updateMedicationTagLinked_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Query___type_argsName(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -782,7 +839,7 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 }
 func (ec *executionContext) field_Query___type_argsName(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (string, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
 	if tmp, ok := rawArgs["name"]; ok {
@@ -793,9 +850,32 @@ func (ec *executionContext) field_Query___type_argsName(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Query_myMedications_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_medicationLogEntries_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
+	arg0, err := ec.field_Query_medicationLogEntries_argsDate(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["date"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_medicationLogEntries_argsDate(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (time.Time, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("date"))
+	if tmp, ok := rawArgs["date"]; ok {
+		return ec.unmarshalNTime2timeᚐTime(ctx, tmp)
+	}
+
+	var zeroVal time.Time
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_myMedications_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
 	arg0, err := ec.field_Query_myMedications_argsAfter(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -805,7 +885,7 @@ func (ec *executionContext) field_Query_myMedications_args(ctx context.Context, 
 }
 func (ec *executionContext) field_Query_myMedications_argsAfter(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (*string, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
 	if tmp, ok := rawArgs["after"]; ok {
@@ -816,9 +896,9 @@ func (ec *executionContext) field_Query_myMedications_argsAfter(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Query_searchMedications_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_searchMedications_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field_Query_searchMedications_argsQuery(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -833,7 +913,7 @@ func (ec *executionContext) field_Query_searchMedications_args(ctx context.Conte
 }
 func (ec *executionContext) field_Query_searchMedications_argsQuery(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (string, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("query"))
 	if tmp, ok := rawArgs["query"]; ok {
@@ -846,7 +926,7 @@ func (ec *executionContext) field_Query_searchMedications_argsQuery(
 
 func (ec *executionContext) field_Query_searchMedications_argsAfter(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (*string, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("after"))
 	if tmp, ok := rawArgs["after"]; ok {
@@ -857,9 +937,9 @@ func (ec *executionContext) field_Query_searchMedications_argsAfter(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field___Type_enumValues_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field___Type_enumValues_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field___Type_enumValues_argsIncludeDeprecated(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -869,7 +949,7 @@ func (ec *executionContext) field___Type_enumValues_args(ctx context.Context, ra
 }
 func (ec *executionContext) field___Type_enumValues_argsIncludeDeprecated(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (bool, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
 	if tmp, ok := rawArgs["includeDeprecated"]; ok {
@@ -880,9 +960,9 @@ func (ec *executionContext) field___Type_enumValues_argsIncludeDeprecated(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
-	args := map[string]interface{}{}
+	args := map[string]any{}
 	arg0, err := ec.field___Type_fields_argsIncludeDeprecated(ctx, rawArgs)
 	if err != nil {
 		return nil, err
@@ -892,7 +972,7 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 }
 func (ec *executionContext) field___Type_fields_argsIncludeDeprecated(
 	ctx context.Context,
-	rawArgs map[string]interface{},
+	rawArgs map[string]any,
 ) (bool, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
 	if tmp, ok := rawArgs["includeDeprecated"]; ok {
@@ -923,7 +1003,7 @@ func (ec *executionContext) _Medication_id(ctx context.Context, field graphql.Co
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.ID, nil
 	})
@@ -967,7 +1047,7 @@ func (ec *executionContext) _Medication_brandName(ctx context.Context, field gra
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.BrandName, nil
 	})
@@ -1011,7 +1091,7 @@ func (ec *executionContext) _Medication_activeIngredient(ctx context.Context, fi
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.ActiveIngredient, nil
 	})
@@ -1055,7 +1135,7 @@ func (ec *executionContext) _Medication_strength(ctx context.Context, field grap
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Strength, nil
 	})
@@ -1096,7 +1176,7 @@ func (ec *executionContext) _MedicationEdge_cursor(ctx context.Context, field gr
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Cursor, nil
 	})
@@ -1140,7 +1220,7 @@ func (ec *executionContext) _MedicationEdge_node(ctx context.Context, field grap
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Node, nil
 	})
@@ -1182,6 +1262,242 @@ func (ec *executionContext) fieldContext_MedicationEdge_node(_ context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _MedicationLogEntry_id(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MedicationLogEntry_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MedicationLogEntry_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MedicationLogEntry",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MedicationLogEntry_myMedication(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MedicationLogEntry_myMedication(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MyMedication, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MyMedication)
+	fc.Result = res
+	return ec.marshalNMyMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MedicationLogEntry_myMedication(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MedicationLogEntry",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MyMedication_id(ctx, field)
+			case "user":
+				return ec.fieldContext_MyMedication_user(ctx, field)
+			case "brandName":
+				return ec.fieldContext_MyMedication_brandName(ctx, field)
+			case "activeIngredient":
+				return ec.fieldContext_MyMedication_activeIngredient(ctx, field)
+			case "dosageStrength":
+				return ec.fieldContext_MyMedication_dosageStrength(ctx, field)
+			case "schedule":
+				return ec.fieldContext_MyMedication_schedule(ctx, field)
+			case "isTagLinked":
+				return ec.fieldContext_MyMedication_isTagLinked(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MyMedication", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MedicationLogEntry_timestamp(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MedicationLogEntry_timestamp(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Timestamp, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MedicationLogEntry_timestamp(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MedicationLogEntry",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MedicationLogEntry_dose(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MedicationLogEntry_dose(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Dose, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MedicationLogEntry_dose(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MedicationLogEntry",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MedicationLogEntry_status(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MedicationLogEntry_status(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Status, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.MedicationLogEntryStatus)
+	fc.Result = res
+	return ec.marshalNMedicationLogEntryStatus2goᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MedicationLogEntry_status(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MedicationLogEntry",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type MedicationLogEntryStatus does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MedicationsConnection_edges(ctx context.Context, field graphql.CollectedField, obj *model.MedicationsConnection) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MedicationsConnection_edges(ctx, field)
 	if err != nil {
@@ -1194,7 +1510,7 @@ func (ec *executionContext) _MedicationsConnection_edges(ctx context.Context, fi
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Edges, nil
 	})
@@ -1244,7 +1560,7 @@ func (ec *executionContext) _MedicationsConnection_pageInfo(ctx context.Context,
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.PageInfo, nil
 	})
@@ -1296,7 +1612,7 @@ func (ec *executionContext) _Mutation_addMyMedication(ctx context.Context, field
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().AddMyMedication(rctx, fc.Args["input"].(model.AddMyMedicationInput))
 	})
@@ -1367,7 +1683,7 @@ func (ec *executionContext) _Mutation_createAccount(ctx context.Context, field g
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().CreateAccount(rctx, fc.Args["input"].(model.CreateAccountInput))
 	})
@@ -1428,7 +1744,7 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().Login(rctx, fc.Args["input"].(model.LoginInput))
 	})
@@ -1489,7 +1805,7 @@ func (ec *executionContext) _Mutation_addFcmToken(ctx context.Context, field gra
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().AddFcmToken(rctx, fc.Args["token"].(string))
 	})
@@ -1544,7 +1860,7 @@ func (ec *executionContext) _Mutation_createMedicationSchedule(ctx context.Conte
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().CreateMedicationSchedule(rctx, fc.Args["input"].(model.AddMedicationScheduleInput))
 	})
@@ -1599,7 +1915,7 @@ func (ec *executionContext) _Mutation_updateMedicationTagLinked(ctx context.Cont
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().UpdateMedicationTagLinked(rctx, fc.Args["input"].(model.UpdateMedicationTagLinkedInput))
 	})
@@ -1654,7 +1970,7 @@ func (ec *executionContext) _Mutation_tagScanned(ctx context.Context, field grap
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().TagScanned(rctx, fc.Args["input"].(model.TagScannedInput))
 	})
@@ -1709,7 +2025,7 @@ func (ec *executionContext) _MyMedication_id(ctx context.Context, field graphql.
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.ID, nil
 	})
@@ -1753,7 +2069,7 @@ func (ec *executionContext) _MyMedication_user(ctx context.Context, field graphq
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.User, nil
 	})
@@ -1803,7 +2119,7 @@ func (ec *executionContext) _MyMedication_brandName(ctx context.Context, field g
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.BrandName, nil
 	})
@@ -1847,7 +2163,7 @@ func (ec *executionContext) _MyMedication_activeIngredient(ctx context.Context, 
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.ActiveIngredient, nil
 	})
@@ -1888,7 +2204,7 @@ func (ec *executionContext) _MyMedication_dosageStrength(ctx context.Context, fi
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.DosageStrength, nil
 	})
@@ -1932,7 +2248,7 @@ func (ec *executionContext) _MyMedication_schedule(ctx context.Context, field gr
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.MyMedication().Schedule(rctx, obj)
 	})
@@ -1983,7 +2299,7 @@ func (ec *executionContext) _MyMedication_isTagLinked(ctx context.Context, field
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.IsTagLinked, nil
 	})
@@ -2024,7 +2340,7 @@ func (ec *executionContext) _MyMedicationEdge_cursor(ctx context.Context, field 
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Cursor, nil
 	})
@@ -2068,7 +2384,7 @@ func (ec *executionContext) _MyMedicationEdge_node(ctx context.Context, field gr
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Node, nil
 	})
@@ -2128,7 +2444,7 @@ func (ec *executionContext) _MyMedicationSchedule_id(ctx context.Context, field 
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.ID, nil
 	})
@@ -2172,7 +2488,7 @@ func (ec *executionContext) _MyMedicationSchedule_scheduledDays(ctx context.Cont
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.ScheduledDays, nil
 	})
@@ -2213,7 +2529,7 @@ func (ec *executionContext) _MyMedicationSchedule_timesPerDay(ctx context.Contex
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.TimesPerDay, nil
 	})
@@ -2254,7 +2570,7 @@ func (ec *executionContext) _MyMedicationSchedule_dosesRemaining(ctx context.Con
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.DosesRemaining, nil
 	})
@@ -2295,7 +2611,7 @@ func (ec *executionContext) _MyMedicationsConnection_edges(ctx context.Context, 
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Edges, nil
 	})
@@ -2345,7 +2661,7 @@ func (ec *executionContext) _MyMedicationsConnection_pageInfo(ctx context.Contex
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.PageInfo, nil
 	})
@@ -2397,7 +2713,7 @@ func (ec *executionContext) _PageInfo_startCursor(ctx context.Context, field gra
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.StartCursor, nil
 	})
@@ -2441,7 +2757,7 @@ func (ec *executionContext) _PageInfo_endCursor(ctx context.Context, field graph
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.EndCursor, nil
 	})
@@ -2485,7 +2801,7 @@ func (ec *executionContext) _PageInfo_hasNextPage(ctx context.Context, field gra
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.HasNextPage, nil
 	})
@@ -2526,7 +2842,7 @@ func (ec *executionContext) _Query_searchMedications(ctx context.Context, field 
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Query().SearchMedications(rctx, fc.Args["query"].(string), fc.Args["after"].(*string))
 	})
@@ -2587,7 +2903,7 @@ func (ec *executionContext) _Query_myMedications(ctx context.Context, field grap
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Query().MyMedications(rctx, fc.Args["after"].(*string))
 	})
@@ -2636,6 +2952,70 @@ func (ec *executionContext) fieldContext_Query_myMedications(ctx context.Context
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_medicationLogEntries(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_medicationLogEntries(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MedicationLogEntries(rctx, fc.Args["date"].(time.Time))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MedicationLogEntry)
+	fc.Result = res
+	return ec.marshalOMedicationLogEntry2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_medicationLogEntries(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MedicationLogEntry_id(ctx, field)
+			case "myMedication":
+				return ec.fieldContext_MedicationLogEntry_myMedication(ctx, field)
+			case "timestamp":
+				return ec.fieldContext_MedicationLogEntry_timestamp(ctx, field)
+			case "dose":
+				return ec.fieldContext_MedicationLogEntry_dose(ctx, field)
+			case "status":
+				return ec.fieldContext_MedicationLogEntry_status(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MedicationLogEntry", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_medicationLogEntries_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query___type(ctx, field)
 	if err != nil {
@@ -2648,7 +3028,7 @@ func (ec *executionContext) _Query___type(ctx context.Context, field graphql.Col
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.introspectType(fc.Args["name"].(string))
 	})
@@ -2722,7 +3102,7 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.introspectSchema()
 	})
@@ -2777,7 +3157,7 @@ func (ec *executionContext) _Session_token(ctx context.Context, field graphql.Co
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Token, nil
 	})
@@ -2818,7 +3198,7 @@ func (ec *executionContext) _Session_user(ctx context.Context, field graphql.Col
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.User, nil
 	})
@@ -2865,7 +3245,7 @@ func (ec *executionContext) _User_id(ctx context.Context, field graphql.Collecte
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.ID, nil
 	})
@@ -2909,7 +3289,7 @@ func (ec *executionContext) _User_email(ctx context.Context, field graphql.Colle
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Email, nil
 	})
@@ -2953,7 +3333,7 @@ func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Name, nil
 	})
@@ -2997,7 +3377,7 @@ func (ec *executionContext) ___Directive_description(ctx context.Context, field 
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Description(), nil
 	})
@@ -3038,7 +3418,7 @@ func (ec *executionContext) ___Directive_locations(ctx context.Context, field gr
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Locations, nil
 	})
@@ -3082,7 +3462,7 @@ func (ec *executionContext) ___Directive_args(ctx context.Context, field graphql
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Args, nil
 	})
@@ -3136,7 +3516,7 @@ func (ec *executionContext) ___Directive_isRepeatable(ctx context.Context, field
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.IsRepeatable, nil
 	})
@@ -3180,7 +3560,7 @@ func (ec *executionContext) ___EnumValue_name(ctx context.Context, field graphql
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Name, nil
 	})
@@ -3224,7 +3604,7 @@ func (ec *executionContext) ___EnumValue_description(ctx context.Context, field 
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Description(), nil
 	})
@@ -3265,7 +3645,7 @@ func (ec *executionContext) ___EnumValue_isDeprecated(ctx context.Context, field
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.IsDeprecated(), nil
 	})
@@ -3309,7 +3689,7 @@ func (ec *executionContext) ___EnumValue_deprecationReason(ctx context.Context, 
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.DeprecationReason(), nil
 	})
@@ -3350,7 +3730,7 @@ func (ec *executionContext) ___Field_name(ctx context.Context, field graphql.Col
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Name, nil
 	})
@@ -3394,7 +3774,7 @@ func (ec *executionContext) ___Field_description(ctx context.Context, field grap
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Description(), nil
 	})
@@ -3435,7 +3815,7 @@ func (ec *executionContext) ___Field_args(ctx context.Context, field graphql.Col
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Args, nil
 	})
@@ -3489,7 +3869,7 @@ func (ec *executionContext) ___Field_type(ctx context.Context, field graphql.Col
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Type, nil
 	})
@@ -3555,7 +3935,7 @@ func (ec *executionContext) ___Field_isDeprecated(ctx context.Context, field gra
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.IsDeprecated(), nil
 	})
@@ -3599,7 +3979,7 @@ func (ec *executionContext) ___Field_deprecationReason(ctx context.Context, fiel
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.DeprecationReason(), nil
 	})
@@ -3640,7 +4020,7 @@ func (ec *executionContext) ___InputValue_name(ctx context.Context, field graphq
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Name, nil
 	})
@@ -3684,7 +4064,7 @@ func (ec *executionContext) ___InputValue_description(ctx context.Context, field
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Description(), nil
 	})
@@ -3725,7 +4105,7 @@ func (ec *executionContext) ___InputValue_type(ctx context.Context, field graphq
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Type, nil
 	})
@@ -3791,7 +4171,7 @@ func (ec *executionContext) ___InputValue_defaultValue(ctx context.Context, fiel
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.DefaultValue, nil
 	})
@@ -3832,7 +4212,7 @@ func (ec *executionContext) ___Schema_description(ctx context.Context, field gra
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Description(), nil
 	})
@@ -3873,7 +4253,7 @@ func (ec *executionContext) ___Schema_types(ctx context.Context, field graphql.C
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Types(), nil
 	})
@@ -3939,7 +4319,7 @@ func (ec *executionContext) ___Schema_queryType(ctx context.Context, field graph
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.QueryType(), nil
 	})
@@ -4005,7 +4385,7 @@ func (ec *executionContext) ___Schema_mutationType(ctx context.Context, field gr
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.MutationType(), nil
 	})
@@ -4068,7 +4448,7 @@ func (ec *executionContext) ___Schema_subscriptionType(ctx context.Context, fiel
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.SubscriptionType(), nil
 	})
@@ -4131,7 +4511,7 @@ func (ec *executionContext) ___Schema_directives(ctx context.Context, field grap
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Directives(), nil
 	})
@@ -4187,7 +4567,7 @@ func (ec *executionContext) ___Type_kind(ctx context.Context, field graphql.Coll
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Kind(), nil
 	})
@@ -4231,7 +4611,7 @@ func (ec *executionContext) ___Type_name(ctx context.Context, field graphql.Coll
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Name(), nil
 	})
@@ -4272,7 +4652,7 @@ func (ec *executionContext) ___Type_description(ctx context.Context, field graph
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Description(), nil
 	})
@@ -4313,7 +4693,7 @@ func (ec *executionContext) ___Type_fields(ctx context.Context, field graphql.Co
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Fields(fc.Args["includeDeprecated"].(bool)), nil
 	})
@@ -4379,7 +4759,7 @@ func (ec *executionContext) ___Type_interfaces(ctx context.Context, field graphq
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Interfaces(), nil
 	})
@@ -4442,7 +4822,7 @@ func (ec *executionContext) ___Type_possibleTypes(ctx context.Context, field gra
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.PossibleTypes(), nil
 	})
@@ -4505,7 +4885,7 @@ func (ec *executionContext) ___Type_enumValues(ctx context.Context, field graphq
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.EnumValues(fc.Args["includeDeprecated"].(bool)), nil
 	})
@@ -4567,7 +4947,7 @@ func (ec *executionContext) ___Type_inputFields(ctx context.Context, field graph
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.InputFields(), nil
 	})
@@ -4618,7 +4998,7 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.OfType(), nil
 	})
@@ -4681,7 +5061,7 @@ func (ec *executionContext) ___Type_specifiedByURL(ctx context.Context, field gr
 			ret = graphql.Null
 		}
 	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.SpecifiedByURL(), nil
 	})
@@ -4714,10 +5094,10 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputAddMedicationScheduleInput(ctx context.Context, obj interface{}) (model.AddMedicationScheduleInput, error) {
+func (ec *executionContext) unmarshalInputAddMedicationScheduleInput(ctx context.Context, obj any) (model.AddMedicationScheduleInput, error) {
 	var it model.AddMedicationScheduleInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
 	}
 
@@ -4846,10 +5226,10 @@ func (ec *executionContext) unmarshalInputAddMedicationScheduleInput(ctx context
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputAddMyMedicationInput(ctx context.Context, obj interface{}) (model.AddMyMedicationInput, error) {
+func (ec *executionContext) unmarshalInputAddMyMedicationInput(ctx context.Context, obj any) (model.AddMyMedicationInput, error) {
 	var it model.AddMyMedicationInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
 	}
 
@@ -4887,10 +5267,10 @@ func (ec *executionContext) unmarshalInputAddMyMedicationInput(ctx context.Conte
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputCreateAccountInput(ctx context.Context, obj interface{}) (model.CreateAccountInput, error) {
+func (ec *executionContext) unmarshalInputCreateAccountInput(ctx context.Context, obj any) (model.CreateAccountInput, error) {
 	var it model.CreateAccountInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
 	}
 
@@ -4921,10 +5301,10 @@ func (ec *executionContext) unmarshalInputCreateAccountInput(ctx context.Context
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputLoginInput(ctx context.Context, obj interface{}) (model.LoginInput, error) {
+func (ec *executionContext) unmarshalInputLoginInput(ctx context.Context, obj any) (model.LoginInput, error) {
 	var it model.LoginInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
 	}
 
@@ -4955,10 +5335,10 @@ func (ec *executionContext) unmarshalInputLoginInput(ctx context.Context, obj in
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputTagScannedInput(ctx context.Context, obj interface{}) (model.TagScannedInput, error) {
+func (ec *executionContext) unmarshalInputTagScannedInput(ctx context.Context, obj any) (model.TagScannedInput, error) {
 	var it model.TagScannedInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
 	}
 
@@ -4982,10 +5362,10 @@ func (ec *executionContext) unmarshalInputTagScannedInput(ctx context.Context, o
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputUpdateMedicationTagLinkedInput(ctx context.Context, obj interface{}) (model.UpdateMedicationTagLinkedInput, error) {
+func (ec *executionContext) unmarshalInputUpdateMedicationTagLinkedInput(ctx context.Context, obj any) (model.UpdateMedicationTagLinkedInput, error) {
 	var it model.UpdateMedicationTagLinkedInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
 	}
 
@@ -5093,6 +5473,65 @@ func (ec *executionContext) _MedicationEdge(ctx context.Context, sel ast.Selecti
 			}
 		case "node":
 			out.Values[i] = ec._MedicationEdge_node(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var medicationLogEntryImplementors = []string{"MedicationLogEntry"}
+
+func (ec *executionContext) _MedicationLogEntry(ctx context.Context, sel ast.SelectionSet, obj *model.MedicationLogEntry) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, medicationLogEntryImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MedicationLogEntry")
+		case "id":
+			out.Values[i] = ec._MedicationLogEntry_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "myMedication":
+			out.Values[i] = ec._MedicationLogEntry_myMedication(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "timestamp":
+			out.Values[i] = ec._MedicationLogEntry_timestamp(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "dose":
+			out.Values[i] = ec._MedicationLogEntry_dose(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "status":
+			out.Values[i] = ec._MedicationLogEntry_status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -5587,6 +6026,25 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "medicationLogEntries":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_medicationLogEntries(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "__type":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___type(ctx, field)
@@ -6026,17 +6484,17 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) unmarshalNAddMedicationScheduleInput2goᚑapiᚋgraphᚋmodelᚐAddMedicationScheduleInput(ctx context.Context, v interface{}) (model.AddMedicationScheduleInput, error) {
+func (ec *executionContext) unmarshalNAddMedicationScheduleInput2goᚑapiᚋgraphᚋmodelᚐAddMedicationScheduleInput(ctx context.Context, v any) (model.AddMedicationScheduleInput, error) {
 	res, err := ec.unmarshalInputAddMedicationScheduleInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNAddMyMedicationInput2goᚑapiᚋgraphᚋmodelᚐAddMyMedicationInput(ctx context.Context, v interface{}) (model.AddMyMedicationInput, error) {
+func (ec *executionContext) unmarshalNAddMyMedicationInput2goᚑapiᚋgraphᚋmodelᚐAddMyMedicationInput(ctx context.Context, v any) (model.AddMyMedicationInput, error) {
 	res, err := ec.unmarshalInputAddMyMedicationInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
+func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v any) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6051,12 +6509,12 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) unmarshalNCreateAccountInput2goᚑapiᚋgraphᚋmodelᚐCreateAccountInput(ctx context.Context, v interface{}) (model.CreateAccountInput, error) {
+func (ec *executionContext) unmarshalNCreateAccountInput2goᚑapiᚋgraphᚋmodelᚐCreateAccountInput(ctx context.Context, v any) (model.CreateAccountInput, error) {
 	res, err := ec.unmarshalInputCreateAccountInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface{}) (string, error) {
+func (ec *executionContext) unmarshalNID2string(ctx context.Context, v any) (string, error) {
 	res, err := graphql.UnmarshalID(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6071,7 +6529,7 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNLoginInput2goᚑapiᚋgraphᚋmodelᚐLoginInput(ctx context.Context, v interface{}) (model.LoginInput, error) {
+func (ec *executionContext) unmarshalNLoginInput2goᚑapiᚋgraphᚋmodelᚐLoginInput(ctx context.Context, v any) (model.LoginInput, error) {
 	res, err := ec.unmarshalInputLoginInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6138,6 +6596,26 @@ func (ec *executionContext) marshalNMedicationEdge2ᚖgoᚑapiᚋgraphᚋmodel�
 		return graphql.Null
 	}
 	return ec._MedicationEdge(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMedicationLogEntry2ᚖgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntry(ctx context.Context, sel ast.SelectionSet, v *model.MedicationLogEntry) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MedicationLogEntry(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNMedicationLogEntryStatus2goᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx context.Context, v any) (model.MedicationLogEntryStatus, error) {
+	var res model.MedicationLogEntryStatus
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNMedicationLogEntryStatus2goᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx context.Context, sel ast.SelectionSet, v model.MedicationLogEntryStatus) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) marshalNMedicationsConnection2goᚑapiᚋgraphᚋmodelᚐMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v model.MedicationsConnection) graphql.Marshaler {
@@ -6260,7 +6738,7 @@ func (ec *executionContext) marshalNSession2ᚖgoᚑapiᚋgraphᚋmodelᚐSessio
 	return ec._Session(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
+func (ec *executionContext) unmarshalNString2string(ctx context.Context, v any) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6275,12 +6753,27 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) unmarshalNTagScannedInput2goᚑapiᚋgraphᚋmodelᚐTagScannedInput(ctx context.Context, v interface{}) (model.TagScannedInput, error) {
+func (ec *executionContext) unmarshalNTagScannedInput2goᚑapiᚋgraphᚋmodelᚐTagScannedInput(ctx context.Context, v any) (model.TagScannedInput, error) {
 	res, err := ec.unmarshalInputTagScannedInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateMedicationTagLinkedInput2goᚑapiᚋgraphᚋmodelᚐUpdateMedicationTagLinkedInput(ctx context.Context, v interface{}) (model.UpdateMedicationTagLinkedInput, error) {
+func (ec *executionContext) unmarshalNTime2timeᚐTime(ctx context.Context, v any) (time.Time, error) {
+	res, err := graphql.UnmarshalTime(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNTime2timeᚐTime(ctx context.Context, sel ast.SelectionSet, v time.Time) graphql.Marshaler {
+	res := graphql.MarshalTime(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+	}
+	return res
+}
+
+func (ec *executionContext) unmarshalNUpdateMedicationTagLinkedInput2goᚑapiᚋgraphᚋmodelᚐUpdateMedicationTagLinkedInput(ctx context.Context, v any) (model.UpdateMedicationTagLinkedInput, error) {
 	res, err := ec.unmarshalInputUpdateMedicationTagLinkedInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6343,7 +6836,7 @@ func (ec *executionContext) marshalN__Directive2ᚕgithubᚗcomᚋ99designsᚋgq
 	return ret
 }
 
-func (ec *executionContext) unmarshalN__DirectiveLocation2string(ctx context.Context, v interface{}) (string, error) {
+func (ec *executionContext) unmarshalN__DirectiveLocation2string(ctx context.Context, v any) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6358,8 +6851,8 @@ func (ec *executionContext) marshalN__DirectiveLocation2string(ctx context.Conte
 	return res
 }
 
-func (ec *executionContext) unmarshalN__DirectiveLocation2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
-	var vSlice []interface{}
+func (ec *executionContext) unmarshalN__DirectiveLocation2ᚕstringᚄ(ctx context.Context, v any) ([]string, error) {
+	var vSlice []any
 	if v != nil {
 		vSlice = graphql.CoerceList(v)
 	}
@@ -6533,7 +7026,7 @@ func (ec *executionContext) marshalN__Type2ᚖgithubᚗcomᚋ99designsᚋgqlgen�
 	return ec.___Type(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalN__TypeKind2string(ctx context.Context, v interface{}) (string, error) {
+func (ec *executionContext) unmarshalN__TypeKind2string(ctx context.Context, v any) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6548,7 +7041,7 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
-func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
+func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v any) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6558,7 +7051,7 @@ func (ec *executionContext) marshalOBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) unmarshalOBoolean2ᚖbool(ctx context.Context, v interface{}) (*bool, error) {
+func (ec *executionContext) unmarshalOBoolean2ᚖbool(ctx context.Context, v any) (*bool, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6574,7 +7067,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) unmarshalOID2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
+func (ec *executionContext) unmarshalOID2ᚖstring(ctx context.Context, v any) (*string, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6590,7 +7083,7 @@ func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v interface{}) (*int, error) {
+func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v any) (*int, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6606,7 +7099,54 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	return res
 }
 
-func (ec *executionContext) unmarshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx context.Context, v interface{}) (*model.MethodScheduleType, error) {
+func (ec *executionContext) marshalOMedicationLogEntry2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MedicationLogEntry) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNMedicationLogEntry2ᚖgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntry(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx context.Context, v any) (*model.MethodScheduleType, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6629,7 +7169,7 @@ func (ec *executionContext) marshalOMyMedicationSchedule2ᚖgoᚑapiᚋgraphᚋm
 	return ec._MyMedicationSchedule(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, v interface{}) (*model.RecurringScheduleType, error) {
+func (ec *executionContext) unmarshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, v any) (*model.RecurringScheduleType, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6645,11 +7185,11 @@ func (ec *executionContext) marshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋ
 	return v
 }
 
-func (ec *executionContext) unmarshalOString2ᚕᚖstring(ctx context.Context, v interface{}) ([]*string, error) {
+func (ec *executionContext) unmarshalOString2ᚕᚖstring(ctx context.Context, v any) ([]*string, error) {
 	if v == nil {
 		return nil, nil
 	}
-	var vSlice []interface{}
+	var vSlice []any
 	if v != nil {
 		vSlice = graphql.CoerceList(v)
 	}
@@ -6677,7 +7217,7 @@ func (ec *executionContext) marshalOString2ᚕᚖstring(ctx context.Context, sel
 	return ret
 }
 
-func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
+func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v any) (*string, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -6693,11 +7233,11 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	return res
 }
 
-func (ec *executionContext) unmarshalOTime2ᚕᚖtimeᚐTime(ctx context.Context, v interface{}) ([]*time.Time, error) {
+func (ec *executionContext) unmarshalOTime2ᚕᚖtimeᚐTime(ctx context.Context, v any) ([]*time.Time, error) {
 	if v == nil {
 		return nil, nil
 	}
-	var vSlice []interface{}
+	var vSlice []any
 	if v != nil {
 		vSlice = graphql.CoerceList(v)
 	}
@@ -6725,7 +7265,7 @@ func (ec *executionContext) marshalOTime2ᚕᚖtimeᚐTime(ctx context.Context, 
 	return ret
 }
 
-func (ec *executionContext) unmarshalOTime2ᚖtimeᚐTime(ctx context.Context, v interface{}) (*time.Time, error) {
+func (ec *executionContext) unmarshalOTime2ᚖtimeᚐTime(ctx context.Context, v any) (*time.Time, error) {
 	if v == nil {
 		return nil, nil
 	}

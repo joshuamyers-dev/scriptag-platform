@@ -21,6 +21,7 @@ func (r *UserRepository) FindByID(id string) (*core.User, error) {
 	if err := r.DB.Where("id = ?", id).Preload("FCMTokens").First(&user).Error; err != nil {
 		return &core.User{}, err
 	}
+
 	return mappers.MapUserToCoreUser(&user), nil
 }
 

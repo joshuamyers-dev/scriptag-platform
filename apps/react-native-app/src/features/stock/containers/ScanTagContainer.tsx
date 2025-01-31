@@ -4,6 +4,7 @@ import {
   useUpdateMedicationTagLinkedMutation,
 } from '@graphql/generated';
 import {ToastType, useGlobalStore} from '@store';
+import {triggerNotificationSuccessHaptic} from '@utils/Helpers';
 import {
   Colour10,
   Colour100,
@@ -57,11 +58,14 @@ const ScanTagContainer = ({navigation, route}) => {
       }
     } catch (ex) {
       console.log(JSON.stringify(ex));
-      showToast(
-        'Something went wrong.',
-        'Please try scan your tag again.',
-        ToastType.ERROR,
-      );
+
+      if (ex && Object.keys(ex).length > 0) {
+        showToast(
+          'Something went wrong.',
+          'Please try scan your tag again.',
+          ToastType.ERROR,
+        );
+      }
     } finally {
       NfcManager.cancelTechnologyRequest();
     }

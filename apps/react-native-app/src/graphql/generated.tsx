@@ -69,6 +69,21 @@ export type MedicationEdge = {
   node: Medication;
 };
 
+export type MedicationLogEntry = {
+  __typename?: 'MedicationLogEntry';
+  dose: Scalars['String'];
+  id: Scalars['ID'];
+  myMedication: MyMedication;
+  status: MedicationLogEntryStatus;
+  timestamp: Scalars['Time'];
+};
+
+export enum MedicationLogEntryStatus {
+  Missed = 'MISSED',
+  Taken = 'TAKEN',
+  Upcoming = 'UPCOMING'
+}
+
 export type MedicationsConnection = {
   __typename?: 'MedicationsConnection';
   edges: Array<MedicationEdge>;
@@ -171,10 +186,16 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  medicationLogEntries?: Maybe<Array<MedicationLogEntry>>;
   /** Get all medications that a user is taking. */
   myMedications: MyMedicationsConnection;
   /** Search for medications in the global library by name. */
   searchMedications: MedicationsConnection;
+};
+
+
+export type QueryMedicationLogEntriesArgs = {
+  date: Scalars['Time'];
 };
 
 
@@ -238,6 +259,13 @@ export type SearchMedicationsQueryVariables = Exact<{
 
 
 export type SearchMedicationsQuery = { __typename?: 'Query', searchMedications: { __typename?: 'MedicationsConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage?: boolean | null, endCursor: string }, edges: Array<{ __typename?: 'MedicationEdge', node: { __typename?: 'Medication', id: string, activeIngredient: string, brandName: string, strength?: string | null } }> } };
+
+export type MedicationLogHistoryQueryVariables = Exact<{
+  date: Scalars['Time'];
+}>;
+
+
+export type MedicationLogHistoryQuery = { __typename?: 'Query', medicationLogEntries?: Array<{ __typename?: 'MedicationLogEntry', id: string, timestamp: any, dose: string, status: MedicationLogEntryStatus, myMedication: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, user: { __typename?: 'User', id: string } } }> | null };
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
@@ -406,6 +434,47 @@ export function useSearchMedicationsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type SearchMedicationsQueryHookResult = ReturnType<typeof useSearchMedicationsQuery>;
 export type SearchMedicationsLazyQueryHookResult = ReturnType<typeof useSearchMedicationsLazyQuery>;
 export type SearchMedicationsQueryResult = ApolloReactCommon.QueryResult<SearchMedicationsQuery, SearchMedicationsQueryVariables>;
+export const MedicationLogHistoryDocument = gql`
+    query MedicationLogHistory($date: Time!) {
+  medicationLogEntries(date: $date) {
+    id
+    myMedication {
+      ...MyMedicationBase
+    }
+    timestamp
+    dose
+    status
+  }
+}
+    ${MyMedicationBaseFragmentDoc}`;
+
+/**
+ * __useMedicationLogHistoryQuery__
+ *
+ * To run a query within a React component, call `useMedicationLogHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMedicationLogHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMedicationLogHistoryQuery({
+ *   variables: {
+ *      date: // value for 'date'
+ *   },
+ * });
+ */
+export function useMedicationLogHistoryQuery(baseOptions: ApolloReactHooks.QueryHookOptions<MedicationLogHistoryQuery, MedicationLogHistoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<MedicationLogHistoryQuery, MedicationLogHistoryQueryVariables>(MedicationLogHistoryDocument, options);
+      }
+export function useMedicationLogHistoryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MedicationLogHistoryQuery, MedicationLogHistoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<MedicationLogHistoryQuery, MedicationLogHistoryQueryVariables>(MedicationLogHistoryDocument, options);
+        }
+export type MedicationLogHistoryQueryHookResult = ReturnType<typeof useMedicationLogHistoryQuery>;
+export type MedicationLogHistoryLazyQueryHookResult = ReturnType<typeof useMedicationLogHistoryLazyQuery>;
+export type MedicationLogHistoryQueryResult = ApolloReactCommon.QueryResult<MedicationLogHistoryQuery, MedicationLogHistoryQueryVariables>;
 export const LoginDocument = gql`
     mutation login($input: LoginInput!) {
   login(input: $input) {

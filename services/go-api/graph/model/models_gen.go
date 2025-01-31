@@ -59,6 +59,14 @@ type MedicationEdge struct {
 	Node   *Medication `json:"node"`
 }
 
+type MedicationLogEntry struct {
+	ID           string                   `json:"id"`
+	MyMedication *MyMedication            `json:"myMedication"`
+	Timestamp    time.Time                `json:"timestamp"`
+	Dose         string                   `json:"dose"`
+	Status       MedicationLogEntryStatus `json:"status"`
+}
+
 type MedicationsConnection struct {
 	Edges    []*MedicationEdge `json:"edges"`
 	PageInfo *PageInfo         `json:"pageInfo"`
@@ -124,6 +132,49 @@ type User struct {
 	Email string `json:"email"`
 }
 
+type MedicationLogEntryStatus string
+
+const (
+	MedicationLogEntryStatusUpcoming MedicationLogEntryStatus = "UPCOMING"
+	MedicationLogEntryStatusTaken    MedicationLogEntryStatus = "TAKEN"
+	MedicationLogEntryStatusMissed   MedicationLogEntryStatus = "MISSED"
+)
+
+var AllMedicationLogEntryStatus = []MedicationLogEntryStatus{
+	MedicationLogEntryStatusUpcoming,
+	MedicationLogEntryStatusTaken,
+	MedicationLogEntryStatusMissed,
+}
+
+func (e MedicationLogEntryStatus) IsValid() bool {
+	switch e {
+	case MedicationLogEntryStatusUpcoming, MedicationLogEntryStatusTaken, MedicationLogEntryStatusMissed:
+		return true
+	}
+	return false
+}
+
+func (e MedicationLogEntryStatus) String() string {
+	return string(e)
+}
+
+func (e *MedicationLogEntryStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = MedicationLogEntryStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid MedicationLogEntryStatus", str)
+	}
+	return nil
+}
+
+func (e MedicationLogEntryStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 // Represents the type of method schedule for a Medication Schedule. For e.g. some are taken on certain days (Mon, Tues, Fri), intervals (every X days), periods (use for X days, pause for X days), or taken as needed/no schedule.
 type MethodScheduleType string
 
@@ -153,7 +204,7 @@ func (e MethodScheduleType) String() string {
 	return string(e)
 }
 
-func (e *MethodScheduleType) UnmarshalGQL(v interface{}) error {
+func (e *MethodScheduleType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -199,7 +250,7 @@ func (e RecurringScheduleType) String() string {
 	return string(e)
 }
 
-func (e *RecurringScheduleType) UnmarshalGQL(v interface{}) error {
+func (e *RecurringScheduleType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")

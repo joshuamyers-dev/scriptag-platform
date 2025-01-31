@@ -5,6 +5,7 @@ import (
 	"go-api/core"
 	"go-api/graph/model"
 	"go-api/notifications"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -108,6 +109,22 @@ func (s *UserMedicationServiceImpl) FetchUserMedications(userId string, afterCur
 	return myMeds, nil
 }
 
+func (s *UserMedicationServiceImpl) FetchLogHistory(userId string, timestamp time.Time) ([]*model.MedicationLogEntry, error) {
+	logHistory, err := s.repo.FetchLogHistoryByUserID(userId, timestamp)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var entries []*model.MedicationLogEntry
+
+	for _, log := range logHistory {
+		entries = append(entries, mappers.ToGraphQLMedicationLogHistory(log))
+	}
+
+	return entries, nil
+}
+
 func (s *UserMedicationServiceImpl) UpdateUserMedicationTagLinked(userId string, userMedicationId string, tagLinked bool) (bool, error) {
 	userMed, err := s.repo.FetchUserMedicationByID(userMedicationId)
 
@@ -127,17 +144,7 @@ func (s *UserMedicationServiceImpl) UpdateUserMedicationTagLinked(userId string,
 }
 
 func (s *UserMedicationServiceImpl) OnTagScanned(userId string, medicationId string) (bool, error) {
-	userMed, err := s.repo.FetchUserMedicationByID(medicationId)
-
-	if err != nil {
-		return false, err
-	}
-
-	if(userMed.Schedule.DosesAmount != nil) {
-		*userMed.Schedule.DosesAmount--
-	} 
-
-	_, err = s.repo.UpdateSchedule(userMed.Schedule)
+	err := s.repo.UpdateMedicationOnTagScan(medicationId, time.Now().UTC())
 
 	if err != nil {
 		return false, err

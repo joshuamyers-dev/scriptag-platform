@@ -46,10 +46,10 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 				break
 			}
 
-			if time.Now().Year() == schedule.StartDate.Year() && time.Now().YearDay() == schedule.StartDate.YearDay() {
+			if time.Now().Year() == schedule.StartDate.Year() && time.Now().UTC().YearDay() == schedule.StartDate.YearDay() {
 				notifications = append(notifications, time.Now())
 			}
-	
+
 			cyclesCompleted := elapsedDays / intervalDays
 			nextCycleStart := schedule.StartDate.AddDate(0, 0, (cyclesCompleted+1)*intervalDays)
 			notifications = append(notifications, nextCycleStart)
@@ -58,8 +58,8 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 	case adapters.METHOD_TYPE_DAYS:
 		// Handle "Use for every X days" scenario
 		if schedule.DaysOfWeek != nil {
-			today := time.Now().Weekday()
-			nextDay := time.Now().AddDate(0, 0, 1).Weekday()
+			today := time.Now().UTC().Weekday()
+			nextDay := time.Now().UTC().AddDate(0, 0, 1).Weekday()
 
 			for _, day := range schedule.DaysOfWeek {
 				// Calculate the next occurrence of the specified day
@@ -70,7 +70,7 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 				}
 
 				if timeWeekday.String() == today.String() {
-					notifications = append(notifications, time.Now())
+					notifications = append(notifications, time.Now().UTC())
 				}
 
 				if timeWeekday.String() == nextDay.String() {
@@ -90,13 +90,13 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 
 			for _, notification := range notifications {
 				for _, slot := range schedule.TimeSlots {
-					notificationDate := time.Date(notification.Year(), notification.Month(), notification.Day(), slot.Hour(), slot.Minute(), 0, 0, notification.Location())
+					notificationDate := time.Date(notification.Year(), notification.Month(), notification.Day(), slot.Hour(), slot.Minute(), 0, 0, time.UTC)
 					updatedNotifications = append(updatedNotifications, notificationDate)
 				}
 			}
 			notifications = updatedNotifications
 		}
-	
+
 	case adapters.RECURRING_TYPE_INTERVALS:
 		// Handle intervals-based recurring schedule
 		if schedule.HoursInterval != nil {
@@ -112,7 +112,7 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 			}
 			notifications = updatedNotifications
 		}
-	
+
 	case adapters.RECURRING_TYPE_PERIODS:
 		// Handle periods-based recurring schedule
 		if schedule.UseForHours != nil && schedule.PauseForHours != nil {
@@ -122,12 +122,12 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 			for _, notification := range notifications {
 				elapsedHours := int(time.Since(notification).Hours())
 				cyclePosition := elapsedHours % totalCycleHours
-	
+
 				if cyclePosition < int(*schedule.UseForHours) {
 					notificationDate := notification.Add(time.Duration(*schedule.UseForHours) * time.Hour)
 					updatedNotifications = append(updatedNotifications, notificationDate)
 				} else {
-					nextUsePeriodStart := notification.Add(time.Duration(totalCycleHours - cyclePosition) * time.Hour)
+					nextUsePeriodStart := notification.Add(time.Duration(totalCycleHours-cyclePosition) * time.Hour)
 					notificationDate := nextUsePeriodStart.Add(time.Duration(*schedule.UseForHours) * time.Hour)
 					updatedNotifications = append(updatedNotifications, notificationDate)
 				}
@@ -136,9 +136,21 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 		}
 	}
 
-	// Create notifications in the database
 	for _, notificationDate := range notifications {
 		err := createNotification(schedule.ID, notificationDate, db)
+
+		if err != nil {
+			return err
+		}
+
+		consumption := adapters.GormUserMedicationConsumption{
+			UserMedicationID: *schedule.UserMedicationID,
+			DueDate:          notificationDate,
+			Status:           adapters.LOG_STATUS_UPCOMING,
+		}
+
+		err = db.Create(&consumption).Error
+
 		if err != nil {
 			return err
 		}
@@ -148,7 +160,7 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 }
 
 func getNextDayOfWeek(targetDay time.Weekday) time.Time {
-	now := time.Now()
+	now := time.Now().UTC()
 
 	// Calculate the next occurrence of the target day
 	daysUntilTarget := (int(targetDay) - int(now.Weekday()) + 7) % 7
@@ -161,17 +173,17 @@ func getNextDayOfWeek(targetDay time.Weekday) time.Time {
 }
 
 func nextWeekdayFromStart(startDate time.Time, weekday time.Weekday) time.Time {
-    daysUntilTarget := (int(weekday) - int(startDate.Weekday()) + 7) % 7
-    if daysUntilTarget == 0 {
-        daysUntilTarget = 7
-    }
-    return startDate.AddDate(0, 0, daysUntilTarget)
+	daysUntilTarget := (int(weekday) - int(startDate.Weekday()) + 7) % 7
+	if daysUntilTarget == 0 {
+		daysUntilTarget = 7
+	}
+	return startDate.AddDate(0, 0, daysUntilTarget)
 }
 
 func createNotification(scheduleID string, notificationDate time.Time, db *gorm.DB) error {
 	notification := adapters.GormNotificationDelivery{
 		UserMedicationScheduleID: scheduleID,
-		NotificationDate:         notificationDate,
+		NotificationDate:         notificationDate.UTC(),
 		Status:                   adapters.NOTIFICATION_STATUS_PENDING,
 	}
 	return db.Create(&notification).Error

@@ -79,9 +79,18 @@ func ToCoreMedicationSchedule(gormMedSchedule *adapters.GormUserMedicationSchedu
 		}
 	}
 
+	var coreLogHistory []*core.MedicationLogHistory
+
+	if len(gormMedSchedule.ConsumptionItems) > 0 {
+		for _, notification := range gormMedSchedule.ConsumptionItems {
+			coreLogHistory = append(coreLogHistory, ToCoreMedicationLogHistory(&notification))
+		}
+	}
+
 	return &core.MedicationSchedule{
 		ID:               gormMedSchedule.ID,
 		UserMedicationID: &gormMedSchedule.UserMedicationID,
+		LogHistory:       coreLogHistory,
 		MethodType:       gormMedSchedule.MethodType,
 		RecurringType:    gormMedSchedule.RecurringType,
 		DaysOfWeek:       utils.ConvertStringArrayToPointerArray(gormMedSchedule.DaysOfWeek),
@@ -95,5 +104,43 @@ func ToCoreMedicationSchedule(gormMedSchedule *adapters.GormUserMedicationSchedu
 		UseForHours:      utils.ConvertUintToIntPointer(gormMedSchedule.UseForHours),
 		PauseForDays:     utils.ConvertUintToIntPointer(gormMedSchedule.PauseForDays),
 		PauseForHours:    utils.ConvertUintToIntPointer(gormMedSchedule.PauseForHours),
+	}
+}
+
+func ToCoreMedicationLogHistory(gormMedLogHistory *adapters.GormUserMedicationConsumption) *core.MedicationLogHistory {
+	var userMedication core.UserMedication
+
+	if gormMedLogHistory.UserMedication.ID != "" {
+		userMedication = *ToCoreUserMedication(&gormMedLogHistory.UserMedication)
+	}
+
+	return &core.MedicationLogHistory{
+		ID:               gormMedLogHistory.ID,
+		UserMedicationID: gormMedLogHistory.UserMedicationID,
+		UserMedication:   userMedication,
+		DueTimestamp:     gormMedLogHistory.DueDate,
+		ActualTimestamp:  &gormMedLogHistory.DoseDate,
+		Status:           adapters.UserMedicationScheduleLogStatus(gormMedLogHistory.Status),
+	}
+}
+
+func ToGraphQLMedicationLogHistory(coreMedLogHistory *core.MedicationLogHistory) *model.MedicationLogEntry {
+	var status model.MedicationLogEntryStatus
+
+	switch coreMedLogHistory.Status {
+	case adapters.LOG_STATUS_MISSED:
+		status = model.MedicationLogEntryStatusMissed
+	case adapters.LOG_STATUS_TAKEN:
+		status = model.MedicationLogEntryStatusTaken
+	case adapters.LOG_STATUS_UPCOMING:
+		status = model.MedicationLogEntryStatusUpcoming
+	}
+
+	return &model.MedicationLogEntry{
+		ID:           coreMedLogHistory.ID,
+		MyMedication: ToGraphQLMyMedication(&coreMedLogHistory.UserMedication),
+		Timestamp:    coreMedLogHistory.DueTimestamp,
+		Dose:         coreMedLogHistory.UserMedication.Strength,
+		Status:       status,
 	}
 }

@@ -1,10 +1,12 @@
 package repository
 
 import (
+	"errors"
 	"go-api/adapters/mappers"
 	adapters "go-api/adapters/models"
 	"go-api/core"
 	"go-api/utils"
+	"time"
 
 	"github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 	"gorm.io/gorm"
@@ -20,10 +22,10 @@ func NewUserMedicationRepository(db *gorm.DB) *UserMedicationRepository {
 
 func (r *UserMedicationRepository) Create(userMedication *core.UserMedication) (*core.UserMedication, error) {
 	gormUserMed := adapters.GormUserMedication{
-		UserID:           userMedication.UserID,
-		MedicationID:     userMedication.MedicationID,
-		Strength:         &userMedication.Strength,
-		Name:             &userMedication.BrandName,
+		UserID:       userMedication.UserID,
+		MedicationID: userMedication.MedicationID,
+		Strength:     &userMedication.Strength,
+		Name:         &userMedication.BrandName,
 	}
 
 	if err := r.DB.Create(&gormUserMed).Error; err != nil {
@@ -40,7 +42,17 @@ func (r *UserMedicationRepository) Create(userMedication *core.UserMedication) (
 func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.MedicationSchedule) (*core.MedicationSchedule, error) {
 	var timeSlots adapters.TimeArray
 	for _, t := range medicationSchedule.TimeSlots {
-		timeSlots = append(timeSlots, t)
+		slot := t.UTC()
+		timeSlots = append(timeSlots, &slot)
+	}
+
+	startDate := medicationSchedule.StartDate.UTC()
+
+	var endDate *time.Time
+
+	if medicationSchedule.EndDate != nil {
+		utcEndDate := medicationSchedule.EndDate.UTC()
+		endDate = &utcEndDate
 	}
 
 	gormMedSchedule := adapters.GormUserMedicationSchedule{
@@ -49,8 +61,8 @@ func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.Medic
 		RecurringType:    adapters.RecurringType(medicationSchedule.RecurringType),
 		DaysOfWeek:       utils.ConvertStringPointerArray(medicationSchedule.DaysOfWeek),
 		TimeSlots:        &timeSlots,
-		StartDate:        medicationSchedule.StartDate,
-		EndDate:          medicationSchedule.EndDate,
+		StartDate:        &startDate,
+		EndDate:          endDate,
 		DaysInterval:     utils.ConvertUintPointer(medicationSchedule.DaysInterval),
 		HoursInterval:    utils.ConvertUintPointer(medicationSchedule.HoursInterval),
 		DosesAmount:      utils.ConvertUintPointer(medicationSchedule.DosesAmount),
@@ -70,7 +82,17 @@ func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.Medic
 func (r *UserMedicationRepository) FetchUserMedicationByID(id string) (*core.UserMedication, error) {
 	var userMed adapters.GormUserMedication
 
-	if err := r.DB.Preload("Schedule").First(&userMed, "id = ?", id).Error; err != nil {
+	if err := r.DB.First(&userMed, "id = ?", id).Error; err != nil {
+		return &core.UserMedication{}, err
+	}
+
+	return mappers.ToCoreUserMedication(&userMed), nil
+}
+
+func (r *UserMedicationRepository) FetchUserMedicationWithSchedule(id string) (*core.UserMedication, error) {
+	var userMed adapters.GormUserMedication
+
+	if err := r.DB.Preload("Schedule.NotificationDeliveries").First(&userMed, "id = ?", id).Error; err != nil {
 		return &core.UserMedication{}, err
 	}
 
@@ -145,25 +167,77 @@ func (r *UserMedicationRepository) UpdateUserMedication(userMedication *core.Use
 
 	gormUserMed.TagLinked = &userMedication.TagLinked
 
-	if err := r.DB.Save(&gormUserMed).Error; err != nil {
+	if err := r.DB.Updates(&gormUserMed).Error; err != nil {
 		return &core.UserMedication{}, err
 	}
 
 	return mappers.ToCoreUserMedication(&gormUserMed), nil
 }
 
-func (r *UserMedicationRepository) UpdateSchedule(medicationSchedule *core.MedicationSchedule) (*core.MedicationSchedule, error) {
-	var gormSchedule adapters.GormUserMedicationSchedule
+func (r *UserMedicationRepository) FetchLogHistoryByUserID(userId string, timestamp time.Time) ([]*core.MedicationLogHistory, error) {
+	var logs []*adapters.GormUserMedicationConsumption
 
-	if err := r.DB.First(&gormSchedule, "id = ?", medicationSchedule.ID).Error; err != nil {
-		return &core.MedicationSchedule{}, err
+	if err := r.DB.Joins("JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id").
+		Where("user_medications.user_id = ?", userId).
+		Where("DATE(due_date) = DATE(?)", timestamp).
+		Preload("UserMedication.Medication").
+		Order("due_date ASC").
+		Find(&logs).Error; err != nil {
+		return nil, err
 	}
 
-	gormSchedule.DosesAmount = utils.ConvertUintPointer(medicationSchedule.DosesAmount)
+	var coreLogs []*core.MedicationLogHistory
 
-	if err := r.DB.Save(&gormSchedule).Error; err != nil {
-		return &core.MedicationSchedule{}, err
+	for _, log := range logs {
+		coreLogs = append(coreLogs, mappers.ToCoreMedicationLogHistory(log))
 	}
 
-	return mappers.ToCoreMedicationSchedule(&gormSchedule), nil
+	return coreLogs, nil
+}
+
+func (r *UserMedicationRepository) UpdateMedicationOnTagScan(userMedicationId string, timestamp time.Time) error {
+	userMed, err := r.FetchUserMedicationWithSchedule(userMedicationId)
+
+	if err != nil {
+		return err
+	}
+
+	err = r.DB.Transaction(func(tx *gorm.DB) error {
+		if *userMed.Schedule.DosesAmount > 0 {
+			*userMed.Schedule.DosesAmount--
+		} else {
+			return errors.New("no doses remaining")
+		}
+
+		if err := tx.Model(&adapters.GormUserMedicationSchedule{}).
+			Where("id = ?", userMed.Schedule.ID).
+			Updates(&adapters.GormUserMedicationSchedule{DosesAmount: utils.ConvertUintPointer(userMed.Schedule.DosesAmount)}).
+			Error; err != nil {
+			return err
+		}
+
+		if err := tx.Model(&adapters.GormNotificationDelivery{}).
+			Where("user_medication_schedule_id = ?", userMed.Schedule.ID).
+			Where("DATE(notification_date) = DATE(?)", timestamp).
+			Delete(&adapters.GormNotificationDelivery{}).
+			Error; err != nil {
+			return err
+		}
+
+		if err := tx.Model(&adapters.GormUserMedicationConsumption{}).
+			Where("user_medication_id = ?", userMed.ID).
+			Where("DATE(due_date) = DATE(?)", timestamp).
+			Updates(&adapters.GormUserMedicationConsumption{DoseDate: time.Now().UTC(), Status: adapters.LOG_STATUS_TAKEN}).
+			Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

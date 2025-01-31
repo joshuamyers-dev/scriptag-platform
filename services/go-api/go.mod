@@ -5,7 +5,9 @@ go 1.23.2
 require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/99designs/gqlgen v0.17.62
+	github.com/go-jet/jet/v2 v2.12.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
 	github.com/pilagod/gorm-cursor-paginator/v2 v2.6.1
@@ -49,7 +51,6 @@ require (
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/s2a-go v0.1.8 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.4 // indirect
 	github.com/googleapis/gax-go/v2 v2.14.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect

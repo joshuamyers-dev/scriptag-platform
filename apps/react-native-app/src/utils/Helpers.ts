@@ -17,6 +17,15 @@ export const triggerNotificationErrorHaptic = () => {
   ReactNativeHapticFeedback.trigger('notificationError', options);
 };
 
+export const triggerNotificationSuccessHaptic = () => {
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: true,
+  };
+
+  ReactNativeHapticFeedback.trigger('notificationSuccess', options);
+};
+
 export const triggerLightHaptic = () => {
   const options = {
     enableVibrateFallback: true,

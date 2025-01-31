@@ -24,8 +24,8 @@ type NotificationCreatorWorker struct {
 func (w *NotificationCreatorWorker) Work(ctx context.Context, job *river.Job[NotificationCreatorWorkerArgs]) error {
 	var results []*adapters.GormUserMedicationSchedule
 
-	today := time.Now().Format("2006-01-02")
-	tomorrow := time.Now().AddDate(0, 0, 1).Format("2006-01-02")
+	today := time.Now().UTC().Format("2006-01-02")
+	tomorrow := time.Now().UTC().AddDate(0, 0, 1).Format("2006-01-02")
 
 	_ = w.DB.Joins("LEFT JOIN notification_deliveries AS notifications ON user_medication_schedules.id = notifications.user_medication_schedule_id AND DATE(notifications.notification_date) IN (?, ?)", today, tomorrow).
 		Where("notifications.id IS NULL").

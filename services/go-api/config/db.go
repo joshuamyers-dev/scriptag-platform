@@ -34,7 +34,7 @@ func InitDB() (*gorm.DB, *sql.DB, error) {
 	// dbPassword := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
 
-	dsn := fmt.Sprintf("host=%s user=%s dbname=%s port=5432 sslmode=disable", dbHost, dbUser, dbName)
+	dsn := fmt.Sprintf("host=%s user=%s dbname=%s port=5432 sslmode=disable TimeZone=Etc/UTC", dbHost, dbUser, dbName)
 
 	sqlDB, err := sql.Open("pgx", dsn)
 
@@ -58,6 +58,7 @@ func InitDB() (*gorm.DB, *sql.DB, error) {
 		&adapters.GormUserFCMToken{},
 		&adapters.GormUserMedicationSchedule{},
 		&adapters.GormNotificationDelivery{},
+		&adapters.GormUserMedicationConsumption{},
 	)
 
 	if err != nil {

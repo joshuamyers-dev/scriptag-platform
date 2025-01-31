@@ -5,6 +5,7 @@ package tools
 import (
 	_ "github.com/99designs/gqlgen"
 	_ "github.com/99designs/gqlgen/graphql/introspection"
+	_ "github.com/go-jet/jet/v2"
 	_ "github.com/golang-jwt/jwt"
 	_ "github.com/joho/godotenv"
 	_ "github.com/lib/pq"

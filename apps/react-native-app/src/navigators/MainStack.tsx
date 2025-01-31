@@ -40,6 +40,7 @@ import {
 import LoginContainer from '@features/login/containers/LoginContainer';
 import AddMedicationContainer from '@features/addMedication/containers/AddMedicationContainer';
 import LogContainer from '@features/logHistory/containers/LogContainer';
+import {triggerLightHaptic} from '@utils/Helpers';
 
 const NativeStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -180,6 +181,11 @@ const TabNavigatorStack = () => {
           height: 130,
           borderBottomWidth: 2,
           borderBottomColor: Colour10,
+        },
+      }}
+      screenListeners={{
+        tabPress: _ => {
+          triggerLightHaptic();
         },
       }}>
       <Tab.Screen
