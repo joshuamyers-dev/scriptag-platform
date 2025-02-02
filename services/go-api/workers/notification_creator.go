@@ -28,7 +28,10 @@ func (w *NotificationCreatorWorker) Work(ctx context.Context, job *river.Job[Not
 	tomorrow := time.Now().UTC().AddDate(0, 0, 1).Format("2006-01-02")
 
 	_ = w.DB.Joins("LEFT JOIN notification_deliveries AS notifications ON user_medication_schedules.id = notifications.user_medication_schedule_id AND DATE(notifications.notification_date) IN (?, ?)", today, tomorrow).
+		Joins("LEFT JOIN user_medication_consumptions AS consumptions ON user_medication_schedules.user_medication_id = consumptions.user_medication_id AND DATE(consumptions.due_date) IN (?, ?)", today, tomorrow).
 		Where("notifications.id IS NULL").
+		Where("consumptions.id IS NULL").
+		Preload("UserMedication").
 		FindInBatches(&results, 100, func(tx *gorm.DB, batch int) error {
 			for _, result := range results {
 				err := notifications.QueueNotifications(mappers.ToCoreMedicationSchedule(result), w.DB)

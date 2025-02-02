@@ -43,6 +43,14 @@ func CreateUserMedicationPaginator(
 	return p
 }
 
+func BrandNameIngredientName(med *GormMedication) string {
+    if med.ActiveIngredient == "" {
+        return med.BrandName
+    } else {
+        return med.BrandName + " " + med.ActiveIngredient
+    }
+}
+
 func (GormUserMedication) TableName() string {
 	return "user_medications"
 }

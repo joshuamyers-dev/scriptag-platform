@@ -1,12 +1,11 @@
-import React from 'react';
+import EmptyState from '@components/EmptyState';
 import {
   MedicationLogEntryStatus,
   useMedicationLogHistoryLazyQuery,
-  useMedicationLogHistoryQuery,
 } from '@graphql/generated';
-import {useFocusEffect} from '@react-navigation/native';
+import {usePickerLayout} from '@rn-elementary/menu';
 import {DEVICE_TIMEZONE} from '@utils/Constants';
-import {roundNumbersDown, triggerLightHaptic} from '@utils/Helpers';
+import {triggerLightHaptic} from '@utils/Helpers';
 import {
   Colour10,
   Colour100,
@@ -24,11 +23,11 @@ import {
   Spacing16,
 } from '@utils/tokens';
 import dayjs from 'dayjs';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   FlatList,
   Image,
-  LayoutAnimation,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -37,6 +36,19 @@ import {
   View,
 } from 'react-native';
 import {MaterialIndicator} from 'react-native-indicators';
+import {MenuView, MenuComponentRef, MenuAction} from '@react-native-menu/menu';
+import Animated, {
+  FadeIn,
+  runOnJS,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import {run} from 'jest';
+import {useFocusEffect} from '@react-navigation/native';
 
 const DAY_ITEM_WIDTH = 53;
 
@@ -47,9 +59,15 @@ interface DayOfMonth {
 
 const LogContainer = () => {
   const daysFlatListRef = useRef<FlatList>(null);
-  const [selectedDay, setSelectedDay] = useState<number>(dayjs().date());
-  const [selectedMonth, setSelectedMonth] = useState<number>(dayjs().month());
-  const [selectedYear, setSelectedYear] = useState<number>(dayjs().year());
+  const [selectedDay, setSelectedDay] = useState<number>(
+    dayjs().tz(DEVICE_TIMEZONE, true).date(),
+  );
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    dayjs().tz(DEVICE_TIMEZONE, true).month(),
+  );
+  const [selectedYear, setSelectedYear] = useState<number>(
+    dayjs().tz(DEVICE_TIMEZONE, true).year(),
+  );
 
   const [fetchLogQuery, {data: logHistoryData, loading}] =
     useMedicationLogHistoryLazyQuery();
@@ -80,7 +98,11 @@ const LogContainer = () => {
     const daysArray: DayOfMonth[] = [];
 
     for (let day = 1; day <= daysInMonth; day++) {
-      const date = dayjs().year(selectedYear).month(selectedMonth).date(day);
+      const date = dayjs()
+        .tz(DEVICE_TIMEZONE, true)
+        .year(selectedYear)
+        .month(selectedMonth)
+        .date(day);
 
       daysArray.push({
         dayOfWeek: date.format('ddd'),
@@ -102,22 +124,29 @@ const LogContainer = () => {
     }
   }, [daysOfMonth, selectedDay]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchLogQuery({
-        variables: {
-          date: dayjs()
-            .year(selectedYear)
-            .month(selectedMonth)
-            .date(selectedDay)
-            .toISOString(),
-        },
-        fetchPolicy: 'cache-and-network',
-      });
-    };
-
-    fetchData();
+  const fetchData = useCallback(async () => {
+    await fetchLogQuery({
+      variables: {
+        date: dayjs()
+          .tz(DEVICE_TIMEZONE, true)
+          .year(selectedYear)
+          .month(selectedMonth)
+          .date(selectedDay)
+          .toISOString(),
+      },
+      fetchPolicy: 'cache-and-network',
+    });
   }, [selectedDay, selectedMonth, selectedYear]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchDataAsync = async () => {
+        await fetchData();
+      };
+
+      fetchDataAsync();
+    }, [selectedDay, selectedMonth, selectedYear]),
+  );
 
   useEffect(() => {
     triggerLightHaptic();
@@ -132,24 +161,101 @@ const LogContainer = () => {
     setSelectedDay(date.dayOfMonth);
   }, []);
 
+  const logEntries = logHistoryData?.medicationLogEntries || [];
+  const monthsMenuActions = useMemo<MenuAction[]>(() => {
+    return Array.from({length: 12}, (_, i) => ({
+      id: `${i}`,
+      title: getMonthName(i),
+      onPressAction: () => {
+        setSelectedMonth(i);
+      },
+      state: selectedMonth === i ? 'on' : 'off',
+    }));
+  }, [selectedMonth]);
+  const yearsMenuActions = useMemo<MenuAction[]>(() => {
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 3;
+    const endYear = currentYear + 3;
+
+    return Array.from({length: endYear - startYear + 1}, (_, i) => {
+      const year = startYear + i;
+      return {
+        id: `${year}`,
+        title: `${year}`,
+        onPressAction: () => {
+          setSelectedYear(year);
+        },
+        state: selectedYear === year ? 'on' : 'off',
+      };
+    });
+  }, [selectedYear]);
+
+  const translateX = useSharedValue(0);
+
+  const gesture = Gesture.Pan()
+    .onBegin(() => {
+      translateX.value = 0;
+    })
+    .onUpdate(event => {
+      translateX.value = event.translationX;
+    })
+    .onEnd(event => {
+      translateX.value = event.translationX;
+
+      if (event.translationX > 50) {
+        runOnJS(setSelectedDay)(Math.max(selectedDay - 1, 1));
+      } else if (event.translationX < -50) {
+        runOnJS(setSelectedDay)(Math.min(selectedDay + 1, 31));
+      }
+      translateX.value = withTiming(0);
+    });
+
   return (
     <View>
       <View style={styles.topHeader}>
-        <TouchableOpacity style={[styles.rowContainer, {flex: 1}]}>
-          <Text style={styles.monthText}>{getMonthName(selectedMonth)}</Text>
-          <Image
-            source={require('@assets/icons/chevron-up.png')}
-            style={styles.chevronIcon}
-          />
-        </TouchableOpacity>
+        <View style={[styles.rowContainer, {flex: 1}]}>
+          <MenuView
+            onOpenMenu={() => triggerLightHaptic()}
+            onCloseMenu={() => triggerLightHaptic()}
+            title="Select a Month"
+            onPressAction={({nativeEvent}) => {
+              setSelectedMonth(Number(nativeEvent.event));
+            }}
+            actions={monthsMenuActions}>
+            <View
+              style={{flexDirection: 'row', alignItems: 'center', gap: 4}}
+              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+              <Text style={styles.monthText}>
+                {getMonthName(selectedMonth)}
+              </Text>
+              <Image
+                source={require('@assets/icons/chevron-up.png')}
+                style={styles.chevronIcon}
+              />
+            </View>
+          </MenuView>
+        </View>
 
-        <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.yearText}>{selectedYear}</Text>
-          <Image
-            source={require('@assets/icons/chevron-up.png')}
-            style={styles.chevronIcon}
-          />
-        </TouchableOpacity>
+        <View style={styles.rowContainer}>
+          <MenuView
+            onOpenMenu={() => triggerLightHaptic()}
+            onCloseMenu={() => triggerLightHaptic()}
+            title="Select a Year"
+            onPressAction={({nativeEvent}) => {
+              setSelectedYear(Number(nativeEvent.event));
+            }}
+            actions={yearsMenuActions}>
+            <View
+              style={{flexDirection: 'row', alignItems: 'center', gap: 4}}
+              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+              <Text style={styles.yearText}>{selectedYear}</Text>
+              <Image
+                source={require('@assets/icons/chevron-up.png')}
+                style={styles.chevronIcon}
+              />
+            </View>
+          </MenuView>
+        </View>
       </View>
 
       <FlatList
@@ -189,54 +295,81 @@ const LogContainer = () => {
         showsHorizontalScrollIndicator={false}
       />
 
-      <ScrollView style={styles.historyContainer}>
-        {loading && logHistoryData?.medicationLogEntries?.length === 0 && (
-          <MaterialIndicator
-            size={25}
-            color={ColourPurple50}
-            style={{marginTop: 24}}
-          />
-        )}
+      <GestureDetector gesture={gesture}>
+        <ScrollView style={styles.historyContainer}>
+          <Animated.View
+            style={useAnimatedStyle(() => ({
+              transform: [{translateX: translateX.value}],
+            }))}>
+            {loading && logEntries.length === 0 && (
+              <MaterialIndicator
+                size={25}
+                color={ColourPurple50}
+                style={{marginTop: 24}}
+              />
+            )}
 
-        {logHistoryData?.medicationLogEntries?.map(entry => (
-          <View style={styles.timeGroupContainer}>
-            <Text style={styles.timeTitle}>
-              {dayjs(entry.timestamp)
-                .tz(DEVICE_TIMEZONE, true)
-                .format('h:mm a')}
-            </Text>
+            {!loading && logEntries.length === 0 && (
+              <Animated.View style={{marginTop: 40}} entering={FadeIn}>
+                <EmptyState
+                  header="No log entries"
+                  description="There are no log entries for this day. Check back later."
+                  image={
+                    <Image source={require('@assets/images/tags-empty.png')} />
+                  }
+                />
+              </Animated.View>
+            )}
 
-            <View style={styles.medicationRowContainer}>
-              <View style={{width: 200}}>
-                <Text style={styles.medicationNameText}>
-                  {entry.myMedication.brandName}{' '}
-                  {entry.myMedication.activeIngredient}
+            {logHistoryData?.medicationLogEntries?.map(entry => (
+              <Animated.View
+                key={entry.id}
+                style={styles.timeGroupContainer}
+                entering={FadeIn}>
+                <Text style={styles.timeTitle}>
+                  {dayjs(entry.dueTime)
+                    .tz(DEVICE_TIMEZONE, true)
+                    .format('h:mm a')}
                 </Text>
-                <Text style={styles.unitText}>
-                  {roundNumbersDown(entry.dose.toLowerCase())}
-                </Text>
-              </View>
 
-              <View
-                style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
-                {entry.status === MedicationLogEntryStatus.Taken && (
-                  <>
-                    <Image source={require('@assets/icons/green-tick.png')} />
-                    <Text style={styles.takenText}>Taken</Text>
-                  </>
-                )}
+                <View style={styles.medicationRowContainer}>
+                  <View style={{width: 200}}>
+                    <Text style={styles.medicationNameText}>
+                      {entry.myMedication.brandName}{' '}
+                      {entry.myMedication.activeIngredient}
+                    </Text>
+                  </View>
 
-                {entry.status === MedicationLogEntryStatus.Upcoming && (
-                  <>
-                    <Image source={require('@assets/icons/info-blue.png')} />
-                    <Text style={styles.upcomingText}>To be taken</Text>
-                  </>
-                )}
-              </View>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 4,
+                    }}>
+                    {entry.status === MedicationLogEntryStatus.Taken && (
+                      <>
+                        <Image
+                          source={require('@assets/icons/green-tick.png')}
+                        />
+                        <Text style={styles.takenText}>Taken</Text>
+                      </>
+                    )}
+
+                    {entry.status === MedicationLogEntryStatus.Upcoming && (
+                      <>
+                        <Image
+                          source={require('@assets/icons/info-blue.png')}
+                        />
+                        <Text style={styles.upcomingText}>To be taken</Text>
+                      </>
+                    )}
+                  </View>
+                </View>
+              </Animated.View>
+            ))}
+          </Animated.View>
+        </ScrollView>
+      </GestureDetector>
     </View>
   );
 };

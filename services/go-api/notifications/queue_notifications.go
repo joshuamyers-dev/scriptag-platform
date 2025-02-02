@@ -16,12 +16,12 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 	case adapters.METHOD_TYPE_PERIODS:
 		totalCycleDays := *schedule.UseForDays + *schedule.PauseForDays
 		if totalCycleDays == 0 {
-			// If user did not specify valid days, skip
 			break
 		}
 
-		// Calculate how many full days have passed since StartDate
-		elapsedDays := int(time.Since(*schedule.StartDate).Hours() / 24)
+		scheduleStartDateUtc := schedule.StartDate.UTC()
+		timeNowUtc := time.Now().UTC()
+		elapsedDays := int(time.Since(scheduleStartDateUtc).Hours() / 24)
 
 		// Current position in the cycle (in days)
 		cycleDay := elapsedDays % totalCycleDays
@@ -29,40 +29,48 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 		// If within useDays portion, we are "in use"
 		if cycleDay < *schedule.UseForDays {
 			// Schedule the next notification for tomorrow
-			notifications = append(notifications, time.Now().AddDate(0, 0, 1))
+			notifications = append(notifications, timeNowUtc.AddDate(0, 0, 1))
 		} else {
 			// We are in the pause period; schedule the next "use" day
 			daysUntilUse := totalCycleDays - cycleDay
-			notifications = append(notifications, time.Now().AddDate(0, 0, daysUntilUse))
+			notifications = append(notifications, timeNowUtc.AddDate(0, 0, daysUntilUse))
 		}
 
 	case adapters.METHOD_TYPE_INTERVALS:
-		// Handle "Use for every X days" scenario
+		timeNow := time.Now().UTC()
+		scheduleStartDateUtc := schedule.StartDate.UTC()
+		elapsedHours := time.Since(scheduleStartDateUtc).Hours()
+
+		if elapsedHours < 0 {
+			elapsedHours = 0
+		}
+	
+		elapsedDays := int(elapsedHours / 24)
+
 		if schedule.DaysInterval != nil {
-			elapsedDays := int(time.Since(*schedule.StartDate).Hours() / 24)
 			intervalDays := int(*schedule.DaysInterval)
 
 			if intervalDays == 0 {
-				break
+				return nil
 			}
 
-			if time.Now().Year() == schedule.StartDate.Year() && time.Now().UTC().YearDay() == schedule.StartDate.YearDay() {
+
+			if timeNow.Year() == scheduleStartDateUtc.Year() && timeNow.YearDay() == scheduleStartDateUtc.YearDay() {
 				notifications = append(notifications, time.Now())
 			}
 
 			cyclesCompleted := elapsedDays / intervalDays
-			nextCycleStart := schedule.StartDate.AddDate(0, 0, (cyclesCompleted+1)*intervalDays)
+			nextCycleStart := scheduleStartDateUtc.AddDate(0, 0, (cyclesCompleted+1)*intervalDays)
 			notifications = append(notifications, nextCycleStart)
 		}
 
 	case adapters.METHOD_TYPE_DAYS:
-		// Handle "Use for every X days" scenario
 		if schedule.DaysOfWeek != nil {
-			today := time.Now().UTC().Weekday()
-			nextDay := time.Now().UTC().AddDate(0, 0, 1).Weekday()
+			timeNowUtc := time.Now().UTC()
+			today := timeNowUtc.Weekday()
+			nextDay := timeNowUtc.AddDate(0, 0, 1).Weekday()
 
 			for _, day := range schedule.DaysOfWeek {
-				// Calculate the next occurrence of the specified day
 				timeWeekday, err := utils.ConvertShortDayToTime(*day)
 
 				if err != nil {
@@ -70,11 +78,11 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 				}
 
 				if timeWeekday.String() == today.String() {
-					notifications = append(notifications, time.Now().UTC())
+					notifications = append(notifications, timeNowUtc)
 				}
 
 				if timeWeekday.String() == nextDay.String() {
-					nextOccurrence := nextWeekdayFromStart(*schedule.StartDate, *timeWeekday)
+					nextOccurrence := nextWeekdayFromStart(schedule.StartDate.UTC(), *timeWeekday)
 					notifications = append(notifications, nextOccurrence)
 				}
 			}
@@ -103,7 +111,7 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 			var updatedNotifications []time.Time
 			for _, notification := range notifications {
 				// Start from the beginning of the next day
-				startOfNextDay := time.Date(notification.Year(), notification.Month(), notification.Day(), 0, 0, 0, 0, notification.Location())
+				startOfNextDay := time.Date(notification.Year(), notification.Month(), notification.Day(), 0, 0, 0, 0, time.UTC)
 				// Calculate notifications for the entire next day
 				for i := 0; i < 24/int(*schedule.HoursInterval); i++ {
 					notificationDate := startOfNextDay.Add(time.Duration(i*int(*schedule.HoursInterval)) * time.Hour)
@@ -120,7 +128,7 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 			totalCycleHours := *schedule.UseForHours + *schedule.PauseForHours
 
 			for _, notification := range notifications {
-				elapsedHours := int(time.Since(notification).Hours())
+				elapsedHours := int(time.Now().UTC().Sub(notification).Hours())
 				cyclePosition := elapsedHours % totalCycleHours
 
 				if cyclePosition < int(*schedule.UseForHours) {

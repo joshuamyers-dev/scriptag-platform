@@ -28,7 +28,6 @@ type GormUserMedicationSchedule struct {
 	Base
 	UserMedicationID string                          `gorm:"not null;index"`
 	UserMedication   GormUserMedication              `gorm:"foreignKey:UserMedicationID;constraint:OnDelete:CASCADE"`
-	ConsumptionItems []GormUserMedicationConsumption `gorm:"foreignKey:UserMedicationID"`
 	MethodType       MethodType                      `gorm:"type:user_medication_method_schedule_type;not null"`
 	RecurringType    RecurringType                   `gorm:"type:user_medication_recurring_schedule_type;not null"`
 	DaysOfWeek       *pq.StringArray                 `gorm:"type:varchar(10)[]"`

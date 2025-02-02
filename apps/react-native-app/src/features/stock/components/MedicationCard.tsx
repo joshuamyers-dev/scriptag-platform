@@ -60,7 +60,7 @@ const MedicationCard: React.FC<MedicationCardProps> = ({
           <AlertBox
             title="You can start taking your medication now, even before your NFC tag arrives."
             message={
-              'Once your tag is set up, you’ll begin tracking doses by tapping the tag for each dose you take. During setup, we’ll ask you to input how much medication you have left so we can remind you when it’s time for a refill. For now, just follow your prescription, and your tracking will begin as soon as your tag is ready.'
+              'Your tags will arrive in the mail shortly. In the meantime, you can start taking your medication and link your tags later.'
             }
             type={AlertBoxType.INFO}
             ctaText="Ok, got it!"

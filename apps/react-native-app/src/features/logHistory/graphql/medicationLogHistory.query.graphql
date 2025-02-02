@@ -4,8 +4,8 @@ query MedicationLogHistory($date: Time!) {
     myMedication {
       ...MyMedicationBase
     }
-    timestamp
-    dose
+    takenTime
+    dueTime
     status
   }
 }

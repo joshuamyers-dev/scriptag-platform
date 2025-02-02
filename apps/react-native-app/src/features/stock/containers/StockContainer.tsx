@@ -14,17 +14,21 @@ import {
   ADD_MEDICATION_STACK,
   SCAN_TAG_SCREEN,
 } from '@navigators/ScreenConstants';
-import {Spacing16, Spacing24} from '@utils/tokens';
-import {useCallback, useEffect, useRef} from 'react';
+import {ColourPurple50, Spacing16, Spacing24} from '@utils/tokens';
+import {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import MedicationCard from '../components/MedicationCard';
 import {firebase} from '@react-native-firebase/messaging';
+import {useFocusEffect} from '@react-navigation/native';
+import {MaterialIndicator} from 'react-native-indicators';
+import Animated, {FadeIn} from 'react-native-reanimated';
 
 const StockContainer = ({navigation}) => {
   const {
     data: myMedicationsData,
     loading,
     fetchMore,
+    refetch,
   } = useMyMedicationsQuery({
     fetchPolicy: 'cache-and-network',
   });
@@ -32,19 +36,28 @@ const StockContainer = ({navigation}) => {
   const [addFcmTokenMutation] = useAddFcmTokenMutation();
 
   useEffect(() => {
-    firebase.messaging().requestPermission();
-
     firebase
       .messaging()
-      .getToken()
-      .then(token => {
-        addFcmTokenMutation({
-          variables: {
-            token,
-          },
-        });
+      .requestPermission()
+      .then(() => {
+        firebase
+          .messaging()
+          .getToken()
+          .then(token => {
+            addFcmTokenMutation({
+              variables: {
+                token,
+              },
+            });
+          });
       });
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, []),
+  );
 
   const onPressLinkTag = useCallback((medication: MyMedication) => {
     navigation.navigate(SCAN_TAG_SCREEN, {medicationId: medication.id});
@@ -67,15 +80,24 @@ const StockContainer = ({navigation}) => {
         paddingHorizontal: Spacing16.original,
         paddingBottom: Spacing16.original,
       }}>
+      {myMedicationsData?.myMedications.edges.length === 0 && loading && (
+        <MaterialIndicator
+          size={25}
+          color={ColourPurple50}
+          style={{marginTop: 24}}
+        />
+      )}
+
       {myMedicationsData?.myMedications.edges.length === 0 && (
-        <View style={{marginTop: 24, flex: 1}}>
+        <Animated.View style={{marginTop: 24, flex: 1}} entering={FadeIn}>
           <EmptyState
             header="Stay on top of your supply"
             description="Here’s where you can view all your medications and their current stock levels. Easily check how much you have left and get reminders when it’s time to refill."
             image={<Image source={require('@assets/images/stock-empty.png')} />}
           />
-        </View>
+        </Animated.View>
       )}
+
       <FlatList
         data={myMedicationsData?.myMedications.edges}
         extraData={myMedicationsData?.myMedications.edges}
@@ -90,6 +112,7 @@ const StockContainer = ({navigation}) => {
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
       />
+
       <CustomButton
         title="New Medication"
         icon={<Image source={require('@assets/icons/plus-add.png')} />}

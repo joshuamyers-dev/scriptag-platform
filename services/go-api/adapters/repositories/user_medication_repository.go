@@ -224,10 +224,12 @@ func (r *UserMedicationRepository) UpdateMedicationOnTagScan(userMedicationId st
 			return err
 		}
 
+		timeNow := time.Now().UTC()
+
 		if err := tx.Model(&adapters.GormUserMedicationConsumption{}).
 			Where("user_medication_id = ?", userMed.ID).
 			Where("DATE(due_date) = DATE(?)", timestamp).
-			Updates(&adapters.GormUserMedicationConsumption{DoseDate: time.Now().UTC(), Status: adapters.LOG_STATUS_TAKEN}).
+			Updates(&adapters.GormUserMedicationConsumption{DoseDate: &timeNow, Status: adapters.LOG_STATUS_TAKEN}).
 			Error; err != nil {
 			return err
 		}

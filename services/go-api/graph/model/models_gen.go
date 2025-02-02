@@ -62,8 +62,8 @@ type MedicationEdge struct {
 type MedicationLogEntry struct {
 	ID           string                   `json:"id"`
 	MyMedication *MyMedication            `json:"myMedication"`
-	Timestamp    time.Time                `json:"timestamp"`
-	Dose         string                   `json:"dose"`
+	DueTime      time.Time                `json:"dueTime"`
+	TakenTime    *time.Time               `json:"takenTime,omitempty"`
 	Status       MedicationLogEntryStatus `json:"status"`
 }
 

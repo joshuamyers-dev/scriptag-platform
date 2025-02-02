@@ -13,6 +13,7 @@ import {AddMedicationContext} from './AddMedicationContainer';
 const SearchMedicationContainer = () => {
   const context = useContext(AddMedicationContext);
   const [searchValue, setSearchValue] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState(false);
   const debouncedSearchValue = useDebounce(searchValue);
   const [medicationName, setMedicationName] = useState<string | null>(null);
   const [amountRemaining, setAmountRemaining] = useState<string | null>(null);
@@ -20,8 +21,10 @@ const SearchMedicationContainer = () => {
     string | null
   >(null);
 
-  const [searchMedicationsMutation, {data, loading, error, fetchMore}] =
-    useSearchMedicationsLazyQuery();
+  const [
+    searchMedicationsMutation,
+    {data, loading: queryFetching, error, fetchMore},
+  ] = useSearchMedicationsLazyQuery();
 
   useEffect(() => {
     if (debouncedSearchValue && debouncedSearchValue.length >= 3) {
@@ -40,6 +43,18 @@ const SearchMedicationContainer = () => {
     return data?.searchMedications?.edges?.map(edge => edge.node);
   }, [data]);
 
+  useEffect(() => {
+    if (searchValue && searchValue.length > 0) {
+      setLoading(true);
+    }
+  }, [searchValue]);
+
+  useEffect(() => {
+    if (data?.searchMedications || error?.message) {
+      setLoading(false);
+    }
+  }, [data]);
+
   const onEndReached = useCallback(async () => {
     if (data?.searchMedications?.pageInfo?.hasNextPage) {
       await fetchMore({
@@ -53,7 +68,7 @@ const SearchMedicationContainer = () => {
   return (
     <SearchMedicationsInput
       results={searchResults}
-      isFetching={loading}
+      isFetching={queryFetching || isLoading}
       searchValue={searchValue}
       onSearch={setSearchValue}
       onSelectMedication={medication => {

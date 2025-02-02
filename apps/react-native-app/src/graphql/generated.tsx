@@ -71,11 +71,11 @@ export type MedicationEdge = {
 
 export type MedicationLogEntry = {
   __typename?: 'MedicationLogEntry';
-  dose: Scalars['String'];
+  dueTime: Scalars['Time'];
   id: Scalars['ID'];
   myMedication: MyMedication;
   status: MedicationLogEntryStatus;
-  timestamp: Scalars['Time'];
+  takenTime: Scalars['String'];
 };
 
 export enum MedicationLogEntryStatus {
@@ -265,7 +265,7 @@ export type MedicationLogHistoryQueryVariables = Exact<{
 }>;
 
 
-export type MedicationLogHistoryQuery = { __typename?: 'Query', medicationLogEntries?: Array<{ __typename?: 'MedicationLogEntry', id: string, timestamp: any, dose: string, status: MedicationLogEntryStatus, myMedication: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, user: { __typename?: 'User', id: string } } }> | null };
+export type MedicationLogHistoryQuery = { __typename?: 'Query', medicationLogEntries?: Array<{ __typename?: 'MedicationLogEntry', id: string, takenTime: string, dueTime: any, status: MedicationLogEntryStatus, myMedication: { __typename?: 'MyMedication', id: string, brandName: string, activeIngredient?: string | null, dosageStrength: string, isTagLinked?: boolean | null, user: { __typename?: 'User', id: string } } }> | null };
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
@@ -441,8 +441,8 @@ export const MedicationLogHistoryDocument = gql`
     myMedication {
       ...MyMedicationBase
     }
-    timestamp
-    dose
+    takenTime
+    dueTime
     status
   }
 }

@@ -110,7 +110,7 @@ func (s *UserMedicationServiceImpl) FetchUserMedications(userId string, afterCur
 }
 
 func (s *UserMedicationServiceImpl) FetchLogHistory(userId string, timestamp time.Time) ([]*model.MedicationLogEntry, error) {
-	logHistory, err := s.repo.FetchLogHistoryByUserID(userId, timestamp)
+	logHistory, err := s.repo.FetchLogHistoryByUserID(userId, timestamp.UTC())
 
 	if err != nil {
 		return nil, err

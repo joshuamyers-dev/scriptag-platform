@@ -40,7 +40,14 @@ func (w *MedicationScheduleWorker) Work(ctx context.Context, job *river.Job[Medi
 				log.Printf("Sending notification for user medication schedule %s\n", result.UserMedicationScheduleID)
 
 				for _, token := range result.UserMedicationSchedule.UserMedication.User.FCMTokens {
-					notifications.SendFCMMessage(fcmClient, ctx, w.DB, token.Token, "Medication Reminder", "It's time to take your "+result.UserMedicationSchedule.UserMedication.Medication.BrandName+". Tap your NFC tag before taking your medication.")
+					notifications.SendFCMMessage(
+						fcmClient,
+						ctx,
+						w.DB,
+						token.Token,
+						"Medication Reminder",
+						"It's time to take your "+
+							adapters.BrandNameIngredientName(result.UserMedicationSchedule.UserMedication.Medication)+". Tap your NFC tag before taking your medication.")
 
 				}
 			}
@@ -50,4 +57,3 @@ func (w *MedicationScheduleWorker) Work(ctx context.Context, job *river.Job[Medi
 
 	return nil
 }
-

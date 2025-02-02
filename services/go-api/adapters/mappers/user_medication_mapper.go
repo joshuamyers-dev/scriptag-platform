@@ -81,12 +81,6 @@ func ToCoreMedicationSchedule(gormMedSchedule *adapters.GormUserMedicationSchedu
 
 	var coreLogHistory []*core.MedicationLogHistory
 
-	if len(gormMedSchedule.ConsumptionItems) > 0 {
-		for _, notification := range gormMedSchedule.ConsumptionItems {
-			coreLogHistory = append(coreLogHistory, ToCoreMedicationLogHistory(&notification))
-		}
-	}
-
 	return &core.MedicationSchedule{
 		ID:               gormMedSchedule.ID,
 		UserMedicationID: &gormMedSchedule.UserMedicationID,
@@ -119,7 +113,7 @@ func ToCoreMedicationLogHistory(gormMedLogHistory *adapters.GormUserMedicationCo
 		UserMedicationID: gormMedLogHistory.UserMedicationID,
 		UserMedication:   userMedication,
 		DueTimestamp:     gormMedLogHistory.DueDate,
-		ActualTimestamp:  &gormMedLogHistory.DoseDate,
+		ActualTimestamp:  gormMedLogHistory.DoseDate,
 		Status:           adapters.UserMedicationScheduleLogStatus(gormMedLogHistory.Status),
 	}
 }
@@ -139,8 +133,8 @@ func ToGraphQLMedicationLogHistory(coreMedLogHistory *core.MedicationLogHistory)
 	return &model.MedicationLogEntry{
 		ID:           coreMedLogHistory.ID,
 		MyMedication: ToGraphQLMyMedication(&coreMedLogHistory.UserMedication),
-		Timestamp:    coreMedLogHistory.DueTimestamp,
-		Dose:         coreMedLogHistory.UserMedication.Strength,
+		DueTime:      coreMedLogHistory.DueTimestamp,
+		TakenTime:    coreMedLogHistory.ActualTimestamp,
 		Status:       status,
 	}
 }

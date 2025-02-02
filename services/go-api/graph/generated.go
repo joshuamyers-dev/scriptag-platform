@@ -62,11 +62,11 @@ type ComplexityRoot struct {
 	}
 
 	MedicationLogEntry struct {
-		Dose         func(childComplexity int) int
+		DueTime      func(childComplexity int) int
 		ID           func(childComplexity int) int
 		MyMedication func(childComplexity int) int
 		Status       func(childComplexity int) int
-		Timestamp    func(childComplexity int) int
+		TakenTime    func(childComplexity int) int
 	}
 
 	MedicationsConnection struct {
@@ -213,12 +213,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.MedicationEdge.Node(childComplexity), true
 
-	case "MedicationLogEntry.dose":
-		if e.complexity.MedicationLogEntry.Dose == nil {
+	case "MedicationLogEntry.dueTime":
+		if e.complexity.MedicationLogEntry.DueTime == nil {
 			break
 		}
 
-		return e.complexity.MedicationLogEntry.Dose(childComplexity), true
+		return e.complexity.MedicationLogEntry.DueTime(childComplexity), true
 
 	case "MedicationLogEntry.id":
 		if e.complexity.MedicationLogEntry.ID == nil {
@@ -241,12 +241,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.MedicationLogEntry.Status(childComplexity), true
 
-	case "MedicationLogEntry.timestamp":
-		if e.complexity.MedicationLogEntry.Timestamp == nil {
+	case "MedicationLogEntry.takenTime":
+		if e.complexity.MedicationLogEntry.TakenTime == nil {
 			break
 		}
 
-		return e.complexity.MedicationLogEntry.Timestamp(childComplexity), true
+		return e.complexity.MedicationLogEntry.TakenTime(childComplexity), true
 
 	case "MedicationsConnection.edges":
 		if e.complexity.MedicationsConnection.Edges == nil {
@@ -1366,8 +1366,8 @@ func (ec *executionContext) fieldContext_MedicationLogEntry_myMedication(_ conte
 	return fc, nil
 }
 
-func (ec *executionContext) _MedicationLogEntry_timestamp(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MedicationLogEntry_timestamp(ctx, field)
+func (ec *executionContext) _MedicationLogEntry_dueTime(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MedicationLogEntry_dueTime(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1380,7 +1380,7 @@ func (ec *executionContext) _MedicationLogEntry_timestamp(ctx context.Context, f
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Timestamp, nil
+		return obj.DueTime, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1397,7 +1397,7 @@ func (ec *executionContext) _MedicationLogEntry_timestamp(ctx context.Context, f
 	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_MedicationLogEntry_timestamp(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_MedicationLogEntry_dueTime(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MedicationLogEntry",
 		Field:      field,
@@ -1410,8 +1410,8 @@ func (ec *executionContext) fieldContext_MedicationLogEntry_timestamp(_ context.
 	return fc, nil
 }
 
-func (ec *executionContext) _MedicationLogEntry_dose(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MedicationLogEntry_dose(ctx, field)
+func (ec *executionContext) _MedicationLogEntry_takenTime(ctx context.Context, field graphql.CollectedField, obj *model.MedicationLogEntry) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MedicationLogEntry_takenTime(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1424,31 +1424,28 @@ func (ec *executionContext) _MedicationLogEntry_dose(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Dose, nil
+		return obj.TakenTime, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*time.Time)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_MedicationLogEntry_dose(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_MedicationLogEntry_takenTime(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MedicationLogEntry",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2992,10 +2989,10 @@ func (ec *executionContext) fieldContext_Query_medicationLogEntries(ctx context.
 				return ec.fieldContext_MedicationLogEntry_id(ctx, field)
 			case "myMedication":
 				return ec.fieldContext_MedicationLogEntry_myMedication(ctx, field)
-			case "timestamp":
-				return ec.fieldContext_MedicationLogEntry_timestamp(ctx, field)
-			case "dose":
-				return ec.fieldContext_MedicationLogEntry_dose(ctx, field)
+			case "dueTime":
+				return ec.fieldContext_MedicationLogEntry_dueTime(ctx, field)
+			case "takenTime":
+				return ec.fieldContext_MedicationLogEntry_takenTime(ctx, field)
 			case "status":
 				return ec.fieldContext_MedicationLogEntry_status(ctx, field)
 			}
@@ -5520,16 +5517,13 @@ func (ec *executionContext) _MedicationLogEntry(ctx context.Context, sel ast.Sel
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "timestamp":
-			out.Values[i] = ec._MedicationLogEntry_timestamp(ctx, field, obj)
+		case "dueTime":
+			out.Values[i] = ec._MedicationLogEntry_dueTime(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "dose":
-			out.Values[i] = ec._MedicationLogEntry_dose(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
+		case "takenTime":
+			out.Values[i] = ec._MedicationLogEntry_takenTime(ctx, field, obj)
 		case "status":
 			out.Values[i] = ec._MedicationLogEntry_status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
