@@ -17,6 +17,7 @@ import {FullWindowOverlay} from 'react-native-screens';
 import BootSplash from 'react-native-bootsplash';
 
 import {
+  MedicationLogHistoryDocument,
   MyMedicationsDocument,
   useOnTagScannedMutation,
 } from '@graphql/generated';
@@ -24,6 +25,8 @@ import {ToastType, useGlobalStore} from '@store';
 import LottieView from 'lottie-react-native';
 import {useEffect, useState} from 'react';
 import {triggerNotificationSuccessHaptic} from '@utils/Helpers';
+import dayjs from 'dayjs';
+import {DEVICE_TIMEZONE} from '@utils/Constants';
 
 const TagScannedModal: React.FC = () => {
   const [tagScannedMutation, {loading, data, error}] =
@@ -38,15 +41,13 @@ const TagScannedModal: React.FC = () => {
   useEffect(() => {
     if (medicationId) {
       const scanTag = async () => {
-        console.log(medicationId);
-
         await tagScannedMutation({
           variables: {
             input: {
               medicationId,
             },
           },
-          refetchQueries: [MyMedicationsDocument],
+          refetchQueries: [MyMedicationsDocument, MedicationLogHistoryDocument],
         });
       };
 

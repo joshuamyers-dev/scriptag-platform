@@ -9,16 +9,15 @@ import (
 
 	"github.com/riverqueue/river"
 	"github.com/riverqueue/river/riverdriver/riverdatabasesql"
-	"github.com/robfig/cron/v3"
 	"gorm.io/gorm"
 )
 
 func SetupWorkers(db *sql.DB, gormDB *gorm.DB) error {
-	schedule, err := cron.ParseStandard("0 1 * * *")
+	// schedule, err := cron.ParseStandard("0 1 * * *")
 
-	if err != nil {
-		panic("invalid cron schedule")
-	}
+	// if err != nil {
+	// 	panic("invalid cron schedule")
+	// }
 
 	periodicJobs := []*river.PeriodicJob{
 		river.NewPeriodicJob(
@@ -29,7 +28,7 @@ func SetupWorkers(db *sql.DB, gormDB *gorm.DB) error {
 			&river.PeriodicJobOpts{RunOnStart: true},
 		),
 		river.NewPeriodicJob(
-			schedule,
+			river.PeriodicInterval(1*time.Minute),
 			func() (river.JobArgs, *river.InsertOpts) {
 				return NotificationCreatorWorkerArgs{}, nil
 			},

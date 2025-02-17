@@ -11,6 +11,7 @@
             "mode": "auto",
             "program": "./services/go-api/server.go",
             "env": {
+              "ENVIRONMENT": "development",
               "GOOGLE_APPLICATION_CREDENTIALS": "/Users/joshuanissenbaum/Documents/scriptag-64b4b-firebase-adminsdk-jddjg-b0f7f84d58.json"
             }
         },

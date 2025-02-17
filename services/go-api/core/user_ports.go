@@ -10,6 +10,7 @@ type User struct {
 	Email      string
 	Password   string
 	PushTokens []string
+	TimeZone   string
 }
 
 type Session struct {

@@ -15,3 +15,7 @@ export const STOCK_STACK = 'Stock Stack';
 export const STOCK_SCREEN = 'Stock';
 export const ADD_MEDICATION_STACK = 'Add Medication Stack';
 export const ADD_MEDICATION_SCREEN = 'Add Medication';
+export const HELP_STACK = 'Help Stack';
+export const HELP_SCREEN = 'Help';
+export const ACCOUNT_STACK = 'Account Stack';
+export const ACCOUNT_SCREEN = 'Account';

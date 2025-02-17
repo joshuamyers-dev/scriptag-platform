@@ -5,7 +5,7 @@ import {
 } from '@graphql/generated';
 import {usePickerLayout} from '@rn-elementary/menu';
 import {DEVICE_TIMEZONE} from '@utils/Constants';
-import {triggerLightHaptic} from '@utils/Helpers';
+import {getMonthName, triggerLightHaptic} from '@utils/Helpers';
 import {
   Colour10,
   Colour100,
@@ -22,7 +22,6 @@ import {
   fontLabelS,
   Spacing16,
 } from '@utils/tokens';
-import dayjs from 'dayjs';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   FlatList,
@@ -49,89 +48,29 @@ import Animated, {
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {run} from 'jest';
 import {useFocusEffect} from '@react-navigation/native';
-
-const DAY_ITEM_WIDTH = 53;
-
-interface DayOfMonth {
-  dayOfWeek: string;
-  dayOfMonth: number;
-}
+import {useGlobalStore} from '@store';
+import dayjs from '@utils/Dayjs';
+import {Calendar} from '../components/Calendar';
+import {LogEntry} from '../components/LogEntry';
 
 const LogContainer = () => {
   const daysFlatListRef = useRef<FlatList>(null);
-  const [selectedDay, setSelectedDay] = useState<number>(
-    dayjs().tz(DEVICE_TIMEZONE, true).date(),
-  );
-  const [selectedMonth, setSelectedMonth] = useState<number>(
-    dayjs().tz(DEVICE_TIMEZONE, true).month(),
-  );
-  const [selectedYear, setSelectedYear] = useState<number>(
-    dayjs().tz(DEVICE_TIMEZONE, true).year(),
-  );
+  const [selectedDay, setSelectedDay] = useState<number>(dayjs().date());
+  const [selectedMonth, setSelectedMonth] = useState<number>(dayjs().month());
+  const [selectedYear, setSelectedYear] = useState<number>(dayjs().year());
 
   const [fetchLogQuery, {data: logHistoryData, loading}] =
     useMedicationLogHistoryLazyQuery();
-
-  const getMonthName = useCallback((monthIndex: number): string => {
-    const monthNames = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    return monthNames[monthIndex];
-  }, []);
-
-  const daysOfMonth = useMemo(() => {
-    const daysInMonth = dayjs()
-      .year(selectedYear)
-      .month(selectedMonth)
-      .daysInMonth();
-    const daysArray: DayOfMonth[] = [];
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      const date = dayjs()
-        .tz(DEVICE_TIMEZONE, true)
-        .year(selectedYear)
-        .month(selectedMonth)
-        .date(day);
-
-      daysArray.push({
-        dayOfWeek: date.format('ddd'),
-        dayOfMonth: day,
-      });
-    }
-    return daysArray;
-  }, [selectedMonth, selectedYear]);
-
-  useEffect(() => {
-    if (daysOfMonth?.length > 0) {
-      setTimeout(() => {
-        daysFlatListRef.current?.scrollToIndex({
-          index: selectedDay - 1,
-          animated: true,
-          viewPosition: 0.5,
-        });
-      }, 500);
-    }
-  }, [daysOfMonth, selectedDay]);
 
   const fetchData = useCallback(async () => {
     await fetchLogQuery({
       variables: {
         date: dayjs()
-          .tz(DEVICE_TIMEZONE, true)
           .year(selectedYear)
           .month(selectedMonth)
           .date(selectedDay)
+          .startOf('day')
+          .utc(true)
           .toISOString(),
       },
       fetchPolicy: 'cache-and-network',
@@ -148,20 +87,6 @@ const LogContainer = () => {
     }, [selectedDay, selectedMonth, selectedYear]),
   );
 
-  useEffect(() => {
-    triggerLightHaptic();
-    daysFlatListRef.current?.scrollToIndex({
-      index: selectedDay - 1,
-      animated: true,
-      viewPosition: 0.5,
-    });
-  }, [selectedDay]);
-
-  const onPressDate = useCallback((date: DayOfMonth) => {
-    setSelectedDay(date.dayOfMonth);
-  }, []);
-
-  const logEntries = logHistoryData?.medicationLogEntries || [];
   const monthsMenuActions = useMemo<MenuAction[]>(() => {
     return Array.from({length: 12}, (_, i) => ({
       id: `${i}`,
@@ -172,6 +97,7 @@ const LogContainer = () => {
       state: selectedMonth === i ? 'on' : 'off',
     }));
   }, [selectedMonth]);
+
   const yearsMenuActions = useMemo<MenuAction[]>(() => {
     const currentYear = new Date().getFullYear();
     const startYear = currentYear - 3;
@@ -189,6 +115,8 @@ const LogContainer = () => {
       };
     });
   }, [selectedYear]);
+
+  const logEntries = logHistoryData?.medicationLogEntries || [];
 
   const translateX = useSharedValue(0);
 
@@ -258,45 +186,18 @@ const LogContainer = () => {
         </View>
       </View>
 
-      <FlatList
-        ref={daysFlatListRef}
-        data={daysOfMonth}
-        style={styles.dateSelectionContainer}
-        extraData={daysOfMonth || selectedDay}
-        horizontal
-        getItemLayout={(data, index) => ({
-          length: DAY_ITEM_WIDTH,
-          offset: DAY_ITEM_WIDTH * index,
-          index,
-        })}
-        onScrollBeginDrag={() => triggerLightHaptic()}
-        onScrollEndDrag={() => triggerLightHaptic()}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            style={styles.dateSelection}
-            onPress={() => onPressDate(item)}>
-            <Text
-              style={[
-                styles.weekDayText,
-                item.dayOfMonth === selectedDay && {color: Colour100},
-              ]}>
-              {item.dayOfWeek.toUpperCase()}
-            </Text>
-
-            {item.dayOfMonth === selectedDay ? (
-              <View style={styles.dateTodayContainer}>
-                <Text style={styles.monthDayTextToday}>{item.dayOfMonth}</Text>
-              </View>
-            ) : (
-              <Text style={styles.monthDayText}>{item.dayOfMonth}</Text>
-            )}
-          </TouchableOpacity>
-        )}
-        showsHorizontalScrollIndicator={false}
+      <Calendar
+        selectedMonth={selectedMonth}
+        selectedYear={selectedYear}
+        onDaySelect={date => {
+          setSelectedDay(date.date());
+        }}
       />
 
       <GestureDetector gesture={gesture}>
-        <ScrollView style={styles.historyContainer}>
+        <ScrollView
+          style={styles.historyContainer}
+          contentContainerStyle={{paddingBottom: 150}}>
           <Animated.View
             style={useAnimatedStyle(() => ({
               transform: [{translateX: translateX.value}],
@@ -321,51 +222,8 @@ const LogContainer = () => {
               </Animated.View>
             )}
 
-            {logHistoryData?.medicationLogEntries?.map(entry => (
-              <Animated.View
-                key={entry.id}
-                style={styles.timeGroupContainer}
-                entering={FadeIn}>
-                <Text style={styles.timeTitle}>
-                  {dayjs(entry.dueTime)
-                    .tz(DEVICE_TIMEZONE, true)
-                    .format('h:mm a')}
-                </Text>
-
-                <View style={styles.medicationRowContainer}>
-                  <View style={{width: 200}}>
-                    <Text style={styles.medicationNameText}>
-                      {entry.myMedication.brandName}{' '}
-                      {entry.myMedication.activeIngredient}
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}>
-                    {entry.status === MedicationLogEntryStatus.Taken && (
-                      <>
-                        <Image
-                          source={require('@assets/icons/green-tick.png')}
-                        />
-                        <Text style={styles.takenText}>Taken</Text>
-                      </>
-                    )}
-
-                    {entry.status === MedicationLogEntryStatus.Upcoming && (
-                      <>
-                        <Image
-                          source={require('@assets/icons/info-blue.png')}
-                        />
-                        <Text style={styles.upcomingText}>To be taken</Text>
-                      </>
-                    )}
-                  </View>
-                </View>
-              </Animated.View>
+            {logEntries.map((entry, index) => (
+              <LogEntry key={entry.id} entry={entry} index={index} />
             ))}
           </Animated.View>
         </ScrollView>
@@ -403,82 +261,11 @@ const styles = StyleSheet.create({
   chevronIcon: {
     transform: [{rotate: '180deg'}],
   },
-  dateSelection: {
-    width: DAY_ITEM_WIDTH,
-    alignItems: 'center',
-  },
-  dateTodayContainer: {
-    backgroundColor: ColourPurple10,
-    padding: 10,
-    minWidth: 37,
-    borderRadius: 37 / 2,
-    marginTop: 4,
-    alignItems: 'center',
-  },
-  weekDayText: {
-    fontFamily: fontBodyXs.fontFamily,
-    fontSize: fontBodyXs.fontSize,
-    fontWeight: fontBodyXs.fontWeight as TextStyle['fontWeight'],
-    color: Colour80,
-  },
-  monthDayText: {
-    fontFamily: fontBodyS.fontFamily,
-    fontSize: fontBodyS.fontSize,
-    fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
-    color: Colour80,
-    paddingTop: 14,
-  },
-  monthDayTextToday: {
-    fontFamily: fontLabelS.fontFamily,
-    fontSize: fontLabelS.fontSize,
-    fontWeight: fontLabelS.fontWeight as TextStyle['fontWeight'],
-    color: ColourPurple50,
-  },
   historyContainer: {
     borderTopWidth: 2,
     borderTopColor: Colour10,
     paddingVertical: Spacing16.original,
     paddingHorizontal: Spacing16.original,
-  },
-  timeTitle: {
-    fontFamily: fontBodyM.fontFamily,
-    fontSize: fontBodyM.fontSize,
-    fontWeight: fontBodyM.fontWeight as TextStyle['fontWeight'],
-    color: Colour50,
-    paddingBottom: Spacing16.original,
-  },
-  timeGroupContainer: {
-    paddingBottom: Spacing16.original,
-  },
-  medicationRowContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  medicationNameText: {
-    fontFamily: fontLabelS.fontFamily,
-    fontSize: fontLabelS.fontSize,
-    fontWeight: fontLabelS.fontWeight as TextStyle['fontWeight'],
-    color: Colour100,
-  },
-  unitText: {
-    fontFamily: fontBodyS.fontFamily,
-    fontSize: fontBodyS.fontSize,
-    fontWeight: fontBodyS.fontWeight as TextStyle['fontWeight'],
-    color: Colour80,
-  },
-  takenText: {
-    fontFamily: fontLabelS.fontFamily,
-    fontSize: fontLabelS.fontSize,
-    fontWeight: fontLabelS.fontWeight as TextStyle['fontWeight'],
-    color: ColourGreen50,
-  },
-  upcomingText: {
-    fontFamily: fontLabelS.fontFamily,
-    fontSize: fontLabelS.fontSize,
-    fontWeight: fontLabelS.fontWeight as TextStyle['fontWeight'],
-    color: ColourBlue50,
   },
 });
 

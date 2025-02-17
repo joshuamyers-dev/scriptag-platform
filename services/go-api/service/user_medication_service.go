@@ -5,6 +5,7 @@ import (
 	"go-api/core"
 	"go-api/graph/model"
 	"go-api/notifications"
+	"log"
 	"time"
 
 	"gorm.io/gorm"
@@ -72,11 +73,13 @@ func (s *UserMedicationServiceImpl) CreateUserMedicationSchedule(medicationSched
 		return false, err
 	}
 
-	err = notifications.QueueNotifications(schedule, db)
+	go func() {
+		err = notifications.QueueNotifications(schedule, db)
 
-	if err != nil {
-		return false, err
-	}
+		if err != nil {
+			log.Printf("Error queuing notifications: %v", err)
+		}
+	}()
 
 	return true, nil
 }
@@ -110,7 +113,7 @@ func (s *UserMedicationServiceImpl) FetchUserMedications(userId string, afterCur
 }
 
 func (s *UserMedicationServiceImpl) FetchLogHistory(userId string, timestamp time.Time) ([]*model.MedicationLogEntry, error) {
-	logHistory, err := s.repo.FetchLogHistoryByUserID(userId, timestamp.UTC())
+	logHistory, err := s.repo.FetchLogHistoryByUserID(userId, timestamp)
 
 	if err != nil {
 		return nil, err

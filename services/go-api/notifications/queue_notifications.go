@@ -39,12 +39,12 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 	case adapters.METHOD_TYPE_INTERVALS:
 		timeNow := time.Now().UTC()
 		scheduleStartDateUtc := schedule.StartDate.UTC()
-		elapsedHours := time.Since(scheduleStartDateUtc).Hours()
+		elapsedHours := timeNow.Sub(scheduleStartDateUtc).Hours()
 
 		if elapsedHours < 0 {
 			elapsedHours = 0
 		}
-	
+
 		elapsedDays := int(elapsedHours / 24)
 
 		if schedule.DaysInterval != nil {
@@ -54,9 +54,8 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 				return nil
 			}
 
-
 			if timeNow.Year() == scheduleStartDateUtc.Year() && timeNow.YearDay() == scheduleStartDateUtc.YearDay() {
-				notifications = append(notifications, time.Now())
+				notifications = append(notifications, timeNow)
 			}
 
 			cyclesCompleted := elapsedDays / intervalDays
@@ -144,26 +143,39 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 		}
 	}
 
+	var notificationsBatch []*adapters.GormNotificationDelivery
+	var consumptionBatch []*adapters.GormUserMedicationConsumption
+
 	for _, notificationDate := range notifications {
-		err := createNotification(schedule.ID, notificationDate, db)
+		notificationsBatch = append(notificationsBatch, &adapters.GormNotificationDelivery{
+			UserMedicationScheduleID: schedule.ID,
+			NotificationDate:         notificationDate.UTC(),
+			Status:                   adapters.NOTIFICATION_STATUS_PENDING,
+		})
 
-		if err != nil {
-			return err
-		}
-
-		consumption := adapters.GormUserMedicationConsumption{
+		consumptionBatch = append(consumptionBatch, &adapters.GormUserMedicationConsumption{
 			UserMedicationID: *schedule.UserMedicationID,
-			DueDate:          notificationDate,
+			DueDate:          notificationDate.UTC(),
 			Status:           adapters.LOG_STATUS_UPCOMING,
-		}
+		})
+	}
 
-		err = db.Create(&consumption).Error
+	if len(notificationsBatch) > 0 {
+		err := db.Create(&notificationsBatch).Error
 
 		if err != nil {
 			return err
 		}
 	}
 
+	if(len(consumptionBatch) > 0) {
+		err := db.Create(&consumptionBatch).Error
+
+		if err != nil {
+			return err
+		}
+	}
+	
 	return nil
 }
 
@@ -186,13 +198,4 @@ func nextWeekdayFromStart(startDate time.Time, weekday time.Weekday) time.Time {
 		daysUntilTarget = 7
 	}
 	return startDate.AddDate(0, 0, daysUntilTarget)
-}
-
-func createNotification(scheduleID string, notificationDate time.Time, db *gorm.DB) error {
-	notification := adapters.GormNotificationDelivery{
-		UserMedicationScheduleID: scheduleID,
-		NotificationDate:         notificationDate.UTC(),
-		Status:                   adapters.NOTIFICATION_STATUS_PENDING,
-	}
-	return db.Create(&notification).Error
 }

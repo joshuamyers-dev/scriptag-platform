@@ -211,7 +211,10 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
 
               return (
                 <Animated.View entering={FadeInDown} exiting={FadeOutUp}>
-                  <View key={index} style={styles.timeRowContainer}>
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.timeRowContainer}
+                    onPress={() => onPressEditTimeSlot(index)}>
                     <View style={styles.circleContainer}>
                       <Text style={styles.circleText}>{index + 1}</Text>
                     </View>
@@ -229,20 +232,16 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
                     </Text>
 
                     <View style={{flexDirection: 'row', gap: 12}}>
-                      <TouchableOpacity
-                        hitSlop={{left: 10, top: 10, bottom: 10}}
-                        onPress={() => onPressEditTimeSlot(index)}>
-                        <Image
-                          source={require('@assets/icons/pencil-edit.png')}
-                        />
-                      </TouchableOpacity>
+                      <Image
+                        source={require('@assets/icons/pencil-edit.png')}
+                      />
                       <TouchableOpacity
                         onPress={() => onPressDeleteTimeSlot(index)}
                         hitSlop={{left: 10, top: 10, bottom: 10}}>
                         <Image source={require('@assets/icons/trash.png')} />
                       </TouchableOpacity>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 </Animated.View>
               );
             })}

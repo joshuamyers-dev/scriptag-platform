@@ -10,7 +10,7 @@ import {
   fontLabelS,
   Spacing16,
 } from '@utils/tokens';
-import {useCallback, useContext, useEffect, useState} from 'react';
+import {useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, Text, TextStyle, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Animated, {
@@ -54,6 +54,37 @@ const ScheduleContainer = () => {
       setHowOftenSectionVisible(true);
     } else {
       setHowOftenSectionVisible(false);
+    }
+  }, [context]);
+
+  const isContinuePermitted = useMemo(() => {
+    let firstCheckPass = false;
+    let secondCheckPass = false;
+
+    if (context?.takenWhenNeeded) {
+      firstCheckPass = true;
+      secondCheckPass = true;
+    } else if (
+      (context?.scheduledDays && context.scheduledDays.length > 0) ||
+      context?.daysInterval
+    ) {
+      firstCheckPass = true;
+    } else if (context?.useForDays && context?.pauseForDays) {
+      firstCheckPass = true;
+    }
+
+    if (context?.timeSlots && Object.keys(context.timeSlots).length > 0) {
+      secondCheckPass = true;
+    } else if (context?.hoursInterval) {
+      secondCheckPass = true;
+    } else if (context?.useForHours && context?.pauseForHours) {
+      secondCheckPass = true;
+    }
+
+    if (firstCheckPass && secondCheckPass) {
+      return true;
+    } else {
+      return false;
     }
   }, [context]);
 
@@ -118,7 +149,11 @@ const ScheduleContainer = () => {
         </Animated.View>
       </KeyboardAwareScrollView>
       <View style={styles.footerContainer}>
-        <CustomButton title="Continue" onPress={onPressContinue} />
+        <CustomButton
+          title="Continue"
+          disabled={!isContinuePermitted}
+          onPress={onPressContinue}
+        />
       </View>
     </View>
   );

@@ -3,7 +3,6 @@ package repository
 import (
 	adapters "go-api/adapters/models"
 	"go-api/core"
-	"go-api/utils"
 
 	"github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 	"gorm.io/gorm"
@@ -18,12 +17,21 @@ func NewMedicationRepository(db *gorm.DB) *MedicationRepository {
 }
 
 func (r *MedicationRepository) Search(query string, afterCursor *string) (*core.MedicationConnection, error) {
-	tsQuery := utils.ConvertToTSQuery(query)
-
 	var medications []*adapters.GormMedication
+	
 	statement := r.DB.Model(&adapters.GormMedication{}).
-		Where("to_tsvector('english', brand_name) @@ to_tsquery('english', ?)", tsQuery).
-		Or("to_tsvector('english', active_ingredient) @@ to_tsquery('english', ?)", tsQuery)
+		Select(`*, 
+			(ts_rank(to_tsvector('english', brand_name), websearch_to_tsquery('english', ?)) + 
+			ts_rank(to_tsvector('english', active_ingredient), websearch_to_tsquery('english', ?))) * 0.7 + 
+			(similarity(brand_name, ?) + similarity(active_ingredient, ?)) * 0.3 as rank`, 
+			query, query, query, query).
+		Where(`
+			to_tsvector('english', brand_name) @@ websearch_to_tsquery('english', ?) OR
+			to_tsvector('english', active_ingredient) @@ websearch_to_tsquery('english', ?) OR
+			similarity(brand_name, ?) > 0.3 OR
+			similarity(active_ingredient, ?) > 0.3
+		`, query, query, query, query).
+		Order("rank DESC")
 
 	limit := 10
 	paginator := adapters.CreateMedicationPaginator(paginator.Cursor{

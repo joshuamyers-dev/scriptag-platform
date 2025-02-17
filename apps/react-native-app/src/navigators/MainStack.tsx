@@ -22,7 +22,9 @@ import {
   largeHeaderTitleStyle,
 } from './NavigationStyles';
 import {
+  ACCOUNT_SCREEN,
   ADD_MEDICATION_STACK,
+  HELP_SCREEN,
   HOME_SCREEN,
   LOGIN_SCREEN,
   LOGIN_STACK,
@@ -41,6 +43,8 @@ import LoginContainer from '@features/login/containers/LoginContainer';
 import AddMedicationContainer from '@features/addMedication/containers/AddMedicationContainer';
 import LogContainer from '@features/logHistory/containers/LogContainer';
 import {triggerLightHaptic} from '@utils/Helpers';
+import HelpContainer from '@features/help/containers/HelpContainer';
+import AccountContainer from '@features/account/containers/AccountContainer';
 
 const NativeStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -157,6 +161,49 @@ const ProfileOnboardingStack = () => {
   );
 };
 
+const HelpStack = () => {
+  return (
+    <NativeStack.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        presentation: 'card',
+        title: 'Help',
+      }}>
+      <NativeStack.Screen
+        name={HELP_SCREEN}
+        component={HelpContainer}
+        options={({navigation}) => ({
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+        })}
+      />
+    </NativeStack.Navigator>
+  );
+};
+
+const AccountStack = () => {
+  return (
+    <NativeStack.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        presentation: 'card',
+      }}>
+      <NativeStack.Screen
+        name={ACCOUNT_SCREEN}
+        component={AccountContainer}
+        options={({navigation}) => ({
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: Colour0,
+          },
+        })}
+      />
+    </NativeStack.Navigator>
+  );
+};
+
 const TabNavigatorStack = () => {
   return (
     <Tab.Navigator
@@ -226,7 +273,7 @@ const TabNavigatorStack = () => {
       />
       <Tab.Screen
         name="Help"
-        component={StockContainer}
+        component={HelpStack}
         options={{
           tabBarLabel: 'Help',
           tabBarActiveTintColor: ColourPurple50,
@@ -244,7 +291,7 @@ const TabNavigatorStack = () => {
       />
       <Tab.Screen
         name="Account"
-        component={StockContainer}
+        component={AccountStack}
         options={{
           tabBarLabel: 'Account',
           tabBarActiveTintColor: ColourPurple50,

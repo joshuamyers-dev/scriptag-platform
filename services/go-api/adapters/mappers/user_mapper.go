@@ -45,5 +45,6 @@ func MapUserToCoreUser(gormUser *adapters.GormUser) *core.User {
 		Email:      gormUser.Email,
 		Password:   gormUser.Password,
 		PushTokens: pushTokens,
+		TimeZone:   gormUser.TimeZone,
 	}
 }

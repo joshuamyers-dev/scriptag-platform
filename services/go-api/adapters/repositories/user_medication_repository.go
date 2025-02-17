@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 	"go-api/adapters/mappers"
 	adapters "go-api/adapters/models"
 	"go-api/core"
@@ -13,11 +14,12 @@ import (
 )
 
 type UserMedicationRepository struct {
-	DB *gorm.DB
+	DB       *gorm.DB
+	UserRepo core.UserRepository
 }
 
-func NewUserMedicationRepository(db *gorm.DB) *UserMedicationRepository {
-	return &UserMedicationRepository{DB: db}
+func NewUserMedicationRepository(db *gorm.DB, userRepo core.UserRepository) *UserMedicationRepository {
+	return &UserMedicationRepository{DB: db, UserRepo: userRepo}
 }
 
 func (r *UserMedicationRepository) Create(userMedication *core.UserMedication) (*core.UserMedication, error) {
@@ -92,7 +94,7 @@ func (r *UserMedicationRepository) FetchUserMedicationByID(id string) (*core.Use
 func (r *UserMedicationRepository) FetchUserMedicationWithSchedule(id string) (*core.UserMedication, error) {
 	var userMed adapters.GormUserMedication
 
-	if err := r.DB.Preload("Schedule.NotificationDeliveries").First(&userMed, "id = ?", id).Error; err != nil {
+	if err := r.DB.Preload("Schedule").First(&userMed, "id = ?", id).Error; err != nil {
 		return &core.UserMedication{}, err
 	}
 
@@ -177,9 +179,21 @@ func (r *UserMedicationRepository) UpdateUserMedication(userMedication *core.Use
 func (r *UserMedicationRepository) FetchLogHistoryByUserID(userId string, timestamp time.Time) ([]*core.MedicationLogHistory, error) {
 	var logs []*adapters.GormUserMedicationConsumption
 
+	user, err := r.UserRepo.FindByID(userId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	timezone, _ := time.LoadLocation(user.TimeZone)
+	startOfDayLocal := time.Date(timestamp.Year(), timestamp.Month(), timestamp.Day(), 0, 0, 0, 0, timezone)
+	endOfDayLocal := startOfDayLocal.Add(24 * time.Hour)
+	startOfDayUTC := startOfDayLocal.UTC()
+	endOfDayUTC := endOfDayLocal.UTC()
+
 	if err := r.DB.Joins("JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id").
 		Where("user_medications.user_id = ?", userId).
-		Where("DATE(due_date) = DATE(?)", timestamp).
+		Where("due_date >= ? AND due_date < ?", startOfDayUTC, endOfDayUTC).
 		Preload("UserMedication.Medication").
 		Order("due_date ASC").
 		Find(&logs).Error; err != nil {
@@ -216,9 +230,13 @@ func (r *UserMedicationRepository) UpdateMedicationOnTagScan(userMedicationId st
 			return err
 		}
 
-		if err := tx.Model(&adapters.GormNotificationDelivery{}).
+		topClosestSubquery := tx.Model(&adapters.GormNotificationDelivery{}).
+			Select("id").
 			Where("user_medication_schedule_id = ?", userMed.Schedule.ID).
-			Where("DATE(notification_date) = DATE(?)", timestamp).
+			Order(fmt.Sprintf("ABS(EXTRACT(EPOCH FROM (notification_date - '%s'))) ASC", timestamp.Format("2006-01-02 15:04:05"))).
+			Limit(1)
+
+		if err := tx.Where("id = (?)", topClosestSubquery).
 			Delete(&adapters.GormNotificationDelivery{}).
 			Error; err != nil {
 			return err
@@ -226,9 +244,14 @@ func (r *UserMedicationRepository) UpdateMedicationOnTagScan(userMedicationId st
 
 		timeNow := time.Now().UTC()
 
+		topClosestSubquery = tx.Model(&adapters.GormUserMedicationConsumption{}).
+			Select("id").
+			Where("user_medication_id = ?", userMedicationId).
+			Order(fmt.Sprintf("ABS(EXTRACT(EPOCH FROM (due_date - '%s'))) ASC", timestamp.Format("2006-01-02 15:04:05"))).
+			Limit(1)
+
 		if err := tx.Model(&adapters.GormUserMedicationConsumption{}).
-			Where("user_medication_id = ?", userMed.ID).
-			Where("DATE(due_date) = DATE(?)", timestamp).
+			Where("id = (?)", topClosestSubquery).
 			Updates(&adapters.GormUserMedicationConsumption{DoseDate: &timeNow, Status: adapters.LOG_STATUS_TAKEN}).
 			Error; err != nil {
 			return err

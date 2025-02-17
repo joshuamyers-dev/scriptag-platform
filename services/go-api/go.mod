@@ -1,6 +1,6 @@
 module go-api
 
-go 1.23.2
+go 1.23
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
@@ -101,4 +101,5 @@ require (
 	google.golang.org/grpc v1.69.2 // indirect
 	google.golang.org/protobuf v1.36.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gorm.io/hints v1.1.2
 )

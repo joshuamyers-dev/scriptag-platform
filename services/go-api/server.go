@@ -17,11 +17,21 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/joho/godotenv"
 )
 
 const defaultPort = "8080"
 
 func main() {
+	if os.Getenv("ENVIRONMENT") == "development" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatalf("Error loading .env file")
+		}
+	}
+
+	os.Setenv("TZ", "UTC")
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
@@ -47,19 +57,19 @@ func main() {
 	userService := service.NewUserService(userRepo)
 	medRepo := repository.NewMedicationRepository(db)
 	medService := service.NewMedicationService(medRepo)
-	userMedRepo := repository.NewUserMedicationRepository(db)
+	userMedRepo := repository.NewUserMedicationRepository(db, userRepo)
 	userMedService := service.NewUserMedicationService(userMedRepo)
 
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
-		GormDB: db,
-		MedicationService: medService,
-		UserService: userService,
+		GormDB:                db,
+		MedicationService:     medService,
+		UserService:           userService,
 		UserMedicationService: userMedService,
 	}}))
 
-    srv.AddTransport(transport.POST{})
-    srv.AddTransport(transport.Options{})
-    srv.AddTransport(transport.GET{})
+	srv.AddTransport(transport.POST{})
+	srv.AddTransport(transport.Options{})
+	srv.AddTransport(transport.GET{})
 
 	if os.Getenv("ENVIRONMENT") == "development" {
 		srv.Use(extension.Introspection{})
@@ -69,6 +79,9 @@ func main() {
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", auth.Middleware(userService)(loaderMiddleware))
+	http.Handle("/health", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

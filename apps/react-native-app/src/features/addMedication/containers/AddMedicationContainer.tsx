@@ -20,6 +20,7 @@ import ScheduleContainer from './ScheduleContainer';
 import {Medication} from '@graphql/generated';
 import SelectTimePeriod from './SelectTimePeriod';
 import {ToastType, useGlobalStore} from '@store';
+import {SCREEN_WIDTH} from '@utils/Constants';
 
 const Add_MEDICATION_STEPS = [
   {
@@ -137,21 +138,23 @@ const AddMedicationContainer = ({navigation}) => {
 
   const handleStepChange = useCallback(
     (newStepIndex: number, direction: number) => {
-      opacity.value = withTiming(0, {duration: 250});
-      translateX.value = withSpring(direction * -100, {
-        damping: 100,
-        stiffness: 80,
+      opacity.value = withTiming(0, {duration: 500});
+      translateX.value = withTiming(direction * -SCREEN_WIDTH, {
+        duration: 500,
       });
 
       setTimeout(() => {
         setStep(newStepIndex);
-        translateX.value = withSpring(direction * 100, {
+
+        translateX.value = withSpring(direction * SCREEN_WIDTH, {
           damping: 100,
           stiffness: 80,
         });
-        opacity.value = withTiming(1, {duration: 250});
-        translateX.value = withSpring(0, {damping: 100, stiffness: 80});
-      }, 250);
+        opacity.value = withTiming(1, {duration: 400});
+        translateX.value = withTiming(0, {
+          duration: 400,
+        });
+      }, 400);
     },
     [currentStep],
   );
@@ -173,7 +176,7 @@ const AddMedicationContainer = ({navigation}) => {
         paddingTop: 16,
         paddingHorizontal: 16,
       }}>
-      <Animated.Text style={[styles.headerTitle, animatedStyle]}>
+      <Animated.Text style={[styles.headerTitle]}>
         {Add_MEDICATION_STEPS[currentStep].title}
       </Animated.Text>
 
@@ -223,7 +226,14 @@ const AddMedicationContainer = ({navigation}) => {
           takenWhenNeeded,
           setTakenWhenNeeded,
         }}>
-        <Animated.View style={[animatedStyle, {width: '100%', flex: 1}]}>
+        <Animated.View
+          style={[
+            animatedStyle,
+            {
+              width: '100%',
+              flex: 1,
+            },
+          ]}>
           {currentStep === 0 && <SearchMedicationContainer />}
           {currentStep === 1 && <SpecifyMedicationContainer />}
           {currentStep === 2 && <ScheduleContainer />}
