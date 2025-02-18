@@ -8,7 +8,6 @@ import (
 	"go-api/config"
 	"go-api/graph"
 	"go-api/service"
-	"go-api/workers"
 	"log"
 	"net/http"
 	"os"
@@ -37,19 +36,19 @@ func main() {
 		port = defaultPort
 	}
 
-	db, sqlDB, err := config.InitDB()
+	db, _, err := config.InitDB()
 
 	if err != nil {
 		log.Panicf("failed to connect database: %v", err)
 	}
 
-	config.InitFirebaseApp()
+	// config.InitFirebaseApp()
 
-	err = workers.SetupWorkers(sqlDB, db)
+	// err = workers.SetupWorkers(sqlDB, db)
 
-	if err != nil {
-		log.Printf("failed to setup workers: %v", err)
-	}
+	// if err != nil {
+	// 	log.Printf("failed to setup workers: %v", err)
+	// }
 
 	fmt.Println("Database connection successful, migrating...")
 

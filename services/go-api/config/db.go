@@ -111,13 +111,13 @@ func createSearchIndex(db *gorm.DB) {
 }
 
 func createMedicationScheduleTypes(db *gorm.DB) {
-	// sql := `DROP TYPE IF EXISTS user_medication_schedule_type;`
+	sql := `CREATE EXTENSION pg_trgm;`
 
-	// if err := db.Exec(sql).Error; err != nil {
-	// 	log.Fatalf("Error creating GIN index: %v", err)
-	// }
+	if err := db.Exec(sql).Error; err != nil {
+		log.Fatalf("Error creating GIN index: %v", err)
+	}
 
-	sql := `CREATE TYPE user_medication_method_schedule_type AS ENUM (
+	sql = `CREATE TYPE user_medication_method_schedule_type AS ENUM (
 		'DAYS',
 		'INTERVALS',
 		'PERIODS',

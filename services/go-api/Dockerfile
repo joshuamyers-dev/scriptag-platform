@@ -19,17 +19,28 @@ RUN go build -o main server.go
 # Stage 2: Minimal image for running the app
 FROM alpine:latest as runner
 
-# Set environment variables (optional)
-ENV ENVIRONMENT=production
+# Install necessary dependencies
+RUN apk add --no-cache \
+    ca-certificates \
+    wget \
+    && wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /usr/local/bin/cloud_sql_proxy \
+    && chmod +x /usr/local/bin/cloud_sql_proxy
 
 # Create a directory for the application
 WORKDIR /app
 
 # Copy the binary from the builder stage
-COPY --from=builder /app/main .
+COPY --from=builder /app/main .  
 
-# Expose the port on which the application runs (if applicable)
+# Create directory for the Cloud SQL Auth Proxy unix socket
+RUN mkdir -p /cloudsql
+
+# Copy startup script
+COPY start.sh .
+RUN chmod +x start.sh
+
+# Expose the port on which the application runs
 EXPOSE 8080
 
-# Command to run the application
-CMD ["./main"]
+# Start the application using the startup script
+CMD ["./start.sh"]
