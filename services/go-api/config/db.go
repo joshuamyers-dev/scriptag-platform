@@ -2,7 +2,6 @@ package config
 
 import (
 	"database/sql"
-	adapters "go-api/adapters/models"
 	"io"
 	"log"
 	"os"
@@ -37,27 +36,6 @@ func InitDB() (*gorm.DB, *sql.DB, error) {
 		return nil, nil, err
 	}
 
-	// createMedicationScheduleTypes(db)
-
-	err = db.AutoMigrate(&adapters.GormUser{},
-		&adapters.GormMedication{},
-		&adapters.GormUserMedication{},
-		&adapters.GormUserFCMToken{},
-		&adapters.GormUserMedicationSchedule{},
-		&adapters.GormNotificationDelivery{},
-		&adapters.GormUserMedicationConsumption{},
-	)
-
-	if err != nil {
-		log.Panicf("failed to migrate database: %v", err)
-	}
-
-	createSearchIndex(db)
-
-	if err != nil {
-		log.Panicf("Failed to setup workers: %v", err)
-	}
-
 	return db, sqlDB, nil
 }
 
@@ -80,82 +58,4 @@ func initLog() logger.Interface {
 		ParameterizedQueries: false,
 	})
 	return newLogger
-}
-
-func createSearchIndex(db *gorm.DB) {
-	indexSQL := `
-    	CREATE INDEX IF NOT EXISTS medications_brand_name_idx ON medications USING GIN (to_tsvector('english', brand_name));
-    `
-
-	if err := db.Exec(indexSQL).Error; err != nil {
-		log.Fatalf("Error creating GIN index: %v", err)
-	}
-
-	indexSQL = `CREATE INDEX IF NOT EXISTS medications_active_ingredient_idx ON medications USING GIN (to_tsvector('english', active_ingredient));`
-
-	if err := db.Exec(indexSQL).Error; err != nil {
-		log.Fatalf("Error creating GIN index: %v", err)
-	}
-
-	indexSQL = `CREATE INDEX IF NOT EXISTS medications_brand_name_trgm_idx ON medications USING GIN (brand_name gin_trgm_ops);`
-
-	if err := db.Exec(indexSQL).Error; err != nil {
-		log.Fatalf("Error creating GIN index: %v", err)
-	}
-
-	indexSQL = `CREATE INDEX IF NOT EXISTS medications_active_ingredient_trgm_idx ON medications USING GIN (active_ingredient gin_trgm_ops);`
-
-	if err := db.Exec(indexSQL).Error; err != nil {
-		log.Fatalf("Error creating GIN index: %v", err)
-	}
-}
-
-func createMedicationScheduleTypes(db *gorm.DB) {
-	sql := `CREATE EXTENSION pg_trgm;`
-
-	if err := db.Exec(sql).Error; err != nil {
-		log.Fatalf("Error creating GIN index: %v", err)
-	}
-
-	sql = `CREATE TYPE user_medication_method_schedule_type AS ENUM (
-		'DAYS',
-		'INTERVALS',
-		'PERIODS',
-		'WHEN_NEEDED');
-		`
-
-	if err := db.Exec(sql).Error; err != nil {
-		log.Fatalf("Error creating type: %v", err)
-	}
-
-	sql = `CREATE TYPE user_medication_recurring_schedule_type AS ENUM (
-		'TIME',
-		'INTERVALS',
-		'PERIODS',
-		'WHEN_NEEDED');
-		`
-
-	if err := db.Exec(sql).Error; err != nil {
-		log.Fatalf("Error creating type: %v", err)
-	}
-
-	sql = `CREATE TYPE notification_status AS ENUM (
-		'PENDING',
-		'SENT',
-		'FAILED');
-		`
-
-	if err := db.Exec(sql).Error; err != nil {
-		log.Fatalf("Error creating type: %v", err)
-	}
-
-	sql = `CREATE TYPE user_medication_schedule_log_status AS ENUM (
-		'UPCOMING',
-		'TAKEN',
-		'MISSED');
-		`
-
-	if err := db.Exec(sql).Error; err != nil {
-		log.Fatalf("Error creating type: %v", err)
-	}
 }

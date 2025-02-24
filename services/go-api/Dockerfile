@@ -30,7 +30,7 @@ RUN apk add --no-cache \
 WORKDIR /app
 
 # Copy the binary from the builder stage
-COPY --from=builder /app/main .  
+COPY --from=builder /app/main .
 
 # Create directory for the Cloud SQL Auth Proxy unix socket
 RUN mkdir -p /cloudsql

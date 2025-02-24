@@ -21,13 +21,13 @@ func (r *MedicationRepository) Search(query string, afterCursor *string) (*core.
 	
 	statement := r.DB.Model(&adapters.GormMedication{}).
 		Select(`*, 
-			(ts_rank(to_tsvector('english', brand_name), websearch_to_tsquery('english', ?)) + 
-			ts_rank(to_tsvector('english', active_ingredient), websearch_to_tsquery('english', ?))) * 0.7 + 
+			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', ?)) + 
+			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', ?))) * 0.7 + 
 			(similarity(brand_name, ?) + similarity(active_ingredient, ?)) * 0.3 as rank`, 
 			query, query, query, query).
 		Where(`
-			to_tsvector('english', brand_name) @@ websearch_to_tsquery('english', ?) OR
-			to_tsvector('english', active_ingredient) @@ websearch_to_tsquery('english', ?) OR
+			brand_name_tsv @@ websearch_to_tsquery('english', ?) OR
+			active_ingredient_tsv @@ websearch_to_tsquery('english', ?) OR
 			similarity(brand_name, ?) > 0.3 OR
 			similarity(active_ingredient, ?) > 0.3
 		`, query, query, query, query).

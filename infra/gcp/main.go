@@ -172,11 +172,12 @@ func main() {
 				},
 			},
 			Ingress: pulumi.String("INGRESS_TRAFFIC_ALL"),
-		}, pulumi.DependsOn([]pulumi.Resource{image, instance}))
+		}, pulumi.DependsOn([]pulumi.Resource{image, instance, connection}))
 
 		if err != nil {
 			return err
 		}
+		
 
 		return nil
 	})

@@ -50,7 +50,7 @@ func main() {
 	// 	log.Printf("failed to setup workers: %v", err)
 	// }
 
-	fmt.Println("Database connection successful, migrating...")
+	fmt.Println("database connection successful")
 
 	userRepo := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepo)
@@ -82,6 +82,6 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	}))
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	log.Printf("server launched at http://localhost:%s 🚀", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

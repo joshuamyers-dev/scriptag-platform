@@ -112,7 +112,7 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 				// Start from the beginning of the next day
 				startOfNextDay := time.Date(notification.Year(), notification.Month(), notification.Day(), 0, 0, 0, 0, time.UTC)
 				// Calculate notifications for the entire next day
-				for i := 0; i < 24/int(*schedule.HoursInterval); i++ {
+				for i := range 24 / int(*schedule.HoursInterval) {
 					notificationDate := startOfNextDay.Add(time.Duration(i*int(*schedule.HoursInterval)) * time.Hour)
 					updatedNotifications = append(updatedNotifications, notificationDate)
 				}
@@ -168,14 +168,14 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 		}
 	}
 
-	if(len(consumptionBatch) > 0) {
+	if len(consumptionBatch) > 0 {
 		err := db.Create(&consumptionBatch).Error
 
 		if err != nil {
 			return err
 		}
 	}
-	
+
 	return nil
 }
 
