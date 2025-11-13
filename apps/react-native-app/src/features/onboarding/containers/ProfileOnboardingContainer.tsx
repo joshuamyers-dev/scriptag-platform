@@ -21,7 +21,6 @@ import {
   isPasswordStrong,
   requestPushNotificationPermissions,
 } from '@utils/Helpers';
-import ProgressBar from 'react-native-animated-progress';
 import messaging from '@react-native-firebase/messaging';
 import Animated, {
   useAnimatedStyle,
@@ -32,6 +31,7 @@ import Animated, {
 import EnablePushNotifications from '../components/EnablePushNotifications';
 import {updateClientHeaders} from '../../../../ApolloClient';
 import {PROFILE_ONBOARDING_SUCCESS_SCREEN} from '@navigators/ScreenConstants';
+import * as Progress from 'react-native-progress';
 
 const ONBOARDING_STEPS = [
   {
@@ -194,12 +194,12 @@ const ProfileOnboardingContainer = ({navigation, route}) => {
         </Animated.View>
 
         <View style={{paddingBottom: 16}}>
-          <ProgressBar
+          <Progress.Bar
             progress={((stepIndex + 1) / ONBOARDING_STEPS.length) * 100}
-            height={16}
+            height={8}
             animated
-            trackColor={ColourPurple10}
-            backgroundColor={ColourPurple50}
+            unfilledColor={ColourPurple10}
+            color={ColourPurple50}
           />
         </View>
 

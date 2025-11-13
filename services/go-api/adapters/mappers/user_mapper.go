@@ -1,9 +1,9 @@
 package mappers
 
 import (
-	adapters "go-api/adapters/models"
-	"go-api/core"
-	"go-api/graph/model"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 )
 
 func MapCoreUserToGraphQL(coreUser *core.User) *model.User {
@@ -28,16 +28,14 @@ func MapCoreSessionToGraphQL(coreSession *core.Session) *model.Session {
 	}
 }
 
-func MapUserToCoreUser(gormUser *adapters.GormUser) *core.User {
+func MapUserToCoreUser(gormUser *models.User) *core.User {
 	if gormUser == nil {
 		return nil
 	}
 
 	var pushTokens []string
 	for _, token := range gormUser.FCMTokens {
-		if token != nil {
-			pushTokens = append(pushTokens, token.Token)
-		}
+		pushTokens = append(pushTokens, token.Token)
 	}
 
 	return &core.User{

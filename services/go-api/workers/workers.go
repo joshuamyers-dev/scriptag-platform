@@ -3,10 +3,10 @@ package workers
 import (
 	"context"
 	"database/sql"
-	"go-api/config"
 	"log"
 	"time"
 
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/config"
 	"github.com/riverqueue/river"
 	"github.com/riverqueue/river/riverdriver/riverdatabasesql"
 	"gorm.io/gorm"

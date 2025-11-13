@@ -1,8 +1,7 @@
 package graph
 
 import (
-	"go-api/core"
-
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
 	"gorm.io/gorm"
 )
 

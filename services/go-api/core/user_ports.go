@@ -2,7 +2,8 @@ package core
 
 import (
 	"context"
-	"go-api/graph/model"
+
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
 )
 
 type User struct {

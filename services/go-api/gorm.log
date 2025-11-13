@@ -1,39 +1,45 @@
 
-2025/02/24 10:47:09 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.689ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:37:05 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/server.go:50
+[0m[33m[17.819ms] [34;1m[rows:1][0m SELECT count(*) FROM "medications" WHERE "medications"."deleted_at" IS NULL
 
-2025/02/24 10:47:09 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[6.156ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:37:07 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:35
+[0m[33m[3.027ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."email" = 'joshn@hotmail.com.au' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:47:09 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[1.489ms] [34;1m[rows:3][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
+2025/05/08 06:37:21 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:35
+[0m[33m[0.953ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."email" = 'joshn@hotmail.com.au' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:47:09 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[3.019ms] [34;1m[rows:3][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
+2025/05/08 06:37:30 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:35
+[0m[33m[0.831ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."email" = 'joshn@hotmail.com.au' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:47:09 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:28
-[0m[33m[1.302ms] [34;1m[rows:3][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('8c39edf6-3801-40f2-b047-cf33a6a46e11','d597e831-48fc-4e6e-9d2d-4547813410d4','fbddaee8-b5df-4126-baab-7df6195fd802') AND "user_medication_schedules"."deleted_at" IS NULL
+2025/05/08 06:37:37 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:35
+[0m[33m[0.726ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."email" = 'joshn@hotmail.com.au' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:47:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.520ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:37:38 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[2.017ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:47:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[2.755ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:37:38 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[10.642ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('600242cb-ab49-4f35-ad12-fcac3f1d5651','6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
 
-2025/02/24 10:47:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.780ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:37:38 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[14.365ms] [34;1m[rows:4][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
 
-2025/02/24 10:47:11 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[3.254ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:37:38 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:29
+[0m[33m[5.675ms] [34;1m[rows:4][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('fbddaee8-b5df-4126-baab-7df6195fd802','d597e831-48fc-4e6e-9d2d-4547813410d4','bbc52fba-b2bf-4217-b57e-cefb872cc2fb','8c39edf6-3801-40f2-b047-cf33a6a46e11') AND "user_medication_schedules"."deleted_at" IS NULL
 
-2025/02/24 10:47:13 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.668ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:37:39 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[3.180ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:47:13 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[3.301ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:37:39 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[1.551ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:47:13 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[89.199ms] [34;1m[rows:11][0m SELECT *, 
+2025/05/08 06:37:39 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:66
+[0m[33m[6.871ms] [34;1m[rows:1][0m INSERT INTO "user_fcm_tokens" ("created_at","updated_at","deleted_at","token","user_id") VALUES ('2025-05-08 06:37:39.624','2025-05-08 06:37:39.624',NULL,'cv9HpVUOBEaftvQoade6HR:APA91bFekc_Ui1UzlksJ3nRfpvlxoZIqCLLHRH2WcNxXBtDUT2AkVoameqbDNk1sezocqP4j9VxwmXn6OI27aPFgD6tzIhrrGje1cXo9gxRRxB1zt-NKf3E','16a67ced-d61e-4628-8ac0-61aef3a4cbd4') RETURNING "id"
+
+2025/05/08 06:37:53 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[1.163ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+
+2025/05/08 06:37:53 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[123.696ms] [34;1m[rows:11][0m SELECT *, 
 			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', 'Isotret')) + 
 			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', 'Isotret'))) * 0.7 + 
 			(similarity(brand_name, 'Isotret') + similarity(active_ingredient, 'Isotret')) * 0.3 as rank FROM "medications" WHERE 
@@ -43,177 +49,117 @@
 			similarity(active_ingredient, 'Isotret') > 0.3
 		 AND "medications"."deleted_at" IS NULL ORDER BY rank DESC,medications.created_at ASC, medications.id ASC LIMIT 11
 
-2025/02/24 10:50:43 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.472ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:37:57 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[0.670ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:50:43 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[2.826ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
-
-2025/02/24 10:50:44 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[84.494ms] [34;1m[rows:11][0m SELECT *, 
-			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', 'Setraline')) + 
-			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', 'Setraline'))) * 0.7 + 
-			(similarity(brand_name, 'Setraline') + similarity(active_ingredient, 'Setraline')) * 0.3 as rank FROM "medications" WHERE 
-			brand_name_tsv @@ websearch_to_tsquery('english', 'Setraline') OR
-			active_ingredient_tsv @@ websearch_to_tsquery('english', 'Setraline') OR
-			similarity(brand_name, 'Setraline') > 0.3 OR
-			similarity(active_ingredient, 'Setraline') > 0.3
+2025/05/08 06:37:57 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[133.814ms] [34;1m[rows:11][0m SELECT *, 
+			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', 'Canna')) + 
+			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', 'Canna'))) * 0.7 + 
+			(similarity(brand_name, 'Canna') + similarity(active_ingredient, 'Canna')) * 0.3 as rank FROM "medications" WHERE 
+			brand_name_tsv @@ websearch_to_tsquery('english', 'Canna') OR
+			active_ingredient_tsv @@ websearch_to_tsquery('english', 'Canna') OR
+			similarity(brand_name, 'Canna') > 0.3 OR
+			similarity(active_ingredient, 'Canna') > 0.3
 		 AND "medications"."deleted_at" IS NULL ORDER BY rank DESC,medications.created_at ASC, medications.id ASC LIMIT 11
 
-2025/02/24 10:51:58 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.305ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:38:00 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[2.293ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:51:58 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[2.007ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:38:00 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[107.129ms] [34;1m[rows:4][0m SELECT *, 
+			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', 'Canna')) + 
+			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', 'Canna'))) * 0.7 + 
+			(similarity(brand_name, 'Canna') + similarity(active_ingredient, 'Canna')) * 0.3 as rank FROM "medications" WHERE 
+			brand_name_tsv @@ websearch_to_tsquery('english', 'Canna') OR
+			active_ingredient_tsv @@ websearch_to_tsquery('english', 'Canna') OR
+			similarity(brand_name, 'Canna') > 0.3 OR
+			similarity(active_ingredient, 'Canna') > 0.3
+		 AND (medications.created_at, medications.id) > ('2024-11-28 03:35:32.993','ed7eca4e-02c0-4672-abc1-6959f06bbb87') AND "medications"."deleted_at" IS NULL ORDER BY rank DESC,medications.created_at ASC, medications.id ASC LIMIT 11
 
-2025/02/24 10:51:59 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[84.743ms] [34;1m[rows:11][0m SELECT *, 
-			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', 'Setraline')) + 
-			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', 'Setraline'))) * 0.7 + 
-			(similarity(brand_name, 'Setraline') + similarity(active_ingredient, 'Setraline')) * 0.3 as rank FROM "medications" WHERE 
-			brand_name_tsv @@ websearch_to_tsquery('english', 'Setraline') OR
-			active_ingredient_tsv @@ websearch_to_tsquery('english', 'Setraline') OR
-			similarity(brand_name, 'Setraline') > 0.3 OR
-			similarity(active_ingredient, 'Setraline') > 0.3
-		 AND (medications.created_at, medications.id) > ('2024-11-28 03:35:32.914','76f88220-0fb7-41e1-8d62-689a3af5f571') AND "medications"."deleted_at" IS NULL ORDER BY rank DESC,medications.created_at ASC, medications.id ASC LIMIT 11
+2025/05/08 06:38:16 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[2.436ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.395ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:38:16 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.381ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('600242cb-ab49-4f35-ad12-fcac3f1d5651','6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
 
-2025/02/24 10:52:01 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[1.644ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:38:16 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.083ms] [34;1m[rows:4][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
 
-2025/02/24 10:52:01 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[85.480ms] [34;1m[rows:11][0m SELECT *, 
-			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', 'Setraline')) + 
-			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', 'Setraline'))) * 0.7 + 
-			(similarity(brand_name, 'Setraline') + similarity(active_ingredient, 'Setraline')) * 0.3 as rank FROM "medications" WHERE 
-			brand_name_tsv @@ websearch_to_tsquery('english', 'Setraline') OR
-			active_ingredient_tsv @@ websearch_to_tsquery('english', 'Setraline') OR
-			similarity(brand_name, 'Setraline') > 0.3 OR
-			similarity(active_ingredient, 'Setraline') > 0.3
-		 AND (medications.created_at, medications.id) > ('2024-11-28 03:35:32.914','76f88220-0fb7-41e1-8d62-689a3af5f571') AND "medications"."deleted_at" IS NULL ORDER BY rank DESC,medications.created_at ASC, medications.id ASC LIMIT 11
+2025/05/08 06:38:16 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:29
+[0m[33m[0.530ms] [34;1m[rows:4][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('fbddaee8-b5df-4126-baab-7df6195fd802','bbc52fba-b2bf-4217-b57e-cefb872cc2fb','d597e831-48fc-4e6e-9d2d-4547813410d4','8c39edf6-3801-40f2-b047-cf33a6a46e11') AND "user_medication_schedules"."deleted_at" IS NULL
 
-2025/02/24 10:52:13 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.508ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:38:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[0.770ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:13 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[2.859ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:38:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[0.507ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:13 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[76.845ms] [34;1m[rows:2][0m SELECT *, 
-			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', 'Lexpro')) + 
-			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', 'Lexpro'))) * 0.7 + 
-			(similarity(brand_name, 'Lexpro') + similarity(active_ingredient, 'Lexpro')) * 0.3 as rank FROM "medications" WHERE 
-			brand_name_tsv @@ websearch_to_tsquery('english', 'Lexpro') OR
-			active_ingredient_tsv @@ websearch_to_tsquery('english', 'Lexpro') OR
-			similarity(brand_name, 'Lexpro') > 0.3 OR
-			similarity(active_ingredient, 'Lexpro') > 0.3
-		 AND "medications"."deleted_at" IS NULL ORDER BY rank DESC,medications.created_at ASC, medications.id ASC LIMIT 11
+2025/05/08 06:38:18 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_medication_repository.go:200
+[0m[33m[34.663ms] [34;1m[rows:0][0m SELECT "user_medication_consumptions"."id","user_medication_consumptions"."created_at","user_medication_consumptions"."updated_at","user_medication_consumptions"."deleted_at","user_medication_consumptions"."user_medication_id","user_medication_consumptions"."due_date","user_medication_consumptions"."dose_date","user_medication_consumptions"."status" FROM "user_medication_consumptions" JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id WHERE user_medications.user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND (due_date >= '2025-05-07 14:00:00' AND due_date < '2025-05-08 14:00:00') AND "user_medication_consumptions"."deleted_at" IS NULL ORDER BY due_date ASC
 
-2025/02/24 10:52:32 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.511ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:38:21 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[0.611ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:32 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[2.818ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:38:21 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.815ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('600242cb-ab49-4f35-ad12-fcac3f1d5651','6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
 
-2025/02/24 10:52:33 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[73.476ms] [34;1m[rows:3][0m SELECT *, 
-			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', 'Setr')) + 
-			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', 'Setr'))) * 0.7 + 
-			(similarity(brand_name, 'Setr') + similarity(active_ingredient, 'Setr')) * 0.3 as rank FROM "medications" WHERE 
-			brand_name_tsv @@ websearch_to_tsquery('english', 'Setr') OR
-			active_ingredient_tsv @@ websearch_to_tsquery('english', 'Setr') OR
-			similarity(brand_name, 'Setr') > 0.3 OR
-			similarity(active_ingredient, 'Setr') > 0.3
-		 AND "medications"."deleted_at" IS NULL ORDER BY rank DESC,medications.created_at ASC, medications.id ASC LIMIT 11
+2025/05/08 06:38:21 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.761ms] [34;1m[rows:4][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
 
-2025/02/24 10:52:44 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.590ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:38:21 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:29
+[0m[33m[1.744ms] [34;1m[rows:4][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('fbddaee8-b5df-4126-baab-7df6195fd802','bbc52fba-b2bf-4217-b57e-cefb872cc2fb','d597e831-48fc-4e6e-9d2d-4547813410d4','8c39edf6-3801-40f2-b047-cf33a6a46e11') AND "user_medication_schedules"."deleted_at" IS NULL
 
-2025/02/24 10:52:44 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[3.604ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:38:42 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[2.664ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:44 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[0.687ms] [34;1m[rows:3][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
+2025/05/08 06:38:42 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[0.606ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:44 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[2.423ms] [34;1m[rows:3][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
+2025/05/08 06:38:42 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_medication_repository.go:200
+[0m[33m[0.948ms] [34;1m[rows:0][0m SELECT "user_medication_consumptions"."id","user_medication_consumptions"."created_at","user_medication_consumptions"."updated_at","user_medication_consumptions"."deleted_at","user_medication_consumptions"."user_medication_id","user_medication_consumptions"."due_date","user_medication_consumptions"."dose_date","user_medication_consumptions"."status" FROM "user_medication_consumptions" JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id WHERE user_medications.user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND (due_date >= '2025-05-07 14:00:00' AND due_date < '2025-05-08 14:00:00') AND "user_medication_consumptions"."deleted_at" IS NULL ORDER BY due_date ASC
 
-2025/02/24 10:52:44 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:28
-[0m[33m[0.555ms] [34;1m[rows:3][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('fbddaee8-b5df-4126-baab-7df6195fd802','d597e831-48fc-4e6e-9d2d-4547813410d4','8c39edf6-3801-40f2-b047-cf33a6a46e11') AND "user_medication_schedules"."deleted_at" IS NULL
+2025/05/08 06:38:44 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[1.037ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:46 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.198ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:38:44 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.375ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('600242cb-ab49-4f35-ad12-fcac3f1d5651','6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
 
-2025/02/24 10:52:46 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.755ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:38:44 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[2.298ms] [34;1m[rows:4][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
 
-2025/02/24 10:52:46 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.178ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:38:44 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:29
+[0m[33m[0.646ms] [34;1m[rows:4][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('fbddaee8-b5df-4126-baab-7df6195fd802','bbc52fba-b2bf-4217-b57e-cefb872cc2fb','d597e831-48fc-4e6e-9d2d-4547813410d4','8c39edf6-3801-40f2-b047-cf33a6a46e11') AND "user_medication_schedules"."deleted_at" IS NULL
 
-2025/02/24 10:52:46 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.383ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:39:05 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[2.631ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:46 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_medication_repository.go:199
-[0m[33m[1.910ms] [34;1m[rows:0][0m SELECT "user_medication_consumptions"."id","user_medication_consumptions"."created_at","user_medication_consumptions"."updated_at","user_medication_consumptions"."deleted_at","user_medication_consumptions"."user_medication_id","user_medication_consumptions"."due_date","user_medication_consumptions"."dose_date","user_medication_consumptions"."status" FROM "user_medication_consumptions" JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id WHERE user_medications.user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND (due_date >= '2025-02-23 13:00:00' AND due_date < '2025-02-24 13:00:00') AND "user_medication_consumptions"."deleted_at" IS NULL ORDER BY due_date ASC
+2025/05/08 06:39:05 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.340ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('600242cb-ab49-4f35-ad12-fcac3f1d5651','6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
 
-2025/02/24 10:52:47 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.225ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:39:05 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.001ms] [34;1m[rows:4][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
 
-2025/02/24 10:52:47 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.820ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:39:05 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:29
+[0m[33m[0.501ms] [34;1m[rows:4][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('fbddaee8-b5df-4126-baab-7df6195fd802','8c39edf6-3801-40f2-b047-cf33a6a46e11','d597e831-48fc-4e6e-9d2d-4547813410d4','bbc52fba-b2bf-4217-b57e-cefb872cc2fb') AND "user_medication_schedules"."deleted_at" IS NULL
 
-2025/02/24 10:52:47 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[0.391ms] [34;1m[rows:3][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
+2025/05/08 06:39:05 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[2.417ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:47 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
-[0m[33m[0.925ms] [34;1m[rows:3][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
+2025/05/08 06:39:05 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[1.113ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:47 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:28
-[0m[33m[0.375ms] [34;1m[rows:3][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('d597e831-48fc-4e6e-9d2d-4547813410d4','8c39edf6-3801-40f2-b047-cf33a6a46e11','fbddaee8-b5df-4126-baab-7df6195fd802') AND "user_medication_schedules"."deleted_at" IS NULL
+2025/05/08 06:39:05 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_medication_repository.go:200
+[0m[33m[0.763ms] [34;1m[rows:0][0m SELECT "user_medication_consumptions"."id","user_medication_consumptions"."created_at","user_medication_consumptions"."updated_at","user_medication_consumptions"."deleted_at","user_medication_consumptions"."user_medication_id","user_medication_consumptions"."due_date","user_medication_consumptions"."dose_date","user_medication_consumptions"."status" FROM "user_medication_consumptions" JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id WHERE user_medications.user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND (due_date >= '2025-05-07 14:00:00' AND due_date < '2025-05-08 14:00:00') AND "user_medication_consumptions"."deleted_at" IS NULL ORDER BY due_date ASC
 
-2025/02/24 10:52:48 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.191ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:39:06 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:25
+[0m[33m[1.166ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
 
-2025/02/24 10:52:48 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[1.590ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
+2025/05/08 06:39:06 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[0.472ms] [34;1m[rows:4][0m SELECT * FROM "medications" WHERE "medications"."id" IN ('600242cb-ab49-4f35-ad12-fcac3f1d5651','6d91fe0c-10dc-46a3-9ac3-747116de2e5e','1f71d274-fd9a-4dad-be75-3d292da7b485','0ad72be2-1ab6-4559-97b0-6aa6c5bcc08a') AND "medications"."deleted_at" IS NULL
 
-2025/02/24 10:52:48 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.152ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
+2025/05/08 06:39:06 [32m/Users/joshuanissenbaum/go/pkg/mod/github.com/pilagod/gorm-cursor-paginator/v2@v2.6.1/paginator/paginator.go:86
+[0m[33m[1.054ms] [34;1m[rows:4][0m SELECT * FROM "user_medications" WHERE user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_medications"."deleted_at" IS NULL ORDER BY created_at DESC,user_medications.user_id ASC, user_medications.id ASC LIMIT 11
 
-2025/02/24 10:52:48 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[1.172ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
-
-2025/02/24 10:52:48 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_medication_repository.go:199
-[0m[33m[0.841ms] [34;1m[rows:0][0m SELECT "user_medication_consumptions"."id","user_medication_consumptions"."created_at","user_medication_consumptions"."updated_at","user_medication_consumptions"."deleted_at","user_medication_consumptions"."user_medication_id","user_medication_consumptions"."due_date","user_medication_consumptions"."dose_date","user_medication_consumptions"."status" FROM "user_medication_consumptions" JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id WHERE user_medications.user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND (due_date >= '2025-02-23 13:00:00' AND due_date < '2025-02-24 13:00:00') AND "user_medication_consumptions"."deleted_at" IS NULL ORDER BY due_date ASC
-
-2025/02/24 10:52:49 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.403ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/02/24 10:52:49 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[1.708ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
-
-2025/02/24 10:52:49 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.176ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/02/24 10:52:49 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[1.678ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
-
-2025/02/24 10:52:49 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_medication_repository.go:199
-[0m[33m[0.997ms] [34;1m[rows:0][0m SELECT "user_medication_consumptions"."id","user_medication_consumptions"."created_at","user_medication_consumptions"."updated_at","user_medication_consumptions"."deleted_at","user_medication_consumptions"."user_medication_id","user_medication_consumptions"."due_date","user_medication_consumptions"."dose_date","user_medication_consumptions"."status" FROM "user_medication_consumptions" JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id WHERE user_medications.user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND (due_date >= '2025-02-22 13:00:00' AND due_date < '2025-02-23 13:00:00') AND "user_medication_consumptions"."deleted_at" IS NULL ORDER BY due_date ASC
-
-2025/02/24 10:53:02 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.528ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/02/24 10:53:02 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[1.787ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
-
-2025/02/24 10:53:02 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[0.323ms] [34;1m[rows:4][0m SELECT * FROM "user_fcm_tokens" WHERE "user_fcm_tokens"."user_id" = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "user_fcm_tokens"."deleted_at" IS NULL
-
-2025/02/24 10:53:02 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_repository.go:21
-[0m[33m[1.842ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND "users"."deleted_at" IS NULL ORDER BY "users"."id" LIMIT 1
-
-2025/02/24 10:53:02 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/repositories/user_medication_repository.go:199
-[0m[33m[0.594ms] [34;1m[rows:0][0m SELECT "user_medication_consumptions"."id","user_medication_consumptions"."created_at","user_medication_consumptions"."updated_at","user_medication_consumptions"."deleted_at","user_medication_consumptions"."user_medication_id","user_medication_consumptions"."due_date","user_medication_consumptions"."dose_date","user_medication_consumptions"."status" FROM "user_medication_consumptions" JOIN user_medications ON user_medications.id = user_medication_consumptions.user_medication_id WHERE user_medications.user_id = '16a67ced-d61e-4628-8ac0-61aef3a4cbd4' AND (due_date >= '2025-02-21 13:00:00' AND due_date < '2025-02-22 13:00:00') AND "user_medication_consumptions"."deleted_at" IS NULL ORDER BY due_date ASC
+2025/05/08 06:39:06 [32m/Users/joshuanissenbaum/Programming/scriptag/services/go-api/adapters/loaders/user_medication_schedule_loader.go:29
+[0m[33m[0.774ms] [34;1m[rows:4][0m SELECT * FROM "user_medication_schedules" WHERE user_medication_id IN ('fbddaee8-b5df-4126-baab-7df6195fd802','8c39edf6-3801-40f2-b047-cf33a6a46e11','d597e831-48fc-4e6e-9d2d-4547813410d4','bbc52fba-b2bf-4217-b57e-cefb872cc2fb') AND "user_medication_schedules"."deleted_at" IS NULL

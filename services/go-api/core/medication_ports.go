@@ -1,6 +1,8 @@
 package core
 
-import "go-api/graph/model"
+import "github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
+
+
 
 type Medication struct {
 	ID               string

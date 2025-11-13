@@ -2,11 +2,11 @@ package utils
 
 import (
 	"fmt"
-	adapters "go-api/adapters/models"
-	"go-api/graph/model"
 	"strings"
 	"time"
 
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 	"github.com/lib/pq"
 )
 
@@ -73,19 +73,19 @@ func ConvertUintToIntPointer(input *uint) *int {
 }
 
 // ConvertMethodType converts *model.MethodScheduleType to adapters.MethodType.
-func ConvertMethodType(input *model.MethodScheduleType) adapters.MethodType {
+func ConvertMethodType(input *model.MethodScheduleType) models.MethodType {
     if input == nil {
         return ""
     }
-    return adapters.MethodType(*input)
+    return models.MethodType(*input)
 }
 
 // ConvertRecurringType converts *model.RecurringScheduleType to adapters.RecurringType.
-func ConvertRecurringType(input *model.RecurringScheduleType) adapters.RecurringType {
+func ConvertRecurringType(input *model.RecurringScheduleType) models.RecurringType {
     if input == nil {
         return ""
     }
-    return adapters.RecurringType(*input)
+    return models.RecurringType(*input)
 }
 
 func ConvertShortDayToMid(day string) string {

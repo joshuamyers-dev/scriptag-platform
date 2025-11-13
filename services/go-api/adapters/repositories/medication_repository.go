@@ -1,8 +1,8 @@
 package repository
 
 import (
-	adapters "go-api/adapters/models"
-	"go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 
 	"github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 	"gorm.io/gorm"
@@ -17,9 +17,9 @@ func NewMedicationRepository(db *gorm.DB) *MedicationRepository {
 }
 
 func (r *MedicationRepository) Search(query string, afterCursor *string) (*core.MedicationConnection, error) {
-	var medications []*adapters.GormMedication
+	var medications []*models.Medication
 	
-	statement := r.DB.Model(&adapters.GormMedication{}).
+	statement := r.DB.Model(&models.Medication{}).
 		Select(`*, 
 			(ts_rank(brand_name_tsv, websearch_to_tsquery('english', ?)) + 
 			ts_rank(active_ingredient_tsv, websearch_to_tsquery('english', ?))) * 0.7 + 
@@ -34,7 +34,7 @@ func (r *MedicationRepository) Search(query string, afterCursor *string) (*core.
 		Order("rank DESC")
 
 	limit := 10
-	paginator := adapters.CreateMedicationPaginator(paginator.Cursor{
+	paginator := models.CreateMedicationPaginator(paginator.Cursor{
 		After: afterCursor,
 	}, nil, &limit)
 
@@ -46,14 +46,14 @@ func (r *MedicationRepository) Search(query string, afterCursor *string) (*core.
 
 	var coreMeds []*core.MedicationEdge
 
-	for _, gormMed := range medications {
+	for _, med := range medications {
 		coreMeds = append(coreMeds, &core.MedicationEdge{
-			Cursor: gormMed.ID,
+			Cursor: med.ID,
 			Node: &core.Medication{
-				ID:               gormMed.ID,
-				ActiveIngredient: gormMed.ActiveIngredient,
-				BrandName:        gormMed.BrandName,
-				Strength:         gormMed.Strength,
+				ID:               med.ID,
+				ActiveIngredient: med.ActiveIngredient,
+				BrandName:        med.BrandName,
+				Strength:         med.Strength,
 			},
 		})
 	}

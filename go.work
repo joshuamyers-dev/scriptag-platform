@@ -1,0 +1,8 @@
+go 1.24
+
+use (
+	./infra/gcp
+	./jobs/notification-dispatcher
+	./services/go-api
+	./shared
+)

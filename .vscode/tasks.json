@@ -28,7 +28,7 @@
       {
         "label": "Go API - Start Server",
         "type": "shell",
-        "command": "cd services/go-api && go run server.go",
+        "command": "cd services/go-api && ENVIRONMENT=development go run server.go",
         "group": "build",
         "problemMatcher": [],
         "detail": "Run the Go GraphQL/API server"

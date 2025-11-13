@@ -1,41 +1,49 @@
 package repository
 
 import (
-	"go-api/adapters/mappers"
-	adapters "go-api/adapters/models"
-	"go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/adapters/mappers"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/db"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 
 	"gorm.io/gorm"
 )
 
 type UserRepository struct {
-	DB *gorm.DB
+	DB    *gorm.DB
+	Query *db.Query
 }
 
-func NewUserRepository(db *gorm.DB) core.UserRepository {
-	return &UserRepository{DB: db}
+func NewUserRepository(gormDB *gorm.DB) *UserRepository {
+	return &UserRepository{
+		DB:    gormDB,
+		Query: db.Use(gormDB),
+	}
 }
 
 func (r *UserRepository) FindByID(id string) (*core.User, error) {
-	var user adapters.GormUser
-	if err := r.DB.Where("id = ?", id).Preload("FCMTokens").First(&user).Error; err != nil {
+	user, err := r.Query.User.Where(r.Query.User.ID.Eq(id)).First()
+
+	if err != nil {
 		return &core.User{}, err
 	}
 
-	return mappers.MapUserToCoreUser(&user), nil
+	return mappers.MapUserToCoreUser(user), nil
 }
 
 func (r *UserRepository) FindByEmail(email string) (*core.User, error) {
-	var user adapters.GormUser
-	if err := r.DB.Where("email = ?", email).First(&user).Error; err != nil {
+	user, err := r.Query.User.Where(r.Query.User.Email.Eq(email)).First()
+
+	if err != nil {
 		return &core.User{}, err
 	}
-	return mappers.MapUserToCoreUser(&user), nil
+
+	return mappers.MapUserToCoreUser(user), nil
 }
 
 func (r *UserRepository) Create(user *core.User) (*core.User, error) {
-	gormUser := adapters.GormUser{
-		Base: adapters.Base{
+	gormUser := models.User{
+		Base: models.Base{
 			ID: user.ID,
 		},
 		Email:    user.Email,
@@ -50,12 +58,12 @@ func (r *UserRepository) Create(user *core.User) (*core.User, error) {
 }
 
 func (r *UserRepository) AddFCMToken(user *core.User, token string) error {
-	gormFcmToken := adapters.GormUserFCMToken{
+	fcmToken := models.UserFCMToken{
 		UserID: user.ID,
 		Token:  token,
 	}
 
-	if err := r.DB.Create(&gormFcmToken).Error; err != nil {
+	if err := r.DB.Create(&fcmToken).Error; err != nil {
 		return err
 	}
 

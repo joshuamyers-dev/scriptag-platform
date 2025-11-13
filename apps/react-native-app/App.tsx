@@ -19,6 +19,7 @@ import {useGlobalStore} from '@store';
 import {extractMedicationIdFromUrl} from '@utils/Helpers';
 import TagScannedModal from '@components/TagScannedModal';
 import BootSplash from 'react-native-bootsplash';
+import AppStateHandler from '@features/state/AppStateHandler';
 
 enableScreens(true);
 enableFreeze(true);
@@ -78,6 +79,7 @@ function App() {
           <GestureHandlerRootView>
             <PortalProvider>
               <BottomSheetModalProvider>
+                <AppStateHandler />
                 <MainStack />
                 <FullWindowOverlay>
                   <ToastMessage />

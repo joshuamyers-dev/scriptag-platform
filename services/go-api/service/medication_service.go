@@ -1,9 +1,9 @@
 package service
 
 import (
-	"go-api/adapters/mappers"
-	"go-api/core"
-	"go-api/graph/model"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/adapters/mappers"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
 )
 
 type MedicationServiceImpl struct {

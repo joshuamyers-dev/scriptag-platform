@@ -2,13 +2,13 @@ package service
 
 import (
 	"context"
-	"go-api/adapters/mappers"
-	"go-api/core"
-	"go-api/graph/model"
 	"os"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/golang-jwt/jwt"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/adapters/mappers"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
 	"golang.org/x/crypto/bcrypt"
 )
 

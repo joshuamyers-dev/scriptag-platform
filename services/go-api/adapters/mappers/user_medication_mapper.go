@@ -1,14 +1,15 @@
 package mappers
 
 import (
-	adapters "go-api/adapters/models"
-	"go-api/core"
-	"go-api/graph/model"
-	"go-api/utils"
 	"time"
+
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/utils"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 )
 
-func ToCoreUserMedication(gormUserMed *adapters.GormUserMedication) *core.UserMedication {
+func ToCoreUserMedication(gormUserMed *models.UserMedication) *core.UserMedication {
 	var schedule *core.MedicationSchedule
 
 	if gormUserMed.Schedule != nil {
@@ -70,7 +71,7 @@ func ToGraphQLMyMedicationsConnection(coreConnection *core.UserMedicationConnect
 	}
 }
 
-func ToCoreMedicationSchedule(gormMedSchedule *adapters.GormUserMedicationSchedule) *core.MedicationSchedule {
+func ToCoreMedicationSchedule(gormMedSchedule *models.UserMedicationSchedule) *core.MedicationSchedule {
 	var coreTimeSlots []*time.Time
 
 	if gormMedSchedule.TimeSlots != nil {
@@ -101,7 +102,7 @@ func ToCoreMedicationSchedule(gormMedSchedule *adapters.GormUserMedicationSchedu
 	}
 }
 
-func ToCoreMedicationLogHistory(gormMedLogHistory *adapters.GormUserMedicationConsumption) *core.MedicationLogHistory {
+func ToCoreMedicationLogHistory(gormMedLogHistory *models.UserMedicationConsumption) *core.MedicationLogHistory {
 	var userMedication core.UserMedication
 
 	if gormMedLogHistory.UserMedication.ID != "" {
@@ -114,7 +115,7 @@ func ToCoreMedicationLogHistory(gormMedLogHistory *adapters.GormUserMedicationCo
 		UserMedication:   userMedication,
 		DueTimestamp:     gormMedLogHistory.DueDate,
 		ActualTimestamp:  gormMedLogHistory.DoseDate,
-		Status:           adapters.UserMedicationScheduleLogStatus(gormMedLogHistory.Status),
+		Status:           models.UserMedicationScheduleLogStatus(gormMedLogHistory.Status),
 	}
 }
 
@@ -122,11 +123,11 @@ func ToGraphQLMedicationLogHistory(coreMedLogHistory *core.MedicationLogHistory)
 	var status model.MedicationLogEntryStatus
 
 	switch coreMedLogHistory.Status {
-	case adapters.LOG_STATUS_MISSED:
+	case models.LOG_STATUS_MISSED:
 		status = model.MedicationLogEntryStatusMissed
-	case adapters.LOG_STATUS_TAKEN:
+	case models.LOG_STATUS_TAKEN:
 		status = model.MedicationLogEntryStatusTaken
-	case adapters.LOG_STATUS_UPCOMING:
+	case models.LOG_STATUS_UPCOMING:
 		status = model.MedicationLogEntryStatusUpcoming
 	}
 

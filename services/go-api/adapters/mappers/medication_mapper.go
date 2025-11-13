@@ -1,8 +1,8 @@
 package mappers
 
 import (
-	"go-api/core"
-	"go-api/graph/model"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
 )
 
 func MapCoreMedicationToGraphQL(coreMed *core.Medication) *model.Medication {

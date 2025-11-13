@@ -2,12 +2,12 @@ package workers
 
 import (
 	"context"
-	adapters "go-api/adapters/models"
-	"go-api/notifications"
 	"log"
 	"time"
 
 	firebase "firebase.google.com/go"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/notifications"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 	"github.com/riverqueue/river"
 	"gorm.io/gorm"
 )
@@ -23,7 +23,7 @@ type MedicationScheduleWorker struct {
 }
 
 func (w *MedicationScheduleWorker) Work(ctx context.Context, job *river.Job[MedicationScheduleWorkerArgs]) error {
-	var results []*adapters.GormNotificationDelivery
+	var results []*models.NotificationDelivery
 	var now = time.Now().UTC()
 	fcmClient, err := w.firebaseApp.Messaging(ctx)
 
@@ -47,7 +47,7 @@ func (w *MedicationScheduleWorker) Work(ctx context.Context, job *river.Job[Medi
 						token.Token,
 						"Medication Reminder",
 						"It's time to take your "+
-							adapters.BrandNameIngredientName(result.UserMedicationSchedule.UserMedication.Medication)+". Tap your NFC tag before taking your medication.")
+						models.BrandNameIngredientName(result.UserMedicationSchedule.UserMedication.Medication)+". Tap your NFC tag before taking your medication.")
 
 				}
 			}

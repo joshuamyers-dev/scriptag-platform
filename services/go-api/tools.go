@@ -17,5 +17,6 @@ import (
 	_ "github.com/vikstrous/dataloadgen"
 	_ "golang.org/x/crypto/bcrypt"
 	_ "gorm.io/driver/postgres"
+	_ "gorm.io/gen"
 	_ "gorm.io/gorm"
 )

@@ -8,7 +8,7 @@ import {StyleSheet, Text, TextStyle, View} from 'react-native';
 import SearchMedicationContainer from './SearchMedicationContainer';
 import SpecifyMedicationContainer from './SpecifyMedicationContainer';
 import React, {createContext, useCallback, useEffect, useState} from 'react';
-import ProgressBar from 'react-native-animated-progress';
+import * as Progress from 'react-native-progress';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -181,12 +181,12 @@ const AddMedicationContainer = ({navigation}) => {
       </Animated.Text>
 
       <View style={{paddingVertical: 16, width: '100%'}}>
-        <ProgressBar
+        <Progress.Bar
           progress={((currentStep + 1) / Add_MEDICATION_STEPS.length) * 100}
           height={4}
           animated
-          trackColor={ColourPurple10}
-          backgroundColor={ColourPurple100}
+          unfilledColor={ColourPurple10}
+          color={ColourPurple100}
         />
       </View>
 

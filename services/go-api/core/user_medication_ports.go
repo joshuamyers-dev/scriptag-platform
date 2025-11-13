@@ -1,9 +1,10 @@
 package core
 
 import (
-	adapters "go-api/adapters/models"
-	"go-api/graph/model"
 	"time"
+
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 
 	"gorm.io/gorm"
 )
@@ -35,8 +36,8 @@ type MedicationSchedule struct {
 	UserMedicationID *string
 	MedicationID     *string
 	LogHistory       []*MedicationLogHistory
-	MethodType       adapters.MethodType
-	RecurringType    adapters.RecurringType
+	MethodType       models.MethodType
+	RecurringType    models.RecurringType
 	DaysOfWeek       []*string
 	TimeSlots        []*time.Time
 	StartDate        *time.Time
@@ -63,7 +64,7 @@ type MedicationLogHistory struct {
 	UserMedication   UserMedication
 	DueTimestamp     time.Time
 	ActualTimestamp  *time.Time
-	Status           adapters.UserMedicationScheduleLogStatus
+	Status           models.UserMedicationScheduleLogStatus
 }
 
 type UserMedicationRepository interface {

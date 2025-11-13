@@ -2,13 +2,14 @@ package auth
 
 import (
 	"context"
-	"go-api/core"
-	"go-api/service"
+
 	"net/http"
 	"os"
 	"strings"
 
 	"github.com/golang-jwt/jwt"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/service"
 )
 
 var userCtxKey = &contextKey{"user"}

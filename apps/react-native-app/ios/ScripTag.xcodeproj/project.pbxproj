@@ -10,9 +10,7 @@
 		00E356F31AD99517003FC87E /* ScripTagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ScripTagTests.m */; };
 		0797CE391059411B835F8B03 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DD0F16296294D2DBDA65084 /* Colors.xcassets */; };
 		07A1EFA026A0419BAF7FE46D /* Lexend-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC388E8DDE00421182695B5E /* Lexend-ExtraLight.ttf */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2FD4F9AB2D6B41EE8B12E8EA /* Lexend-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB4981E007454CEB9754DDBF /* Lexend-Black.ttf */; };
 		401331D9C75056B8944E9670 /* Pods_ScripTag_ScripTagTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14816662AC5C74C96603F0AE /* Pods_ScripTag_ScripTagTests.framework */; };
 		44E5AEF5D8B24CC4A51ADF7E /* Lexend-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A1DE8033A3D4DF8910B5EF8 /* Lexend-Light.ttf */; };
@@ -26,6 +24,7 @@
 		A22CE53E176449988F385969 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAE35E03C5BC42CB9CD12268 /* BootSplash.storyboard */; };
 		BD4DAD4561E743E9B1B87590 /* Lexend-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1136C3FE2B9E4FC2807FD5C0 /* Lexend-ExtraBold.ttf */; };
 		D1F777586DBA21887A1008E3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		F252C6B92D72E69E00D7409C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F252C6B82D72E69E00D7409C /* AppDelegate.swift */; };
 		F2AFB50B2CE8CAEC00BAED36 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2AFB50A2CE8CAEC00BAED36 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -46,28 +45,27 @@
 		1136C3FE2B9E4FC2807FD5C0 /* Lexend-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-ExtraBold.ttf"; path = "../assets/fonts/Lexend-ExtraBold.ttf"; sourceTree = "<group>"; };
 		134EA002C6A84E08BC220841 /* Lexend-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Regular.ttf"; path = "../assets/fonts/Lexend-Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ScripTag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScripTag.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ScripTag/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ScripTag/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ScripTag/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ScripTag/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ScripTag/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = ScripTag/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		14816662AC5C74C96603F0AE /* Pods_ScripTag_ScripTagTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScripTag_ScripTagTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A1DE8033A3D4DF8910B5EF8 /* Lexend-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Light.ttf"; path = "../assets/fonts/Lexend-Light.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-ScripTag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScripTag.debug.xcconfig"; path = "Target Support Files/Pods-ScripTag/Pods-ScripTag.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-ScripTag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScripTag.release.xcconfig"; path = "Target Support Files/Pods-ScripTag/Pods-ScripTag.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-ScripTag-ScripTagTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScripTag-ScripTagTests.debug.xcconfig"; path = "Target Support Files/Pods-ScripTag-ScripTagTests/Pods-ScripTag-ScripTagTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6DD0F16296294D2DBDA65084 /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = ScripTag/Colors.xcassets; sourceTree = "<group>"; };
+		6DD0F16296294D2DBDA65084 /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = ScripTag/Colors.xcassets; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ScripTag/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ScripTag-ScripTagTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScripTag-ScripTagTests.release.xcconfig"; path = "Target Support Files/Pods-ScripTag-ScripTagTests/Pods-ScripTag-ScripTagTests.release.xcconfig"; sourceTree = "<group>"; };
 		9A1B381347B445FD8040A1AC /* Lexend-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-SemiBold.ttf"; path = "../assets/fonts/Lexend-SemiBold.ttf"; sourceTree = "<group>"; };
 		A4406C1CA68F405E85C18159 /* Lexend-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Thin.ttf"; path = "../assets/fonts/Lexend-Thin.ttf"; sourceTree = "<group>"; };
 		A89E61BCCCC1BE87AD69562B /* Pods_ScripTag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScripTag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CAE35E03C5BC42CB9CD12268 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = ScripTag/BootSplash.storyboard; sourceTree = "<group>"; };
+		CAE35E03C5BC42CB9CD12268 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = ScripTag/BootSplash.storyboard; sourceTree = "<group>"; };
 		CEC40296874A40E9AD15E809 /* Lexend-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Medium.ttf"; path = "../assets/fonts/Lexend-Medium.ttf"; sourceTree = "<group>"; };
 		DC388E8DDE00421182695B5E /* Lexend-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-ExtraLight.ttf"; path = "../assets/fonts/Lexend-ExtraLight.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EE5053FC826B4DC2B527F500 /* Lexend-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Bold.ttf"; path = "../assets/fonts/Lexend-Bold.ttf"; sourceTree = "<group>"; };
+		F252C6B82D72E69E00D7409C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F252C6BA2D72E6A400D7409C /* ScripTag-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ScripTag-Bridging-Header.h"; sourceTree = "<group>"; };
 		F2AFB50A2CE8CAEC00BAED36 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F2BF1E912CE0AE1C004AFE53 /* ScripTag.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ScripTag.entitlements; path = ScripTag/ScripTag.entitlements; sourceTree = "<group>"; };
 		FB4981E007454CEB9754DDBF /* Lexend-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lexend-Black.ttf"; path = "../assets/fonts/Lexend-Black.ttf"; sourceTree = "<group>"; };
@@ -113,16 +111,15 @@
 		13B07FAE1A68108700A75B9A /* ScripTag */ = {
 			isa = PBXGroup;
 			children = (
+				F252C6B82D72E69E00D7409C /* AppDelegate.swift */,
 				F2BF1E912CE0AE1C004AFE53 /* ScripTag.entitlements */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
-				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				CAE35E03C5BC42CB9CD12268 /* BootSplash.storyboard */,
 				6DD0F16296294D2DBDA65084 /* Colors.xcassets */,
+				F252C6BA2D72E6A400D7409C /* ScripTag-Bridging-Header.h */,
 			);
 			name = ScripTag;
 			sourceTree = "<group>";
@@ -208,7 +205,6 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
 				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -230,7 +226,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
 				3634D31AA9F265409DF906F7 /* [CP-User] [RNFB] Core Configuration */,
 			);
@@ -256,7 +251,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1620;
 					};
 				};
 			};
@@ -328,23 +323,6 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ScripTag/Pods-ScripTag-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ScripTag/Pods-ScripTag-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ScripTag/Pods-ScripTag-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3634D31AA9F265409DF906F7 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -402,23 +380,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ScripTag-ScripTagTests/Pods-ScripTag-ScripTagTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ScripTag-ScripTagTests/Pods-ScripTag-ScripTagTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ScripTag-ScripTagTests/Pods-ScripTag-ScripTagTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -468,8 +429,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				F252C6B92D72E69E00D7409C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +521,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.joshuanissenbaum.scriptag;
 				PRODUCT_NAME = ScripTag;
+				SWIFT_OBJC_BRIDGING_HEADER = "ScripTag-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -592,6 +553,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.joshuanissenbaum.scriptag;
 				PRODUCT_NAME = ScripTag;
+				SWIFT_OBJC_BRIDGING_HEADER = "ScripTag-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -684,7 +646,7 @@
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
-				USE_HERMES = true;
+				USE_HERMES = false;
 			};
 			name = Debug;
 		};
@@ -766,7 +728,7 @@
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
-				USE_HERMES = true;
+				USE_HERMES = false;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

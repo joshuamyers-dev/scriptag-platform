@@ -3,11 +3,12 @@ package repository
 import (
 	"errors"
 	"fmt"
-	"go-api/adapters/mappers"
-	adapters "go-api/adapters/models"
-	"go-api/core"
-	"go-api/utils"
 	"time"
+
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/adapters/mappers"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/utils"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 
 	"github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 	"gorm.io/gorm"
@@ -23,7 +24,7 @@ func NewUserMedicationRepository(db *gorm.DB, userRepo core.UserRepository) *Use
 }
 
 func (r *UserMedicationRepository) Create(userMedication *core.UserMedication) (*core.UserMedication, error) {
-	gormUserMed := adapters.GormUserMedication{
+	gormUserMed := models.UserMedication{
 		UserID:       userMedication.UserID,
 		MedicationID: userMedication.MedicationID,
 		Strength:     &userMedication.Strength,
@@ -42,7 +43,7 @@ func (r *UserMedicationRepository) Create(userMedication *core.UserMedication) (
 }
 
 func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.MedicationSchedule) (*core.MedicationSchedule, error) {
-	var timeSlots adapters.TimeArray
+	var timeSlots models.TimeArray
 	for _, t := range medicationSchedule.TimeSlots {
 		slot := t.UTC()
 		timeSlots = append(timeSlots, &slot)
@@ -57,10 +58,10 @@ func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.Medic
 		endDate = &utcEndDate
 	}
 
-	gormMedSchedule := adapters.GormUserMedicationSchedule{
+	gormMedSchedule := models.UserMedicationSchedule{
 		UserMedicationID: *medicationSchedule.UserMedicationID,
-		MethodType:       adapters.MethodType(medicationSchedule.MethodType),
-		RecurringType:    adapters.RecurringType(medicationSchedule.RecurringType),
+		MethodType:       models.MethodType(medicationSchedule.MethodType),
+		RecurringType:    models.RecurringType(medicationSchedule.RecurringType),
 		DaysOfWeek:       utils.ConvertStringPointerArray(medicationSchedule.DaysOfWeek),
 		TimeSlots:        &timeSlots,
 		StartDate:        &startDate,
@@ -82,7 +83,7 @@ func (r *UserMedicationRepository) CreateSchedule(medicationSchedule *core.Medic
 }
 
 func (r *UserMedicationRepository) FetchUserMedicationByID(id string) (*core.UserMedication, error) {
-	var userMed adapters.GormUserMedication
+	var userMed models.UserMedication
 
 	if err := r.DB.First(&userMed, "id = ?", id).Error; err != nil {
 		return &core.UserMedication{}, err
@@ -92,7 +93,7 @@ func (r *UserMedicationRepository) FetchUserMedicationByID(id string) (*core.Use
 }
 
 func (r *UserMedicationRepository) FetchUserMedicationWithSchedule(id string) (*core.UserMedication, error) {
-	var userMed adapters.GormUserMedication
+	var userMed models.UserMedication
 
 	if err := r.DB.Preload("Schedule").First(&userMed, "id = ?", id).Error; err != nil {
 		return &core.UserMedication{}, err
@@ -102,24 +103,24 @@ func (r *UserMedicationRepository) FetchUserMedicationWithSchedule(id string) (*
 }
 
 func (r *UserMedicationRepository) FetchScheduleByUserMedicationID(id string) (*core.MedicationSchedule, error) {
-	var gormMedSchedule adapters.GormUserMedicationSchedule
+	var medSchedule models.UserMedicationSchedule
 
-	if err := r.DB.First(&gormMedSchedule, "user_medication_id = ?", id).Error; err != nil {
+	if err := r.DB.First(&medSchedule, "user_medication_id = ?", id).Error; err != nil {
 		return &core.MedicationSchedule{}, err
 	}
 
-	return mappers.ToCoreMedicationSchedule(&gormMedSchedule), nil
+	return mappers.ToCoreMedicationSchedule(&medSchedule), nil
 }
 
 func (r *UserMedicationRepository) FetchPaginated(userId string, afterCursor *string) (*core.UserMedicationConnection, error) {
-	var userMeds []*adapters.GormUserMedication
-	statement := r.DB.Model(&adapters.GormUserMedication{}).
+	var userMeds []*models.UserMedication
+	statement := r.DB.Model(&models.UserMedication{}).
 		Where("user_id = ?", userId).
 		Order("created_at DESC").
 		Preload("Medication")
 
 	limit := 10
-	paginator := adapters.CreateUserMedicationPaginator(paginator.Cursor{
+	paginator := models.CreateUserMedicationPaginator(paginator.Cursor{
 		After: afterCursor,
 	}, nil, &limit)
 
@@ -131,10 +132,10 @@ func (r *UserMedicationRepository) FetchPaginated(userId string, afterCursor *st
 
 	var coreUserMeds []*core.UserMedicationEdge
 
-	for _, gormUserMed := range userMeds {
-		coreUserMed := mappers.ToCoreUserMedication(gormUserMed)
+	for _, userMed := range userMeds {
+		coreUserMed := mappers.ToCoreUserMedication(userMed)
 		coreUserMeds = append(coreUserMeds, &core.UserMedicationEdge{
-			Cursor: gormUserMed.ID,
+			Cursor: userMed.ID,
 			Node:   coreUserMed,
 		})
 	}
@@ -161,23 +162,23 @@ func (r *UserMedicationRepository) FetchPaginated(userId string, afterCursor *st
 }
 
 func (r *UserMedicationRepository) UpdateUserMedication(userMedication *core.UserMedication) (*core.UserMedication, error) {
-	var gormUserMed adapters.GormUserMedication
+	var userMed models.UserMedication
 
-	if err := r.DB.First(&gormUserMed, "id = ?", userMedication.ID).Error; err != nil {
+	if err := r.DB.First(&userMed, "id = ?", userMedication.ID).Error; err != nil {
 		return &core.UserMedication{}, err
 	}
 
-	gormUserMed.TagLinked = &userMedication.TagLinked
+	userMed.TagLinked = &userMedication.TagLinked
 
-	if err := r.DB.Updates(&gormUserMed).Error; err != nil {
+	if err := r.DB.Updates(&userMed).Error; err != nil {
 		return &core.UserMedication{}, err
 	}
 
-	return mappers.ToCoreUserMedication(&gormUserMed), nil
+	return mappers.ToCoreUserMedication(&userMed), nil
 }
 
 func (r *UserMedicationRepository) FetchLogHistoryByUserID(userId string, timestamp time.Time) ([]*core.MedicationLogHistory, error) {
-	var logs []*adapters.GormUserMedicationConsumption
+	var logs []*models.UserMedicationConsumption
 
 	user, err := r.UserRepo.FindByID(userId)
 
@@ -200,67 +201,51 @@ func (r *UserMedicationRepository) FetchLogHistoryByUserID(userId string, timest
 		return nil, err
 	}
 
-	var coreLogs []*core.MedicationLogHistory
+	var logHistories []*core.MedicationLogHistory
 
 	for _, log := range logs {
-		coreLogs = append(coreLogs, mappers.ToCoreMedicationLogHistory(log))
+		logHistories = append(logHistories, mappers.ToCoreMedicationLogHistory(log))
 	}
 
-	return coreLogs, nil
+	return logHistories, nil
 }
 
 func (r *UserMedicationRepository) UpdateMedicationOnTagScan(userMedicationId string, timestamp time.Time) error {
-	userMed, err := r.FetchUserMedicationWithSchedule(userMedicationId)
+	var userMed models.UserMedication
 
-	if err != nil {
+	if err := r.DB.Preload("Schedule").First(&userMed, "id = ?", userMedicationId).Error; err != nil {
 		return err
 	}
 
-	err = r.DB.Transaction(func(tx *gorm.DB) error {
-		if *userMed.Schedule.DosesAmount > 0 {
-			*userMed.Schedule.DosesAmount--
-		} else {
-			return errors.New("no doses remaining")
-		}
+	if !*userMed.TagLinked {
+		return errors.New("medication is not linked to a tag")
+	}
 
-		if err := tx.Model(&adapters.GormUserMedicationSchedule{}).
-			Where("id = ?", userMed.Schedule.ID).
-			Updates(&adapters.GormUserMedicationSchedule{DosesAmount: utils.ConvertUintPointer(userMed.Schedule.DosesAmount)}).
-			Error; err != nil {
-			return err
-		}
+	if userMed.Schedule == nil {
+		return errors.New("medication has no schedule")
+	}
 
-		topClosestSubquery := tx.Model(&adapters.GormNotificationDelivery{}).
-			Select("id").
-			Where("user_medication_schedule_id = ?", userMed.Schedule.ID).
-			Order(fmt.Sprintf("ABS(EXTRACT(EPOCH FROM (notification_date - '%s'))) ASC", timestamp.Format("2006-01-02 15:04:05"))).
-			Limit(1)
+	var log models.UserMedicationConsumption
 
-		if err := tx.Where("id = (?)", topClosestSubquery).
-			Delete(&adapters.GormNotificationDelivery{}).
-			Error; err != nil {
-			return err
-		}
+	if err := r.DB.Where("user_medication_id = ?", userMedicationId).
+		Where("status = ?", models.LOG_STATUS_UPCOMING).
+		Order("due_date ASC").
+		First(&log).Error; err != nil {
+		return err
+	}
 
-		timeNow := time.Now().UTC()
+	if log.DoseDate != nil {
+		return errors.New("medication has already been taken")
+	}
 
-		topClosestSubquery = tx.Model(&adapters.GormUserMedicationConsumption{}).
-			Select("id").
-			Where("user_medication_id = ?", userMedicationId).
-			Order(fmt.Sprintf("ABS(EXTRACT(EPOCH FROM (due_date - '%s'))) ASC", timestamp.Format("2006-01-02 15:04:05"))).
-			Limit(1)
+	if timestamp.Before(log.DueDate.Add(-time.Hour)) {
+		return fmt.Errorf("medication is not due yet. due at %v", log.DueDate)
+	}
 
-		if err := tx.Model(&adapters.GormUserMedicationConsumption{}).
-			Where("id = (?)", topClosestSubquery).
-			Updates(&adapters.GormUserMedicationConsumption{DoseDate: &timeNow, Status: adapters.LOG_STATUS_TAKEN}).
-			Error; err != nil {
-			return err
-		}
+	log.DoseDate = &timestamp
+	log.Status = models.LOG_STATUS_TAKEN
 
-		return nil
-	})
-
-	if err != nil {
+	if err := r.DB.Save(&log).Error; err != nil {
 		return err
 	}
 

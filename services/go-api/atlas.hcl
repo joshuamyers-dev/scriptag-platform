@@ -12,7 +12,7 @@ data "external_schema" "gorm" {
 
 env "gorm" {
   src = data.external_schema.gorm.url
-  dev = "postgres://postgres:postgres@localhost:5432/scriptag?sslmode=disable"
+  url = "${DB_CONN_STR}"
   migration {
     dir = "file://migrations"
   }

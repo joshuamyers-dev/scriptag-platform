@@ -13,7 +13,7 @@ import {StyleSheet, Text, TouchableOpacity, ViewStyle} from 'react-native';
 import {MaterialIndicator} from 'react-native-indicators';
 
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
-import ProgressBar from 'react-native-animated-progress';
+import * as Progress from 'react-native-progress';
 
 export enum ButtonType {
   Primary = 'primary',
@@ -90,12 +90,12 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
           }}>
-          <ProgressBar
+          <Progress.Bar
             indeterminate
             height={4}
             animated
-            trackColor={ColourPurple100}
-            backgroundColor={ColourPurple10}
+            color={ColourPurple100}
+            unfilledColor={ColourPurple10}
           />
         </Animated.View>
       )}

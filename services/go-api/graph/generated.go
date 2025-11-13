@@ -8,7 +8,6 @@ import (
 	"embed"
 	"errors"
 	"fmt"
-	"go-api/graph/model"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -16,6 +15,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -705,7 +705,7 @@ func (ec *executionContext) field_Mutation_addMyMedication_argsInput(
 ) (model.AddMyMedicationInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNAddMyMedicationInput2goᚑapiᚋgraphᚋmodelᚐAddMyMedicationInput(ctx, tmp)
+		return ec.unmarshalNAddMyMedicationInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐAddMyMedicationInput(ctx, tmp)
 	}
 
 	var zeroVal model.AddMyMedicationInput
@@ -728,7 +728,7 @@ func (ec *executionContext) field_Mutation_createAccount_argsInput(
 ) (model.CreateAccountInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateAccountInput2goᚑapiᚋgraphᚋmodelᚐCreateAccountInput(ctx, tmp)
+		return ec.unmarshalNCreateAccountInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐCreateAccountInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateAccountInput
@@ -751,7 +751,7 @@ func (ec *executionContext) field_Mutation_createMedicationSchedule_argsInput(
 ) (model.AddMedicationScheduleInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNAddMedicationScheduleInput2goᚑapiᚋgraphᚋmodelᚐAddMedicationScheduleInput(ctx, tmp)
+		return ec.unmarshalNAddMedicationScheduleInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐAddMedicationScheduleInput(ctx, tmp)
 	}
 
 	var zeroVal model.AddMedicationScheduleInput
@@ -774,7 +774,7 @@ func (ec *executionContext) field_Mutation_login_argsInput(
 ) (model.LoginInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNLoginInput2goᚑapiᚋgraphᚋmodelᚐLoginInput(ctx, tmp)
+		return ec.unmarshalNLoginInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐLoginInput(ctx, tmp)
 	}
 
 	var zeroVal model.LoginInput
@@ -797,7 +797,7 @@ func (ec *executionContext) field_Mutation_tagScanned_argsInput(
 ) (model.TagScannedInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNTagScannedInput2goᚑapiᚋgraphᚋmodelᚐTagScannedInput(ctx, tmp)
+		return ec.unmarshalNTagScannedInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐTagScannedInput(ctx, tmp)
 	}
 
 	var zeroVal model.TagScannedInput
@@ -820,7 +820,7 @@ func (ec *executionContext) field_Mutation_updateMedicationTagLinked_argsInput(
 ) (model.UpdateMedicationTagLinkedInput, error) {
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateMedicationTagLinkedInput2goᚑapiᚋgraphᚋmodelᚐUpdateMedicationTagLinkedInput(ctx, tmp)
+		return ec.unmarshalNUpdateMedicationTagLinkedInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐUpdateMedicationTagLinkedInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateMedicationTagLinkedInput
@@ -934,6 +934,52 @@ func (ec *executionContext) field_Query_searchMedications_argsAfter(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field___Directive_args_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field___Directive_args_argsIncludeDeprecated(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["includeDeprecated"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field___Directive_args_argsIncludeDeprecated(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*bool, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
+	if tmp, ok := rawArgs["includeDeprecated"]; ok {
+		return ec.unmarshalOBoolean2ᚖbool(ctx, tmp)
+	}
+
+	var zeroVal *bool
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field___Field_args_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field___Field_args_argsIncludeDeprecated(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["includeDeprecated"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field___Field_args_argsIncludeDeprecated(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*bool, error) {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("includeDeprecated"))
+	if tmp, ok := rawArgs["includeDeprecated"]; ok {
+		return ec.unmarshalOBoolean2ᚖbool(ctx, tmp)
+	}
+
+	var zeroVal *bool
 	return zeroVal, nil
 }
 
@@ -1236,7 +1282,7 @@ func (ec *executionContext) _MedicationEdge_node(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.Medication)
 	fc.Result = res
-	return ec.marshalNMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMedication(ctx, field.Selections, res)
+	return ec.marshalNMedication2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedication(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MedicationEdge_node(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1334,7 +1380,7 @@ func (ec *executionContext) _MedicationLogEntry_myMedication(ctx context.Context
 	}
 	res := resTmp.(*model.MyMedication)
 	fc.Result = res
-	return ec.marshalNMyMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx, field.Selections, res)
+	return ec.marshalNMyMedication2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MedicationLogEntry_myMedication(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1479,7 +1525,7 @@ func (ec *executionContext) _MedicationLogEntry_status(ctx context.Context, fiel
 	}
 	res := resTmp.(model.MedicationLogEntryStatus)
 	fc.Result = res
-	return ec.marshalNMedicationLogEntryStatus2goᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx, field.Selections, res)
+	return ec.marshalNMedicationLogEntryStatus2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MedicationLogEntry_status(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1523,7 +1569,7 @@ func (ec *executionContext) _MedicationsConnection_edges(ctx context.Context, fi
 	}
 	res := resTmp.([]*model.MedicationEdge)
 	fc.Result = res
-	return ec.marshalNMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMedicationEdgeᚄ(ctx, field.Selections, res)
+	return ec.marshalNMedicationEdge2ᚕᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationEdgeᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MedicationsConnection_edges(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1573,7 +1619,7 @@ func (ec *executionContext) _MedicationsConnection_pageInfo(ctx context.Context,
 	}
 	res := resTmp.(*model.PageInfo)
 	fc.Result = res
-	return ec.marshalNPageInfo2ᚖgoᚑapiᚋgraphᚋmodelᚐPageInfo(ctx, field.Selections, res)
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐPageInfo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MedicationsConnection_pageInfo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1625,7 +1671,7 @@ func (ec *executionContext) _Mutation_addMyMedication(ctx context.Context, field
 	}
 	res := resTmp.(*model.MyMedication)
 	fc.Result = res
-	return ec.marshalNMyMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx, field.Selections, res)
+	return ec.marshalNMyMedication2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_addMyMedication(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1696,7 +1742,7 @@ func (ec *executionContext) _Mutation_createAccount(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Session)
 	fc.Result = res
-	return ec.marshalNSession2ᚖgoᚑapiᚋgraphᚋmodelᚐSession(ctx, field.Selections, res)
+	return ec.marshalNSession2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐSession(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1757,7 +1803,7 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 	}
 	res := resTmp.(*model.Session)
 	fc.Result = res
-	return ec.marshalNSession2ᚖgoᚑapiᚋgraphᚋmodelᚐSession(ctx, field.Selections, res)
+	return ec.marshalNSession2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐSession(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2082,7 +2128,7 @@ func (ec *executionContext) _MyMedication_user(ctx context.Context, field graphq
 	}
 	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgoᚑapiᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MyMedication_user(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2258,7 +2304,7 @@ func (ec *executionContext) _MyMedication_schedule(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.MyMedicationSchedule)
 	fc.Result = res
-	return ec.marshalOMyMedicationSchedule2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationSchedule(ctx, field.Selections, res)
+	return ec.marshalOMyMedicationSchedule2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationSchedule(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MyMedication_schedule(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2397,7 +2443,7 @@ func (ec *executionContext) _MyMedicationEdge_node(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.MyMedication)
 	fc.Result = res
-	return ec.marshalNMyMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx, field.Selections, res)
+	return ec.marshalNMyMedication2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MyMedicationEdge_node(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2624,7 +2670,7 @@ func (ec *executionContext) _MyMedicationsConnection_edges(ctx context.Context, 
 	}
 	res := resTmp.([]*model.MyMedicationEdge)
 	fc.Result = res
-	return ec.marshalNMyMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdgeᚄ(ctx, field.Selections, res)
+	return ec.marshalNMyMedicationEdge2ᚕᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdgeᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MyMedicationsConnection_edges(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2674,7 +2720,7 @@ func (ec *executionContext) _MyMedicationsConnection_pageInfo(ctx context.Contex
 	}
 	res := resTmp.(*model.PageInfo)
 	fc.Result = res
-	return ec.marshalNPageInfo2ᚖgoᚑapiᚋgraphᚋmodelᚐPageInfo(ctx, field.Selections, res)
+	return ec.marshalNPageInfo2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐPageInfo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MyMedicationsConnection_pageInfo(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2855,7 +2901,7 @@ func (ec *executionContext) _Query_searchMedications(ctx context.Context, field 
 	}
 	res := resTmp.(*model.MedicationsConnection)
 	fc.Result = res
-	return ec.marshalNMedicationsConnection2ᚖgoᚑapiᚋgraphᚋmodelᚐMedicationsConnection(ctx, field.Selections, res)
+	return ec.marshalNMedicationsConnection2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationsConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_searchMedications(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2916,7 +2962,7 @@ func (ec *executionContext) _Query_myMedications(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.MyMedicationsConnection)
 	fc.Result = res
-	return ec.marshalNMyMedicationsConnection2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx, field.Selections, res)
+	return ec.marshalNMyMedicationsConnection2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_myMedications(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2974,7 +3020,7 @@ func (ec *executionContext) _Query_medicationLogEntries(ctx context.Context, fie
 	}
 	res := resTmp.([]*model.MedicationLogEntry)
 	fc.Result = res
-	return ec.marshalOMedicationLogEntry2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryᚄ(ctx, field.Selections, res)
+	return ec.marshalOMedicationLogEntry2ᚕᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_medicationLogEntries(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3069,6 +3115,8 @@ func (ec *executionContext) fieldContext_Query___type(ctx context.Context, field
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -3208,7 +3256,7 @@ func (ec *executionContext) _Session_user(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalOUser2ᚖgoᚑapiᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalOUser2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Session_user(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3478,7 +3526,7 @@ func (ec *executionContext) ___Directive_args(ctx context.Context, field graphql
 	return ec.marshalN__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext___Directive_args(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext___Directive_args(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "__Directive",
 		Field:      field,
@@ -3494,9 +3542,24 @@ func (ec *executionContext) fieldContext___Directive_args(_ context.Context, fie
 				return ec.fieldContext___InputValue_type(ctx, field)
 			case "defaultValue":
 				return ec.fieldContext___InputValue_defaultValue(ctx, field)
+			case "isDeprecated":
+				return ec.fieldContext___InputValue_isDeprecated(ctx, field)
+			case "deprecationReason":
+				return ec.fieldContext___InputValue_deprecationReason(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __InputValue", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field___Directive_args_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -3831,7 +3894,7 @@ func (ec *executionContext) ___Field_args(ctx context.Context, field graphql.Col
 	return ec.marshalN__InputValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐInputValueᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext___Field_args(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext___Field_args(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "__Field",
 		Field:      field,
@@ -3847,9 +3910,24 @@ func (ec *executionContext) fieldContext___Field_args(_ context.Context, field g
 				return ec.fieldContext___InputValue_type(ctx, field)
 			case "defaultValue":
 				return ec.fieldContext___InputValue_defaultValue(ctx, field)
+			case "isDeprecated":
+				return ec.fieldContext___InputValue_isDeprecated(ctx, field)
+			case "deprecationReason":
+				return ec.fieldContext___InputValue_deprecationReason(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __InputValue", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field___Field_args_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -3913,6 +3991,8 @@ func (ec *executionContext) fieldContext___Field_type(_ context.Context, field g
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -4149,6 +4229,8 @@ func (ec *executionContext) fieldContext___InputValue_type(_ context.Context, fi
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -4189,6 +4271,91 @@ func (ec *executionContext) fieldContext___InputValue_defaultValue(_ context.Con
 		Object:     "__InputValue",
 		Field:      field,
 		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) ___InputValue_isDeprecated(ctx context.Context, field graphql.CollectedField, obj *introspection.InputValue) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext___InputValue_isDeprecated(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsDeprecated(), nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext___InputValue_isDeprecated(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "__InputValue",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) ___InputValue_deprecationReason(ctx context.Context, field graphql.CollectedField, obj *introspection.InputValue) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext___InputValue_deprecationReason(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeprecationReason(), nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext___InputValue_deprecationReason(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "__InputValue",
+		Field:      field,
+		IsMethod:   true,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
@@ -4297,6 +4464,8 @@ func (ec *executionContext) fieldContext___Schema_types(_ context.Context, field
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -4363,6 +4532,8 @@ func (ec *executionContext) fieldContext___Schema_queryType(_ context.Context, f
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -4426,6 +4597,8 @@ func (ec *executionContext) fieldContext___Schema_mutationType(_ context.Context
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -4489,6 +4662,8 @@ func (ec *executionContext) fieldContext___Schema_subscriptionType(_ context.Con
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -4800,6 +4975,8 @@ func (ec *executionContext) fieldContext___Type_interfaces(_ context.Context, fi
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -4863,6 +5040,8 @@ func (ec *executionContext) fieldContext___Type_possibleTypes(_ context.Context,
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -4976,6 +5155,10 @@ func (ec *executionContext) fieldContext___Type_inputFields(_ context.Context, f
 				return ec.fieldContext___InputValue_type(ctx, field)
 			case "defaultValue":
 				return ec.fieldContext___InputValue_defaultValue(ctx, field)
+			case "isDeprecated":
+				return ec.fieldContext___InputValue_isDeprecated(ctx, field)
+			case "deprecationReason":
+				return ec.fieldContext___InputValue_deprecationReason(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __InputValue", field.Name)
 		},
@@ -5039,6 +5222,8 @@ func (ec *executionContext) fieldContext___Type_ofType(_ context.Context, field 
 				return ec.fieldContext___Type_ofType(ctx, field)
 			case "specifiedByURL":
 				return ec.fieldContext___Type_specifiedByURL(ctx, field)
+			case "isOneOf":
+				return ec.fieldContext___Type_isOneOf(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Type", field.Name)
 		},
@@ -5082,6 +5267,47 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) ___Type_isOneOf(ctx context.Context, field graphql.CollectedField, obj *introspection.Type) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext___Type_isOneOf(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsOneOf(), nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalOBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext___Type_isOneOf(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "__Type",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
 		},
 	}
 	return fc, nil
@@ -5205,14 +5431,14 @@ func (ec *executionContext) unmarshalInputAddMedicationScheduleInput(ctx context
 			it.DosesRemaining = data
 		case "methodType":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("methodType"))
-			data, err := ec.unmarshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx, v)
+			data, err := ec.unmarshalOMethodScheduleType2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.MethodType = data
 		case "recurringType":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("recurringType"))
-			data, err := ec.unmarshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx, v)
+			data, err := ec.unmarshalORecurringScheduleType2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6339,6 +6565,13 @@ func (ec *executionContext) ___InputValue(ctx context.Context, sel ast.Selection
 			}
 		case "defaultValue":
 			out.Values[i] = ec.___InputValue_defaultValue(ctx, field, obj)
+		case "isDeprecated":
+			out.Values[i] = ec.___InputValue_isDeprecated(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deprecationReason":
+			out.Values[i] = ec.___InputValue_deprecationReason(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6451,6 +6684,8 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 			out.Values[i] = ec.___Type_ofType(ctx, field, obj)
 		case "specifiedByURL":
 			out.Values[i] = ec.___Type_specifiedByURL(ctx, field, obj)
+		case "isOneOf":
+			out.Values[i] = ec.___Type_isOneOf(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6478,12 +6713,12 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) unmarshalNAddMedicationScheduleInput2goᚑapiᚋgraphᚋmodelᚐAddMedicationScheduleInput(ctx context.Context, v any) (model.AddMedicationScheduleInput, error) {
+func (ec *executionContext) unmarshalNAddMedicationScheduleInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐAddMedicationScheduleInput(ctx context.Context, v any) (model.AddMedicationScheduleInput, error) {
 	res, err := ec.unmarshalInputAddMedicationScheduleInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNAddMyMedicationInput2goᚑapiᚋgraphᚋmodelᚐAddMyMedicationInput(ctx context.Context, v any) (model.AddMyMedicationInput, error) {
+func (ec *executionContext) unmarshalNAddMyMedicationInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐAddMyMedicationInput(ctx context.Context, v any) (model.AddMyMedicationInput, error) {
 	res, err := ec.unmarshalInputAddMyMedicationInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6503,7 +6738,7 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) unmarshalNCreateAccountInput2goᚑapiᚋgraphᚋmodelᚐCreateAccountInput(ctx context.Context, v any) (model.CreateAccountInput, error) {
+func (ec *executionContext) unmarshalNCreateAccountInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐCreateAccountInput(ctx context.Context, v any) (model.CreateAccountInput, error) {
 	res, err := ec.unmarshalInputCreateAccountInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6523,12 +6758,12 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNLoginInput2goᚑapiᚋgraphᚋmodelᚐLoginInput(ctx context.Context, v any) (model.LoginInput, error) {
+func (ec *executionContext) unmarshalNLoginInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐLoginInput(ctx context.Context, v any) (model.LoginInput, error) {
 	res, err := ec.unmarshalInputLoginInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMedication(ctx context.Context, sel ast.SelectionSet, v *model.Medication) graphql.Marshaler {
+func (ec *executionContext) marshalNMedication2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedication(ctx context.Context, sel ast.SelectionSet, v *model.Medication) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6538,7 +6773,7 @@ func (ec *executionContext) marshalNMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMed
 	return ec._Medication(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMedicationEdgeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MedicationEdge) graphql.Marshaler {
+func (ec *executionContext) marshalNMedicationEdge2ᚕᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationEdgeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MedicationEdge) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -6562,7 +6797,7 @@ func (ec *executionContext) marshalNMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmode
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNMedicationEdge2ᚖgoᚑapiᚋgraphᚋmodelᚐMedicationEdge(ctx, sel, v[i])
+			ret[i] = ec.marshalNMedicationEdge2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationEdge(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6582,7 +6817,7 @@ func (ec *executionContext) marshalNMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmode
 	return ret
 }
 
-func (ec *executionContext) marshalNMedicationEdge2ᚖgoᚑapiᚋgraphᚋmodelᚐMedicationEdge(ctx context.Context, sel ast.SelectionSet, v *model.MedicationEdge) graphql.Marshaler {
+func (ec *executionContext) marshalNMedicationEdge2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationEdge(ctx context.Context, sel ast.SelectionSet, v *model.MedicationEdge) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6592,7 +6827,7 @@ func (ec *executionContext) marshalNMedicationEdge2ᚖgoᚑapiᚋgraphᚋmodel�
 	return ec._MedicationEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNMedicationLogEntry2ᚖgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntry(ctx context.Context, sel ast.SelectionSet, v *model.MedicationLogEntry) graphql.Marshaler {
+func (ec *executionContext) marshalNMedicationLogEntry2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntry(ctx context.Context, sel ast.SelectionSet, v *model.MedicationLogEntry) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6602,21 +6837,21 @@ func (ec *executionContext) marshalNMedicationLogEntry2ᚖgoᚑapiᚋgraphᚋmod
 	return ec._MedicationLogEntry(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNMedicationLogEntryStatus2goᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx context.Context, v any) (model.MedicationLogEntryStatus, error) {
+func (ec *executionContext) unmarshalNMedicationLogEntryStatus2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx context.Context, v any) (model.MedicationLogEntryStatus, error) {
 	var res model.MedicationLogEntryStatus
 	err := res.UnmarshalGQL(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNMedicationLogEntryStatus2goᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx context.Context, sel ast.SelectionSet, v model.MedicationLogEntryStatus) graphql.Marshaler {
+func (ec *executionContext) marshalNMedicationLogEntryStatus2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryStatus(ctx context.Context, sel ast.SelectionSet, v model.MedicationLogEntryStatus) graphql.Marshaler {
 	return v
 }
 
-func (ec *executionContext) marshalNMedicationsConnection2goᚑapiᚋgraphᚋmodelᚐMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v model.MedicationsConnection) graphql.Marshaler {
+func (ec *executionContext) marshalNMedicationsConnection2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v model.MedicationsConnection) graphql.Marshaler {
 	return ec._MedicationsConnection(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMedicationsConnection2ᚖgoᚑapiᚋgraphᚋmodelᚐMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v *model.MedicationsConnection) graphql.Marshaler {
+func (ec *executionContext) marshalNMedicationsConnection2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v *model.MedicationsConnection) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6626,11 +6861,11 @@ func (ec *executionContext) marshalNMedicationsConnection2ᚖgoᚑapiᚋgraphᚋ
 	return ec._MedicationsConnection(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNMyMedication2goᚑapiᚋgraphᚋmodelᚐMyMedication(ctx context.Context, sel ast.SelectionSet, v model.MyMedication) graphql.Marshaler {
+func (ec *executionContext) marshalNMyMedication2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx context.Context, sel ast.SelectionSet, v model.MyMedication) graphql.Marshaler {
 	return ec._MyMedication(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMyMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx context.Context, sel ast.SelectionSet, v *model.MyMedication) graphql.Marshaler {
+func (ec *executionContext) marshalNMyMedication2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedication(ctx context.Context, sel ast.SelectionSet, v *model.MyMedication) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6640,7 +6875,7 @@ func (ec *executionContext) marshalNMyMedication2ᚖgoᚑapiᚋgraphᚋmodelᚐM
 	return ec._MyMedication(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNMyMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdgeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MyMedicationEdge) graphql.Marshaler {
+func (ec *executionContext) marshalNMyMedicationEdge2ᚕᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdgeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MyMedicationEdge) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -6664,7 +6899,7 @@ func (ec *executionContext) marshalNMyMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmo
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNMyMedicationEdge2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdge(ctx, sel, v[i])
+			ret[i] = ec.marshalNMyMedicationEdge2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdge(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -6684,7 +6919,7 @@ func (ec *executionContext) marshalNMyMedicationEdge2ᚕᚖgoᚑapiᚋgraphᚋmo
 	return ret
 }
 
-func (ec *executionContext) marshalNMyMedicationEdge2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdge(ctx context.Context, sel ast.SelectionSet, v *model.MyMedicationEdge) graphql.Marshaler {
+func (ec *executionContext) marshalNMyMedicationEdge2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationEdge(ctx context.Context, sel ast.SelectionSet, v *model.MyMedicationEdge) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6694,11 +6929,11 @@ func (ec *executionContext) marshalNMyMedicationEdge2ᚖgoᚑapiᚋgraphᚋmodel
 	return ec._MyMedicationEdge(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNMyMedicationsConnection2goᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v model.MyMedicationsConnection) graphql.Marshaler {
+func (ec *executionContext) marshalNMyMedicationsConnection2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v model.MyMedicationsConnection) graphql.Marshaler {
 	return ec._MyMedicationsConnection(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMyMedicationsConnection2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v *model.MyMedicationsConnection) graphql.Marshaler {
+func (ec *executionContext) marshalNMyMedicationsConnection2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationsConnection(ctx context.Context, sel ast.SelectionSet, v *model.MyMedicationsConnection) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6708,7 +6943,7 @@ func (ec *executionContext) marshalNMyMedicationsConnection2ᚖgoᚑapiᚋgraph�
 	return ec._MyMedicationsConnection(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNPageInfo2ᚖgoᚑapiᚋgraphᚋmodelᚐPageInfo(ctx context.Context, sel ast.SelectionSet, v *model.PageInfo) graphql.Marshaler {
+func (ec *executionContext) marshalNPageInfo2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐPageInfo(ctx context.Context, sel ast.SelectionSet, v *model.PageInfo) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6718,11 +6953,11 @@ func (ec *executionContext) marshalNPageInfo2ᚖgoᚑapiᚋgraphᚋmodelᚐPageI
 	return ec._PageInfo(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNSession2goᚑapiᚋgraphᚋmodelᚐSession(ctx context.Context, sel ast.SelectionSet, v model.Session) graphql.Marshaler {
+func (ec *executionContext) marshalNSession2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐSession(ctx context.Context, sel ast.SelectionSet, v model.Session) graphql.Marshaler {
 	return ec._Session(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNSession2ᚖgoᚑapiᚋgraphᚋmodelᚐSession(ctx context.Context, sel ast.SelectionSet, v *model.Session) graphql.Marshaler {
+func (ec *executionContext) marshalNSession2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐSession(ctx context.Context, sel ast.SelectionSet, v *model.Session) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -6747,7 +6982,7 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) unmarshalNTagScannedInput2goᚑapiᚋgraphᚋmodelᚐTagScannedInput(ctx context.Context, v any) (model.TagScannedInput, error) {
+func (ec *executionContext) unmarshalNTagScannedInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐTagScannedInput(ctx context.Context, v any) (model.TagScannedInput, error) {
 	res, err := ec.unmarshalInputTagScannedInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -6767,12 +7002,12 @@ func (ec *executionContext) marshalNTime2timeᚐTime(ctx context.Context, sel as
 	return res
 }
 
-func (ec *executionContext) unmarshalNUpdateMedicationTagLinkedInput2goᚑapiᚋgraphᚋmodelᚐUpdateMedicationTagLinkedInput(ctx context.Context, v any) (model.UpdateMedicationTagLinkedInput, error) {
+func (ec *executionContext) unmarshalNUpdateMedicationTagLinkedInput2githubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐUpdateMedicationTagLinkedInput(ctx context.Context, v any) (model.UpdateMedicationTagLinkedInput, error) {
 	res, err := ec.unmarshalInputUpdateMedicationTagLinkedInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNUser2ᚖgoᚑapiᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -7093,7 +7328,7 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	return res
 }
 
-func (ec *executionContext) marshalOMedicationLogEntry2ᚕᚖgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MedicationLogEntry) graphql.Marshaler {
+func (ec *executionContext) marshalOMedicationLogEntry2ᚕᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MedicationLogEntry) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -7120,7 +7355,7 @@ func (ec *executionContext) marshalOMedicationLogEntry2ᚕᚖgoᚑapiᚋgraphᚋ
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNMedicationLogEntry2ᚖgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntry(ctx, sel, v[i])
+			ret[i] = ec.marshalNMedicationLogEntry2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMedicationLogEntry(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -7140,7 +7375,7 @@ func (ec *executionContext) marshalOMedicationLogEntry2ᚕᚖgoᚑapiᚋgraphᚋ
 	return ret
 }
 
-func (ec *executionContext) unmarshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx context.Context, v any) (*model.MethodScheduleType, error) {
+func (ec *executionContext) unmarshalOMethodScheduleType2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx context.Context, v any) (*model.MethodScheduleType, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -7149,21 +7384,21 @@ func (ec *executionContext) unmarshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋm
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOMethodScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx context.Context, sel ast.SelectionSet, v *model.MethodScheduleType) graphql.Marshaler {
+func (ec *executionContext) marshalOMethodScheduleType2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMethodScheduleType(ctx context.Context, sel ast.SelectionSet, v *model.MethodScheduleType) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return v
 }
 
-func (ec *executionContext) marshalOMyMedicationSchedule2ᚖgoᚑapiᚋgraphᚋmodelᚐMyMedicationSchedule(ctx context.Context, sel ast.SelectionSet, v *model.MyMedicationSchedule) graphql.Marshaler {
+func (ec *executionContext) marshalOMyMedicationSchedule2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐMyMedicationSchedule(ctx context.Context, sel ast.SelectionSet, v *model.MyMedicationSchedule) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._MyMedicationSchedule(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, v any) (*model.RecurringScheduleType, error) {
+func (ec *executionContext) unmarshalORecurringScheduleType2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, v any) (*model.RecurringScheduleType, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -7172,7 +7407,7 @@ func (ec *executionContext) unmarshalORecurringScheduleType2ᚖgoᚑapiᚋgraph�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalORecurringScheduleType2ᚖgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, sel ast.SelectionSet, v *model.RecurringScheduleType) graphql.Marshaler {
+func (ec *executionContext) marshalORecurringScheduleType2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐRecurringScheduleType(ctx context.Context, sel ast.SelectionSet, v *model.RecurringScheduleType) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -7275,7 +7510,7 @@ func (ec *executionContext) marshalOTime2ᚖtimeᚐTime(ctx context.Context, sel
 	return res
 }
 
-func (ec *executionContext) marshalOUser2ᚖgoᚑapiᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalOUser2ᚖgithubᚗcomᚋjoshnissenbaumᚋscriptagᚑplatformᚋservicesᚋgoᚑapiᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

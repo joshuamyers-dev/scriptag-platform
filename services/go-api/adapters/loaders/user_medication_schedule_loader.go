@@ -3,11 +3,12 @@ package loaders
 import (
 	"context"
 	"fmt"
-	adapters "go-api/adapters/models"
-	"go-api/graph/model"
-	"go-api/utils"
 	"net/http"
 	"time"
+
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph/model"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/utils"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 
 	"github.com/vikstrous/dataloadgen"
 	"gorm.io/gorm"
@@ -24,7 +25,7 @@ type medicationScheduleReader struct {
 }
 
 func (m *medicationScheduleReader) getMedicationSchedules(ctx context.Context, userMedicationIds []string) ([]*model.MyMedicationSchedule, []error) {
-	var schedules []*adapters.GormUserMedicationSchedule
+	var schedules []*models.UserMedicationSchedule
 	err := m.db.Where("user_medication_id IN ?", userMedicationIds).Find(&schedules).Error
 	if err != nil {
 		return nil, []error{err}
@@ -39,7 +40,7 @@ func (m *medicationScheduleReader) getMedicationSchedules(ctx context.Context, u
 				var timesPerDay int
 
 				switch schedule.MethodType {
-				case adapters.METHOD_TYPE_DAYS:
+				case models.METHOD_TYPE_DAYS:
 					for index, day := range *schedule.DaysOfWeek {
 
 						scheduledDays += utils.ConvertShortDayToMid(day)
@@ -53,25 +54,25 @@ func (m *medicationScheduleReader) getMedicationSchedules(ctx context.Context, u
 						scheduledDays = "Daily"
 					}
 
-				case adapters.METHOD_TYPE_INTERVALS:
+				case models.METHOD_TYPE_INTERVALS:
 					if *schedule.DaysInterval > 1 {
 						scheduledDays = fmt.Sprintf("Every %d days", *schedule.DaysInterval)
 					} else {
 						scheduledDays = "Daily"
 					}
 
-				case adapters.METHOD_TYPE_PERIODS:
+				case models.METHOD_TYPE_PERIODS:
 					scheduledDays = fmt.Sprintf("Every %d days with %d days break", *schedule.UseForDays, *schedule.PauseForDays)
 				}
 
 				switch schedule.RecurringType {
-				case adapters.RECURRING_TYPE_TIME:
+				case models.RECURRING_TYPE_TIME:
 					timesPerDay = len(*schedule.TimeSlots)
 
-				case adapters.RECURRING_TYPE_INTERVALS:
+				case models.RECURRING_TYPE_INTERVALS:
 					timesPerDay = 24 / int(*schedule.HoursInterval)
 
-				case adapters.RECURRING_TYPE_PERIODS:
+				case models.RECURRING_TYPE_PERIODS:
 					cycleHours := *schedule.UseForHours + *schedule.PauseForHours
 					completeCycles := 24 / cycleHours
 					timesPerDay = int(completeCycles)

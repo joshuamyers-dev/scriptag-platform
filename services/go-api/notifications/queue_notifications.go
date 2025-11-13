@@ -1,11 +1,11 @@
 package notifications
 
 import (
-	adapters "go-api/adapters/models"
-	"go-api/core"
-	"go-api/utils"
 	"time"
 
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/core"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/utils"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 	"gorm.io/gorm"
 )
 
@@ -13,7 +13,7 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 	var notifications []time.Time
 
 	switch schedule.MethodType {
-	case adapters.METHOD_TYPE_PERIODS:
+	case models.METHOD_TYPE_PERIODS:
 		totalCycleDays := *schedule.UseForDays + *schedule.PauseForDays
 		if totalCycleDays == 0 {
 			break
@@ -26,25 +26,28 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 		// Current position in the cycle (in days)
 		cycleDay := elapsedDays % totalCycleDays
 
-		// If within useDays portion, we are "in use"
-		if cycleDay < *schedule.UseForDays {
-			// Schedule the next notification for tomorrow
-			notifications = append(notifications, timeNowUtc.AddDate(0, 0, 1))
-		} else {
-			// We are in the pause period; schedule the next "use" day
-			daysUntilUse := totalCycleDays - cycleDay
-			notifications = append(notifications, timeNowUtc.AddDate(0, 0, daysUntilUse))
+		// Calculate how many complete cycles we can fit in 30 days
+		daysToSchedule := 30
+		cyclesInPeriod := (daysToSchedule + cycleDay) / totalCycleDays
+		if (daysToSchedule+cycleDay)%totalCycleDays > 0 {
+			cyclesInPeriod++
 		}
 
-	case adapters.METHOD_TYPE_INTERVALS:
+		// For each cycle, add notifications for the "use" days
+		for cycle := range cyclesInPeriod {
+			cycleStartDay := cycle * totalCycleDays - cycleDay
+			for useDay := range *schedule.UseForDays {
+				notificationDay := cycleStartDay + useDay
+				if notificationDay > 0 && notificationDay <= daysToSchedule {
+					notifications = append(notifications, timeNowUtc.AddDate(0, 0, notificationDay))
+				}
+			}
+		}
+
+	case models.METHOD_TYPE_INTERVALS:
 		timeNow := time.Now().UTC()
 		scheduleStartDateUtc := schedule.StartDate.UTC()
-		elapsedHours := timeNow.Sub(scheduleStartDateUtc).Hours()
-
-		if elapsedHours < 0 {
-			elapsedHours = 0
-		}
-
+		elapsedHours := max(timeNow.Sub(scheduleStartDateUtc).Hours(), 0)
 		elapsedDays := int(elapsedHours / 24)
 
 		if schedule.DaysInterval != nil {
@@ -59,30 +62,48 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 			}
 
 			cyclesCompleted := elapsedDays / intervalDays
-			nextCycleStart := scheduleStartDateUtc.AddDate(0, 0, (cyclesCompleted+1)*intervalDays)
-			notifications = append(notifications, nextCycleStart)
+			daysToSchedule := 30
+
+			// Calculate how many intervals we can fit in the next 30 days
+			numIntervals := daysToSchedule / intervalDays
+			if daysToSchedule%intervalDays > 0 {
+				numIntervals++
+			}
+
+			// Add notifications for each interval
+			for i := 1; i <= numIntervals; i++ {
+				// Calculate the start of the next cycle
+				daysToAdd := (cyclesCompleted + i) * intervalDays
+				nextCycleStart := scheduleStartDateUtc.AddDate(0, 0, daysToAdd)
+				
+				// Only add if within our scheduling window
+				hoursUntilNotification := nextCycleStart.Sub(timeNow).Hours()
+				if hoursUntilNotification <= float64(daysToSchedule*24) {
+					notifications = append(notifications, nextCycleStart)
+				}
+			}
 		}
 
-	case adapters.METHOD_TYPE_DAYS:
+	case models.METHOD_TYPE_DAYS:
 		if schedule.DaysOfWeek != nil {
 			timeNowUtc := time.Now().UTC()
-			today := timeNowUtc.Weekday()
-			nextDay := timeNowUtc.AddDate(0, 0, 1).Weekday()
+			
+			// Schedule for the next 30 days
+			for dayOffset := 0; dayOffset < 30; dayOffset++ {
+				// Calculate the date to check
+				checkDate := timeNowUtc.AddDate(0, 0, dayOffset)
+				checkWeekday := checkDate.Weekday()
 
-			for _, day := range schedule.DaysOfWeek {
-				timeWeekday, err := utils.ConvertShortDayToTime(*day)
+				// Check each specified day of the week
+				for _, daySpec := range schedule.DaysOfWeek {
+					weekday, err := utils.ConvertShortDayToTime(*daySpec)
+					if err != nil {
+						return err
+					}
 
-				if err != nil {
-					return err
-				}
-
-				if timeWeekday.String() == today.String() {
-					notifications = append(notifications, timeNowUtc)
-				}
-
-				if timeWeekday.String() == nextDay.String() {
-					nextOccurrence := nextWeekdayFromStart(schedule.StartDate.UTC(), *timeWeekday)
-					notifications = append(notifications, nextOccurrence)
+					if weekday.String() == checkWeekday.String() {
+						notifications = append(notifications, checkDate)
+					}
 				}
 			}
 		}
@@ -90,21 +111,29 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 
 	// Recurring type logic
 	switch schedule.RecurringType {
-	case adapters.RECURRING_TYPE_TIME:
+	case models.RECURRING_TYPE_TIME:
 		// Handle time-based recurring schedule
 		if schedule.TimeSlots != nil {
 			var updatedNotifications []time.Time
 
-			for _, notification := range notifications {
-				for _, slot := range schedule.TimeSlots {
-					notificationDate := time.Date(notification.Year(), notification.Month(), notification.Day(), slot.Hour(), slot.Minute(), 0, 0, time.UTC)
-					updatedNotifications = append(updatedNotifications, notificationDate)
+			for _, baseNotification := range notifications {
+				for _, timeSlot := range schedule.TimeSlots {
+					// Create notification for each time slot on the base date
+					slotTime := time.Date(
+						baseNotification.Year(),
+						baseNotification.Month(),
+						baseNotification.Day(),
+						timeSlot.Hour(),
+						timeSlot.Minute(),
+						0, 0, time.UTC,
+					)
+					updatedNotifications = append(updatedNotifications, slotTime)
 				}
 			}
 			notifications = updatedNotifications
 		}
 
-	case adapters.RECURRING_TYPE_INTERVALS:
+	case models.RECURRING_TYPE_INTERVALS:
 		// Handle intervals-based recurring schedule
 		if schedule.HoursInterval != nil {
 			var updatedNotifications []time.Time
@@ -120,7 +149,7 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 			notifications = updatedNotifications
 		}
 
-	case adapters.RECURRING_TYPE_PERIODS:
+	case models.RECURRING_TYPE_PERIODS:
 		// Handle periods-based recurring schedule
 		if schedule.UseForHours != nil && schedule.PauseForHours != nil {
 			var updatedNotifications []time.Time
@@ -143,20 +172,22 @@ func QueueNotifications(schedule *core.MedicationSchedule, db *gorm.DB) error {
 		}
 	}
 
-	var notificationsBatch []*adapters.GormNotificationDelivery
-	var consumptionBatch []*adapters.GormUserMedicationConsumption
+	var notificationsBatch []*models.NotificationDelivery
+	var consumptionBatch []*models.UserMedicationConsumption
 
 	for _, notificationDate := range notifications {
-		notificationsBatch = append(notificationsBatch, &adapters.GormNotificationDelivery{
+		notificationsBatch = append(notificationsBatch, &models.NotificationDelivery{
 			UserMedicationScheduleID: schedule.ID,
 			NotificationDate:         notificationDate.UTC(),
-			Status:                   adapters.NOTIFICATION_STATUS_PENDING,
+			Status:                   models.NOTIFICATION_STATUS_PENDING,
 		})
+	}
 
-		consumptionBatch = append(consumptionBatch, &adapters.GormUserMedicationConsumption{
+	for _, notificationDate := range notifications {
+		consumptionBatch = append(consumptionBatch, &models.UserMedicationConsumption{
 			UserMedicationID: *schedule.UserMedicationID,
 			DueDate:          notificationDate.UTC(),
-			Status:           adapters.LOG_STATUS_UPCOMING,
+			Status:           models.LOG_STATUS_UPCOMING,
 		})
 	}
 

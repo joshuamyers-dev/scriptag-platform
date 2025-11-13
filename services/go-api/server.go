@@ -2,15 +2,18 @@ package main
 
 import (
 	"fmt"
-	"go-api/adapters/loaders"
-	repository "go-api/adapters/repositories"
-	"go-api/auth"
-	"go-api/config"
-	"go-api/graph"
-	"go-api/service"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/adapters/loaders"
+	repository "github.com/joshnissenbaum/scriptag-platform/services/go-api/adapters/repositories"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/auth"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/config"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/graph"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/scripts/importer"
+	"github.com/joshnissenbaum/scriptag-platform/services/go-api/service"
+	"github.com/joshnissenbaum/scriptag-platform/shared/models"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
@@ -42,13 +45,13 @@ func main() {
 		log.Panicf("failed to connect database: %v", err)
 	}
 
-	// config.InitFirebaseApp()
+	var count int64
 
-	// err = workers.SetupWorkers(sqlDB, db)
+	db.Model(&models.Medication{}).Count(&count)
 
-	// if err != nil {
-	// 	log.Printf("failed to setup workers: %v", err)
-	// }
+	if count == 0 {
+		importer.Run(db)
+	}
 
 	fmt.Println("database connection successful")
 

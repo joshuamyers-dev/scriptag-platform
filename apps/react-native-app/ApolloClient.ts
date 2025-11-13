@@ -40,6 +40,15 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 
   if (networkError) {
     console.log('Network error occurred', {networkError});
+
+    if ('statusCode' in networkError && networkError.statusCode === 401) {
+      logoutUser();
+    } else if (
+      'response' in networkError &&
+      networkError.response?.status === 401
+    ) {
+      logoutUser();
+    }
   }
 
   if (graphQLErrors && graphQLErrors.length > 0) {
@@ -49,17 +58,11 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
       if (graphQLErrors[0].message[0] !== 'me') {
         console.log('API authentication error, logging out user');
 
-        // store.dispatch(logout());
+        logoutUser();
 
         return;
       }
     }
-
-    // console.log(errorCode);
-  }
-
-  if (networkError) {
-    // console.log('Network error occurred', { networkError })
   }
 });
 
@@ -100,6 +103,11 @@ export function updateClientHeaders(token: string) {
   });
 
   client.setLink(authLink.concat(httpLink));
+}
+
+function logoutUser() {
+  updateClientHeaders('');
+  useGlobalStore.setState({authToken: null});
 }
 
 createApolloClient();
