@@ -2,6 +2,20 @@
 
 ScripTag is a comprehensive medication management platform that leverages NFC technology to help users track and manage their medications. The platform consists of a React Native mobile application, a Go-based GraphQL API, notification services, and cloud infrastructure.
 
+## 🔒 Security Notice
+
+**IMPORTANT**: This repository contains sensitive credentials that must be properly secured before contributing or deploying.
+
+⚠️ **Before making any commits**, please read the [SECURITY_CLEANUP.md](SECURITY_CLEANUP.md) file for instructions on removing sensitive data from git history.
+
+**Never commit**:
+- `.env` files
+- `service-account-key.json` or `firebase-service-account-key.json`
+- `GoogleService-Info.plist`
+- Any files containing API keys, secrets, or credentials
+
+All sensitive files have `.example` templates in this repository. Copy them and fill in your actual credentials locally.
+
 ## 🏗️ Architecture
 
 This is a monorepo containing the following components:
@@ -56,6 +70,78 @@ This is a monorepo containing the following components:
 - **PostgreSQL** database
 - **Firebase** project with Cloud Messaging enabled
 - **React Native development environment** (Xcode for iOS, Android Studio for Android)
+
+### 🔐 Credentials Setup
+
+**CRITICAL**: Complete this section before running the application.
+
+#### 1. Firebase Setup
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Create or select your project
+3. Download configuration files:
+   - **For iOS**: Download `GoogleService-Info.plist`
+     - Go to Project Settings → iOS App
+     - Place in `apps/react-native-app/ios/`
+   - **For Android**: Download `google-services.json`
+     - Go to Project Settings → Android App
+     - Place in `apps/react-native-app/android/app/`
+   - **For Backend**: Download Service Account Key
+     - Go to Project Settings → Service Accounts
+     - Click "Generate New Private Key"
+     - Save as `services/go-api/firebase-service-account-key.json`
+     - Save as `jobs/notification-dispatcher/service-account-key.json`
+
+⚠️ **These files are gitignored and will NOT be committed**
+
+#### 2. Environment Variables
+
+Create `.env` files from the provided examples:
+
+```bash
+# Go API
+cp services/go-api/.env.example services/go-api/.env
+# Edit services/go-api/.env with your credentials
+
+# React Native App
+cp apps/react-native-app/.env.example apps/react-native-app/.env
+# Edit apps/react-native-app/.env with your API URL
+
+# Notification Dispatcher
+cp jobs/notification-dispatcher/.env.example jobs/notification-dispatcher/.env
+# Edit jobs/notification-dispatcher/.env with your database URL
+```
+
+**Required Configuration**:
+
+**`services/go-api/.env`**:
+```bash
+DB_CONN_STR="host=localhost user=postgres password=YOUR_PASSWORD dbname=scriptag port=5432 sslmode=disable TimeZone=UTC"
+SECRET_KEY=$(openssl rand -hex 32)  # Generate a secure random key
+ENVIRONMENT=development
+PORT=8080
+```
+
+**`apps/react-native-app/.env`**:
+```bash
+# For iOS Simulator
+API_URL=http://localhost:8080/query
+
+# For Android Emulator
+# API_URL=http://10.0.2.2:8080/query
+
+# For physical device (replace with your computer's IP)
+# API_URL=http://192.168.1.XXX:8080/query
+```
+
+#### 3. Database Setup
+
+Create the PostgreSQL database:
+```bash
+createdb scriptag
+# Or using psql
+psql -U postgres -c "CREATE DATABASE scriptag;"
+```
 
 ### Environment Setup
 
