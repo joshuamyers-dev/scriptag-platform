@@ -6,8 +6,6 @@ ScripTag is a comprehensive medication management platform that leverages NFC te
 
 **IMPORTANT**: This repository contains sensitive credentials that must be properly secured before contributing or deploying.
 
-⚠️ **Before making any commits**, please read the [SECURITY_CLEANUP.md](SECURITY_CLEANUP.md) file for instructions on removing sensitive data from git history.
-
 **Never commit**:
 - `.env` files
 - `service-account-key.json` or `firebase-service-account-key.json`
